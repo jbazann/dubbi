@@ -1,5 +1,5 @@
 import { navigate } from "astro:transitions/client"
-import { _log, dispatch, newErrorMessageEvent, newFetchPartialEvent, newLocationEvent, newPrintEvent, newSetAttributeEvent } from "./events"
+import { dispatch, newErrorMessageEvent, newFetchPartialEvent, newLocationEvent, newPrintEvent, newSetAttributeEvent } from "./events"
 import { err, log, loggedEvent } from "./log"
 import { post } from "./net"
 import { clearCookie, localizePath, setCookie } from "./util"

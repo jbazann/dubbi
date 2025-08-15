@@ -25,8 +25,8 @@
 </template>
 
 <script>
+    import { eventHandler } from "@lib/_events"
     import { newScrollToBottomEvent, dispatch } from "@lib/events"
-    import { layoutId } from "@lib/globals"
     import { pageId } from "@lib/globals"
     import { err } from "@lib/log"
     import { t } from "@lib/t"
@@ -39,12 +39,12 @@
     const notice = document.getElementById('tty-slp-notice-template') as HTMLTemplateElement
     const preface = document.getElementById('tty-slp-preface-template') as HTMLTemplateElement
     
-    document.addEventListener('astro:after-swap', (_event) => {
+    eventHandler('astro:after-swap', (_event) => {
         pageContainer = document.getElementById(pageId) as HTMLDivElement
         !pageContainer && err(`Page container ${pageContainer} not found.`)
     })
 
-    document.addEventListener('tty:print', (event) => {
+    eventHandler('tty:print', (event) => {
         const newline = line.content.cloneNode(true) as Element
         newline.firstElementChild!.textContent = (event as CustomEvent).detail.line
         requestAnimationFrame(() => {
@@ -53,15 +53,15 @@
         })
     })
 
-    document.addEventListener('tty:print:hr', (_event) => {
+    eventHandler('tty:print:hr', (_event) => {
         requestAnimationFrame(() => {
             pageContainer.appendChild(document.createElement('hr'))
             dispatch(newScrollToBottomEvent())
         })
     })
 
-    document.addEventListener('tty:print:preface', (event) => {
-        const newline = line.content.cloneNode(true) as Element
+    eventHandler('tty:print:preface', (event) => {
+        const newline = preface.content.cloneNode(true) as Element
         newline.firstElementChild!.firstElementChild!.textContent = (event as CustomEvent).detail.preface
         newline.firstElementChild!.lastElementChild!.textContent = (event as CustomEvent).detail.line
         requestAnimationFrame(() => {
@@ -70,7 +70,7 @@
         })
     })
 
-    document.addEventListener('tty:print:notice', (event) => {
+    eventHandler('tty:print:notice', (event) => {
         const newline = notice.content.cloneNode(true) as Element
         newline.lastElementChild!.firstElementChild!.textContent = t('notice.notice-preface')
         newline.lastElementChild!.lastElementChild!.textContent = (event as CustomEvent).detail.line
@@ -80,7 +80,7 @@
         })
     })
 
-    document.addEventListener('tty:print:error', (event) => {
+    eventHandler('tty:print:error', (event) => {
         const newline = error.content.cloneNode(true) as Element
         newline.firstElementChild!.firstElementChild!.textContent = t('notice.error-preface')
         newline.firstElementChild!.lastElementChild!.textContent = (event as CustomEvent).detail.line

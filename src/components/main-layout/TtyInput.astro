@@ -20,8 +20,9 @@ import "@s/fonts.css"
 </div>
 
 <script>
-    import { runCommand } from "@lib/commands"
+    import { eventHandler } from "@lib/_events"
     import { dispatch, newCommandEvent, newInputEvent, newLocationEvent, newPrintEvent, newScrollToBottomEvent, newTtyFocusEvent } from "@lib/events"
+    import { runCommand } from "@lib/commands"
     import { parseDOMData } from "@lib/util"
 
 
@@ -35,9 +36,9 @@ import "@s/fonts.css"
         }
 		dispatch(newCommandEvent(input))
 	}
-	document.addEventListener('tty:input', inputHandler)
+	eventHandler('tty:input', inputHandler)
 
-    document.addEventListener('tty:command', (event) => {
+    eventHandler('tty:command', (event) => {
 		runCommand((event as CustomEvent).detail.cmd)
 	})
 
@@ -45,8 +46,8 @@ import "@s/fonts.css"
         location.textContent = ` :${(event as CustomEvent).detail.path} > `
     })
 
-    document.addEventListener('tty:location', setLocation)
-    document.addEventListener('astro:page-load', () => dispatch(newLocationEvent(window.location.pathname)))
+    eventHandler('tty:location', setLocation)
+    eventHandler('astro:page-load', () => dispatch(newLocationEvent(window.location.pathname)))
 
     //
     // charWidth and lineLength are critial for the visual calculations below.
@@ -55,7 +56,7 @@ import "@s/fonts.css"
     //
 
     let charWidth, lineLength: number
-    document.addEventListener('DOMContentLoaded', async () => {
+    eventHandler('DOMContentLoaded', async () => {
         await document.fonts.ready;
         charWidth = user.offsetWidth / user.textContent!.length
         lineLength = Math.floor(textContainer.clientWidth / charWidth)
@@ -79,11 +80,11 @@ import "@s/fonts.css"
     const ttyin = document.getElementById("tty-in-container") as HTMLDivElement
     let scrollContainer = document.getElementById(ids.scrollContainer) as HTMLDivElement
     
-    document.addEventListener('astro:after-swap', (_event) => {
+    eventHandler('astro:after-swap', (_event) => {
         scrollContainer = document.getElementById(ids.scrollContainer) as HTMLDivElement
     })
 
-    document.addEventListener('tty:focus', (_event) => {
+    eventHandler('tty:focus', (_event) => {
         document.activeElement !== input && input.focus()
     })
 
@@ -275,7 +276,7 @@ import "@s/fonts.css"
         return
     }
 
-    document.addEventListener('tty:focus', (event: Event) => {
+    eventHandler('tty:focus', (event: Event) => {
         input.focus()
     })
 
@@ -283,13 +284,13 @@ import "@s/fonts.css"
         dispatch(newTtyFocusEvent())
     }
 
-    ttyin.addEventListener('click', focusInput)
-    input.addEventListener('click', setActualCaretOnCaretPos)
-    input.addEventListener('focus', setActualCaretOnCaretPos)
-    input.addEventListener('input', updateDisplayedText)
-    input.addEventListener('keydown', keydownHandler)
-    input.addEventListener('keydown', updateCaretPos)
-    input.addEventListener('keyup', updateCaretPos)
+    eventHandler('click', focusInput, ttyin, "TTY_IN")
+    eventHandler('click', setActualCaretOnCaretPos, input, "TTY_IN")
+    eventHandler('focus', setActualCaretOnCaretPos, input, "TTY_IN")
+    eventHandler('input', updateDisplayedText, input, "TTY_IN")
+    eventHandler('keydown', keydownHandler as (_: Event) => void, input, "TTY_IN")
+    eventHandler('keydown', updateCaretPos, input, "TTY_IN")
+    eventHandler('keyup', updateCaretPos, input, "TTY_IN")
     
 </script>
 

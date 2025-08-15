@@ -66,28 +66,29 @@ const {theme, langlib} = Astro.props
 	import { clearCookie, getLooselyParsedCookies } from "@lib/util";
 	import COOKIES from "@lib/cookies.json"
 	import { t } from "@lib/t";
+	import { eventHandler } from "@lib/_events";
 
 	loadSettings()
-
+	
 	import htmx from "htmx.org"
 	window.htmx = htmx
-	document.addEventListener('astro:after-swap', () => {
+	eventHandler('astro:after-swap', () => {
 		window.htmx.process(document.body)
 	})
 
-	document.addEventListener('astro:page-load', (_event: Event) => {
+	eventHandler('astro:page-load', (_event: Event) => {
 		dispatch(newRewireEvent())
 		dispatch(newCheckRedirectEvent())
 	})
 
-	document.addEventListener('set:attribute', (event: Event) => {
+	eventHandler('set:attribute', (event: Event) => {
 		const {attribute, value, target} = (event as CustomEvent).detail
 		typeof target?.setAttribute === 'function'
 			? target.setAttribute(attribute, value)
 			: dispatch(newErrorMessageEvent("internal: no 'setAttribute' property."))
 	})
 
-	document.addEventListener('tty:check-redirect', (event: Event) => {
+	eventHandler('tty:check-redirect', (event: Event) => {
 		const cookies: {[_:string]: string} = getLooselyParsedCookies()
 		log(cookies, 'REDIRECT CHECK')
 		if (Object.hasOwn(cookies, COOKIES["redirect-notice"]) && cookies[COOKIES["redirect-notice"]] === "force-language") {
@@ -107,8 +108,8 @@ const {theme, langlib} = Astro.props
 <script src="@c/main-layout/CommandTrigger.ts"></script>
 
 <script>
-	import {  newHistoryPushEvent, newScrollToBottomEvent, newScrollToPageEvent, newTtyFocusEvent } from "@lib/events"
-	import { dispatch, newRewireEvent } from "@lib/events"
+	import { dispatch, newRewireEvent, newHistoryPushEvent, newScrollToBottomEvent, newScrollToPageEvent, newTtyFocusEvent } from "@lib/events"
+	import { eventHandler } from "@lib/_events"
 	import { log } from "@lib/log"
 	import { pageId } from "@lib/globals"
 	import { swapFunctions } from "astro:transitions/client"
@@ -117,7 +118,7 @@ const {theme, langlib} = Astro.props
 	let scrollContainer = document.getElementById('layout-scroll') as HTMLDivElement
 	let ttyInContainer = document.getElementById('tty-in-container') as HTMLDivElement
 
-	document.addEventListener('astro:after-swap', (_event) => {
+	eventHandler('astro:after-swap', (_event) => {
 		scrollContainer = document.getElementById('layout-scroll') as HTMLDivElement
 		pageContainer = document.getElementById(pageId) as HTMLDivElement
 		ttyInContainer = document.getElementById('tty-in-container') as HTMLDivElement
@@ -137,25 +138,26 @@ const {theme, langlib} = Astro.props
 		historyContainer.prepend(historyEntry)
 	}
 
-	document.addEventListener('astro:before-swap', (event) => {
-		event.swap = () => {
+	eventHandler('astro:before-swap', (event) => {
+		const nd = (event as any).newDocument as HTMLDocument 
+		(event as any).swap = () => {
 			const firstChild = pageContainer.firstElementChild as HTMLElement
-			const newPageContainer = event.newDocument.body.querySelector('div[data-layout-page]') as HTMLElement
-			swapFunctions.deselectScripts(event.newDocument)
-			swapFunctions.swapRootAttributes(event.newDocument)
-			swapFunctions.swapHeadElements(event.newDocument)
+			const newPageContainer = nd.body.querySelector('div[data-layout-page]') as HTMLElement
+			swapFunctions.deselectScripts(nd)
+			swapFunctions.swapRootAttributes(nd)
+			swapFunctions.swapHeadElements(nd)
 			const restoreFocusFunction = swapFunctions.saveFocus()
-			swapFunctions.swapBodyElement(event.newDocument.body, document.body)
+			swapFunctions.swapBodyElement(nd.body, document.body)
 			newPageContainer.prepend(firstChild)
 			restoreFocusFunction()
 		}
 	})
 
-	document.addEventListener('astro:before-preparation', (_event) => {
+	eventHandler('astro:before-preparation', (_event) => {
 		requestAnimationFrame(pushHistory)
 	})
 
-	document.addEventListener('tty:history:push', (_event) => {
+	eventHandler('tty:history:push', (_event) => {
 		requestAnimationFrame(pushHistory)
 	})
 
@@ -175,13 +177,13 @@ const {theme, langlib} = Astro.props
 		scrollContainer.scrollTop = scrollContainer.scrollHeight - scrollContainer.clientHeight
 		pendingScroll = false
 	}
-	document.addEventListener('tty:scroll:page', (_event) => {
+	eventHandler('tty:scroll:page', (_event) => {
 		if (!pendingScroll && (scrollContainer.scrollTop !==  scrollContainer.scrollHeight - pageContainer.clientHeight - ttyInContainer.clientHeight)) {
 			pendingScroll = true
 			requestAnimationFrame(scrollToPage)
 		}
 	})
-	document.addEventListener('tty:scroll:bottom', (_event) => {
+	eventHandler('tty:scroll:bottom', (_event) => {
 		if (!pendingScroll && (scrollContainer.scrollTop !== scrollContainer.scrollHeight - scrollContainer.clientHeight)) {
 			pendingScroll = true
 			requestAnimationFrame(scrollToBottom)
@@ -206,13 +208,13 @@ const {theme, langlib} = Astro.props
 			dispatch(newRewireEvent())
 		}) 
 	}
-	document.addEventListener('tty:partial', (event) => {
+	eventHandler('tty:partial', (event) => {
 		dispatch(newHistoryPushEvent())
 		insertPartial(event).then(() => {
 			dispatch(newScrollToPageEvent())
 		})
 	})
-	document.addEventListener('tty:partial:nopush', (event) => {
+	eventHandler('tty:partial:nopush', (event) => {
 		insertPartial(event).then(() => {
 			dispatch(newScrollToBottomEvent())
 		})

@@ -18,8 +18,7 @@ export {
     newCheckRedirectEvent,
     newNoticeEvent,
     newPrintPrefacedEvent,
-    newHrEvent,
-    _log,
+    newHrEvent
 }
 
 const DEFAULT_DISPATCH_OPTIONS = {
