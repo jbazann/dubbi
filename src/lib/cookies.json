@@ -1,0 +1,9 @@
+{
+    "theme": "jbazann.dev:theme",
+    "language": "jbazann.dev:language",
+    "force-language": "jbazann.dev:force-language",
+    "renew": "jbazann.dev:cookie-renewal-flag",
+    "redirect-notice": "jbazann.dev:redirect-notice",
+    "redirect-from": "jbazann.dev:redirect-to",
+    "redirect-to": "jbazann.dev:redirect-from"
+}

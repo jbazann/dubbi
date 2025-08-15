@@ -1,0 +1,378 @@
+---
+import "@s/fonts.css"
+---
+<div class="ttyin" id="tty-in-container" data-tty-in-ids={JSON.stringify(Astro.props.ids)} transition:persist>
+    <span id="tty-in-linemarker" class="linemarker">
+        <span id="tty-in-user">guest</span><span id="tty-in-location" class="whitespace-pre">&nbsp;:{Astro.url.pathname}&nbsp;&gt;&nbsp;</span>
+    </span>
+    <span id="tty-in-txt-container" class="text">
+        <input id="tty-in-txt-input" class="input" tabindex=0
+            type="text" name="currentCommand" autocomplete="off" autocapitalize="off" 
+            placeholder="...">
+        <span id="tty-in-txt-preline" class="preLineText"></span>
+        <span id="tty-in-txt-precaret" class="preCaretText" data-cursor="end"></span>
+        <span id="tty-in-txt-prehighlight" class="preHLText"></span>
+        <span id="tty-in-txt-highlight" class="HLText"></span>
+        <span id="tty-in-txt-posthighlight" class="postHLText"></span>
+        <span id="tty-in-txt-postcaret" class="postCaretText"></span>
+        <span id="tty-in-txt-postline" class="postLineText"></span>
+    </span>
+</div>
+
+<script>
+    import { runCommand } from "@lib/commands"
+    import { dispatch, newCommandEvent, newInputEvent, newLocationEvent, newPrintEvent, newScrollToBottomEvent, newTtyFocusEvent } from "@lib/events"
+    import { parseDOMData } from "@lib/util"
+
+
+    const inputHandler = (event: Event) => {
+        // For commands that push history entries, it must be ensured that printing
+        // happens before command execution. Achieving this by dispatching events 
+        // in order is brittle, but sufficient for the current requirements.
+        let {line, input} = (event as CustomEvent).detail
+        if (!input.startsWith('_')) {
+            dispatch(newPrintEvent(line))
+        }
+		dispatch(newCommandEvent(input))
+	}
+	document.addEventListener('tty:input', inputHandler)
+
+    document.addEventListener('tty:command', (event) => {
+		runCommand((event as CustomEvent).detail.cmd)
+	})
+
+    const setLocation = (event: Event) => requestAnimationFrame(() => {
+        location.textContent = ` :${(event as CustomEvent).detail.path} > `
+    })
+
+    document.addEventListener('tty:location', setLocation)
+    document.addEventListener('astro:page-load', () => dispatch(newLocationEvent(window.location.pathname)))
+
+    //
+    // charWidth and lineLength are critial for the visual calculations below.
+    // Wait for the user agent to load the custom font, then calculate their values.
+    // TODO remember to add ResizeObserver and fallback values.
+    //
+
+    let charWidth, lineLength: number
+    document.addEventListener('DOMContentLoaded', async () => {
+        await document.fonts.ready;
+        charWidth = user.offsetWidth / user.textContent!.length
+        lineLength = Math.floor(textContainer.clientWidth / charWidth)
+    })
+
+    //
+    
+    const ids = parseDOMData("tty-in-container",'data-tty-in-ids')
+    
+    const preLineText = document.getElementById("tty-in-txt-preline") as HTMLSpanElement
+    const preCaretText = document.getElementById("tty-in-txt-precaret") as HTMLSpanElement
+    const preHLText = document.getElementById("tty-in-txt-prehighlight") as HTMLSpanElement
+    const hlText = document.getElementById("tty-in-txt-highlight") as HTMLSpanElement
+    const postHLText = document.getElementById("tty-in-txt-posthighlight") as HTMLSpanElement
+    const postCaretText = document.getElementById("tty-in-txt-postcaret") as HTMLSpanElement
+    const postLineText = document.getElementById("tty-in-txt-postline") as HTMLSpanElement
+    const input = document.getElementById("tty-in-txt-input") as HTMLInputElement
+    const textContainer = document.getElementById("tty-in-txt-container") as HTMLSpanElement
+    const user = document.getElementById("tty-in-user") as HTMLSpanElement
+    const location = document.getElementById("tty-in-location") as HTMLSpanElement
+    const ttyin = document.getElementById("tty-in-container") as HTMLDivElement
+    let scrollContainer = document.getElementById(ids.scrollContainer) as HTMLDivElement
+    
+    document.addEventListener('astro:after-swap', (_event) => {
+        scrollContainer = document.getElementById(ids.scrollContainer) as HTMLDivElement
+    })
+
+    document.addEventListener('tty:focus', (_event) => {
+        document.activeElement !== input && input.focus()
+    })
+
+    // Visuals and input element sync
+
+    /**
+     * For efficiency, {@link split} is shared between 
+     * {@link spltText}, {@link setText}, and {@link updateDisplayedText}.
+     */
+    const split = {
+        /** Partial line before caret position. */
+        preCaret: '',
+        /** Partial line after caret position. */
+        postCaret: '',
+        /** Block of full lines before caret position. */
+        preLine: '',
+        /** Block of full lines after caret position. */
+        postLine: '',
+        /** Partial highlighted line that completes a full line after {@link split.preCaret}. */
+        preHL: '',
+        /** Block of full highlighted lines. */
+        HL: '',
+        /** Partial highlighted line that completes a full line before {@link split.postCaret}, applies only if {@link split.HL} is used. */
+        postHL: '',
+    }
+    /**
+     * Set by {@link splitText}. Used by {@link updateCaretPos} to detect
+     * when a keyboard event on the input element changes caret position. 
+     * Used by {@link setActualCaretOnCaretPos} to force the caret position
+     * on the input element.
+     */
+    let caretPos = 0
+    /**
+     * Used by {@link updateDisplayedText} to track the kind of
+     * cursor that should be displayed.
+     */
+    let cursor = 'end'
+    const splitText = () => {
+        const value = input.value
+        const selectionStart = input.selectionStart || 0
+        const selectionEnd = input.selectionEnd || selectionStart
+        caretPos = selectionStart
+        
+        if (selectionStart === value.length) {
+            split.preLine = split.postCaret = 
+                split.postLine = split.preHL = 
+                split.HL = split.postHL = ''
+            split.preCaret = value
+            return
+        } 
+
+        if (selectionStart === selectionEnd) {
+            const pre = value.slice(0,selectionStart)
+            const post = value.slice(selectionStart)
+            const preLines = Math.floor(pre.length / lineLength)
+            const preLine = pre.slice(0, preLines * lineLength)
+            const preCaret = pre.slice(preLines * lineLength)
+            const postCaretSlack = lineLength - preCaret.length
+            const postCaret = post.slice(0, postCaretSlack)
+            const postLine = post.slice(postCaretSlack)
+            
+            split.preHL = split.HL = split.postHL = ''
+            split.preLine = preLine  
+            split.preCaret = preCaret
+            split.postCaret = postCaret
+            split.postLine = postLine
+            return
+        }
+
+        const pre = value.slice(0,selectionStart)
+        const hlblock = value.slice(selectionStart, selectionEnd)
+        const post = value.slice(selectionEnd)
+        const preLines = Math.floor(pre.length / lineLength)
+        const preLine = pre.slice(0, preLines * lineLength)
+        const preCaret = pre.length > preLine.length ? pre.slice(preLines * lineLength) : ''
+        const postCaretSlack = lineLength - preCaret.length
+        const preHL = postCaretSlack > 0 
+            ? hlblock.length > postCaretSlack 
+                ? hlblock.slice(0, postCaretSlack)
+                : hlblock
+            : ''
+        const hlLines = Math.floor((hlblock.length - preHL.length) / lineLength)
+        const hl = hlLines > 0 ? hlblock.slice(preHL.length, preHL.length + hlLines * lineLength) : ''
+        const postHL = (preHL.length + hl.length) < hlblock.length ? hlblock.slice(preHL.length + hl.length) : ''
+        const postHLSlack = postHL.length === 0
+            ? hl.length > 0 ? lineLength - postHL.length : lineLength - preHL.length - preCaret.length
+            : lineLength - postHL.length
+        const postCaret = post.length > postHLSlack ? post.slice(0, postHLSlack) : post
+        const postLine = post.length > postHLSlack ? post.slice(postHLSlack) : ''
+        
+        split.preLine = preLine  
+        split.preCaret = preCaret
+        split.postCaret = postCaret
+        split.postLine = postLine
+        split.preHL = preHL
+        split.HL = hl
+        split.postHL = postHL
+    }
+    const setText = () => {
+        preCaretText.textContent = split.preCaret
+        postCaretText.textContent = split.postCaret
+        preLineText.textContent = split.preLine
+        postLineText.textContent = split.postLine
+        preHLText.textContent = split.preHL
+        hlText.textContent = split.HL
+        postHLText.textContent = split.postHL
+    }
+    const cursorAmid = () => preCaretText.setAttribute('data-cursor', 'amid')
+    const cursorEnd = () => preCaretText.setAttribute('data-cursor', 'end')
+    const updateDisplayedText = (_event: Event) => {
+        splitText()
+        requestAnimationFrame(setText)
+        if (split.postCaret && cursor === 'end') {
+            cursor = 'amid'
+            requestAnimationFrame(cursorAmid)
+        } else if (!split.postCaret && cursor === 'amid') {
+            cursor = 'end'
+            requestAnimationFrame(cursorEnd)
+        }
+        // this check is redundant (the listener does it too) but it 
+        // prevents unnecessarily firing an event per character typed
+        if (scrollContainer.scrollTop !== scrollContainer.scrollHeight - scrollContainer.clientHeight) {
+            dispatch(newScrollToBottomEvent())
+        }
+    }
+
+    const updateCaretPos = (event: Event) => {
+        if (input.selectionStart !== caretPos || input.selectionStart !== input.selectionEnd) {
+            updateDisplayedText(event)
+        }
+    } 
+
+    const setActualCaretOnCaretPos = (_event: Event) => {
+        input.setSelectionRange(caretPos, caretPos)
+    }
+
+    //
+
+    const inputHistory = [''] as string[]
+    /**
+     * Positive integer used as negative index for {@link inputHistory} 
+     * (since appending new entries means lower indexes are older). 
+     * Points to currently displayed history entry.
+     * Zero is the 'current' input value, i.e.: the one shown before cycling through history.
+    */
+    let inputHistoryIndex = 0
+    const keydownHandler = (event: KeyboardEvent) => {
+        if (event.isComposing || (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey)) {
+            return
+        }
+        switch (event.key) {
+            case 'Enter': 
+            case 'NumpadEnter': {
+                const value = input.value
+                const userTxt = user.textContent, locationTxt = location.textContent
+                value !== '' && inputHistory.push(value)
+                dispatch(newInputEvent(value, `${userTxt}${locationTxt}${value}`))
+                input.value = inputHistory[inputHistoryIndex = 0] = ''
+                break
+            }
+            case 'ArrowUp': {
+                event.preventDefault()
+                if (inputHistory.length < 1) return
+                if (inputHistoryIndex === 0 || inputHistoryIndex === inputHistory.length) {
+                    inputHistory[0] = input.value
+                }
+                input.value = inputHistory.at(
+                    -(inputHistoryIndex = inputHistoryIndex < inputHistory.length 
+                        ? inputHistoryIndex + 1
+                        : 1)
+                ) || ''
+                break
+            }
+            case 'ArrowDown': {
+                event.preventDefault()
+                if (inputHistory.length < 1) return
+                if (inputHistoryIndex === 0 || inputHistoryIndex === inputHistory.length) {
+                    inputHistory[0] = input.value
+                }
+                input.value = inputHistory.at(
+                    -(inputHistoryIndex = inputHistoryIndex > 0 
+                        ? inputHistoryIndex - 1
+                        : inputHistory.length - 1)
+                ) || '' 
+                break
+            }
+        }
+        updateDisplayedText(event)
+        return
+    }
+
+    document.addEventListener('tty:focus', (event: Event) => {
+        input.focus()
+    })
+
+    const focusInput = (_event: Event) => {
+        dispatch(newTtyFocusEvent())
+    }
+
+    ttyin.addEventListener('click', focusInput)
+    input.addEventListener('click', setActualCaretOnCaretPos)
+    input.addEventListener('focus', setActualCaretOnCaretPos)
+    input.addEventListener('input', updateDisplayedText)
+    input.addEventListener('keydown', keydownHandler)
+    input.addEventListener('keydown', updateCaretPos)
+    input.addEventListener('keyup', updateCaretPos)
+    
+</script>
+
+<style>
+
+    .ttyin {
+        position: relative;
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        user-select: none;
+        cursor: text;
+        color: var(--color-highlight);
+    }   
+
+    .text {
+        display: flex;
+        flex-direction: row;
+        justify-items: start;
+        flex-wrap: wrap;
+        width: 100%;
+        max-width:100%;
+        height: fit-content;
+    }
+
+    .preHLText, .HLText, .postHLText {
+        color: var(--color-text);
+        background-color: var(--color-highlight);
+    }
+
+    .preCaretText, .postCaretText, .preLineText, .postLineText, .preHLText, .HLText, .postHLText {
+        width: fit-content;
+        max-width: 100%;
+        white-space: pre;
+        text-wrap: wrap;
+        word-break: break-all;
+        overflow-wrap: anywhere;
+    }
+
+    .input:focus ~ .preCaretText {
+        &[data-cursor="end"]::after {
+            content: '\2583';
+        }
+        &[data-cursor="amid"]::after {
+            content: '\2583';
+        } {/*TODO better amid cursor, insert/append cursor*/}
+        &::after {
+            position: absolute;
+            font-family: var(--font-family);
+            animation: blink 1s infinite;
+        }
+    }
+
+    @keyframes blink {
+        49%, 100% {
+            opacity: 1;
+        }
+        50%, 99% {
+            opacity: 0;
+        }
+    }
+
+    .input {
+        position: absolute;
+        outline: none;
+        width: 90%;
+        height: 100%;
+        opacity: 0;
+        z-index: -1;
+        caret-color: transparent;
+
+        &:placeholder-shown {
+            opacity: 1;
+        }
+    }
+
+    .linemarker {
+        height: fit-content;
+        width: fit-content;
+        text-wrap: nowrap;
+        margin: 0;
+    }
+    
+</style>

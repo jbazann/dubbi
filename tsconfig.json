@@ -1,0 +1,23 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [
+    ".astro/types.d.ts",
+    "**/*",
+  ],
+  "exclude": [
+    "dist"
+  ],
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "baseUrl": "./",
+    "paths": {
+      "@c/*": ["src/components/*"],
+      "@a/*": ["src/assets/*"],
+      "@l/*": ["src/layouts/*"],
+      "@lib/*": ["src/lib/*"],
+      "@s/*": ["src/styles/*"],
+      "@p/*": ["public/*"]
+    }
+  }
+}

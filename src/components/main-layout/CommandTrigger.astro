@@ -1,0 +1,12 @@
+---
+import { generateIds } from "@lib/util"
+import styles from './CommandTrigger.module.css'
+
+const ids = {
+    btn: null
+}
+generateIds(ids)
+---
+<button id={ids.btn} class={styles.commandTrigger} data-component-command-trigger={Astro.props.cmd} >
+    <slot />
+</button>

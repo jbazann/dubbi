@@ -1,0 +1,342 @@
+---
+import "@s/global.css"
+import "@s/colors.css"
+import "@s/features.css"
+import "@s/fonts.css"
+import "@c/main-layout/CommandTrigger.module.css"
+import TtyInput from '@c/main-layout/TtyInput.astro';
+import background from '@a/vignette-bg.svg';
+import NavigationButton from "@c/main-layout/NavigationButton.astro";
+import SimpleLinePrinter from "@c/main-layout/SimpleLinePrinter.astro";
+import MainHead from "@c/head/MainHead.astro";
+import { layoutId, pageId } from "@lib/globals";
+
+// TODO static paths
+export const prerender = true
+
+const {theme, langlib} = Astro.props
+---
+<!doctype html>
+<html lang={Astro.currentLocale || 'en'} data-theme={theme || 'default'} >
+	<MainHead>
+	    <link rel="preload" as="image" href={background.src} fetchpriority="high" />
+	</MainHead>
+	<body>
+		<div class="background" style={`background-image: url('${background.src}');`}></div>
+		<!-- <div class="glass"></div> -->
+		<header class="header">
+			<h1 class="site">jbazann.dev</h1>
+		</header>
+		<div id={layoutId} class="content-area">
+			<div id="layout-scroll" class="scrollable-container" data-layout-scrollContainer transition:animate="none">
+				<div class="page-area">		
+					<main class="contents">
+						<TtyInput ids={{scrollContainer: 'layout-scroll'}} transition:persist/>
+						<div id={pageId} class="current-page-container" data-layout-page>
+							<slot />
+						</div>
+					</main>
+					<section id="layout-history" class="current-page-container history-container" transition:persist>
+						<template id="layout-history-template" >
+							<div class="history-entry">
+							</div>
+						</template>
+					</section>
+				</div>	
+			</div>
+			<div class="bottomOverlay">
+				<NavigationButton />
+			</div>
+		</div>
+		<SimpleLinePrinter />
+	</body>
+</html>
+
+<!-- inline init -->
+<script define:vars={{langlib}} is:inline>
+	window._jbazann = {}
+	window._jbazann.lang = langlib
+</script>
+
+<script>
+	// Processed init script, only for foundational document listeners and other DOM independent function calls
+	import { dispatch, newCheckRedirectEvent, newErrorMessageEvent, newHrEvent, newNoticeEvent, newRewireEvent, newScrollToPageEvent } from "@lib/events";
+	import { log } from "@lib/log";
+	import { loadSettings } from "@lib/settings";
+	import { clearCookie, getLooselyParsedCookies } from "@lib/util";
+	import COOKIES from "@lib/cookies.json"
+	import { t } from "@lib/t";
+
+	loadSettings()
+
+	document.addEventListener('astro:page-load', (_event: Event) => {
+		dispatch(newRewireEvent())
+		dispatch(newCheckRedirectEvent())
+	})
+
+	document.addEventListener('set:attribute', (event: Event) => {
+		const {attribute, value, target} = (event as CustomEvent).detail
+		typeof target?.setAttribute === 'function'
+			? target.setAttribute(attribute, value)
+			: dispatch(newErrorMessageEvent("internal: no 'setAttribute' property."))
+	})
+
+	document.addEventListener('tty:check-redirect', (event: Event) => {
+		const cookies: {[_:string]: string} = getLooselyParsedCookies()
+		log(cookies, 'REDIRECT CHECK')
+		if (Object.hasOwn(cookies, COOKIES["redirect-notice"]) && cookies[COOKIES["redirect-notice"]] === "force-language") {
+			const from = cookies[COOKIES["redirect-from"]] || '', to = cookies[COOKIES["redirect-to"]] || ''
+			clearCookie(COOKIES["redirect-notice"])
+			clearCookie(COOKIES["redirect-from"])
+			clearCookie(COOKIES["redirect-to"])
+			dispatch(newNoticeEvent(t('notice.forced-redirect', {from,to})))
+			dispatch(newNoticeEvent(t('notice.ignore')))
+			dispatch(newHrEvent())
+			setTimeout(() => dispatch(newScrollToPageEvent())) // TODO fix
+		}
+	})
+
+</script>
+
+<script src="@c/main-layout/CommandTrigger.ts"></script>
+
+<script>
+	import { newErrorMessageEvent, newHistoryPushEvent, newPrintEvent, newScrollToBottomEvent, newScrollToPageEvent, newTtyFocusEvent } from "@lib/events"
+	import { dispatch, newRewireEvent, newCheckRedirectEvent, newNoticeEvent } from "@lib/events"
+	import COOKIES from '@lib/cookies.json'
+	import { clearCookie, getLooselyParsedCookies } from "@lib/util"
+	import { log } from "@lib/log"
+	import { t } from "@lib/t"
+	import { pageId } from "@lib/globals"
+	import { swapFunctions } from "astro:transitions/client"
+	import htmx from 'astro-htmx'
+
+	let pageContainer = document.getElementById(pageId) as HTMLDivElement	
+	let scrollContainer = document.getElementById('layout-scroll') as HTMLDivElement
+	let ttyInContainer = document.getElementById('tty-in-container') as HTMLDivElement
+
+	document.addEventListener('astro:after-swap', (_event) => {
+		scrollContainer = document.getElementById('layout-scroll') as HTMLDivElement
+		pageContainer = document.getElementById(pageId) as HTMLDivElement
+		ttyInContainer = document.getElementById('tty-in-container') as HTMLDivElement
+		dispatch(newScrollToPageEvent())
+	})
+	
+	const historyContainer = document.getElementById('layout-history') as HTMLDivElement
+	const historyEntryTemplate = document.getElementById('layout-history-template') as HTMLTemplateElement
+
+	const pushHistory = () => {
+		const elems = Array.from(pageContainer.children)
+		const last = elems.at(-1)
+		const historyEntry = historyEntryTemplate.content.cloneNode(true) as HTMLTemplateElement
+		const historyEntryDiv = historyEntry.firstElementChild as HTMLDivElement
+		last && pageContainer.replaceChildren(last)	
+		historyEntryDiv.prepend(...elems.slice(0, -1))
+		historyContainer.prepend(historyEntry)
+	}
+
+	document.addEventListener('astro:before-swap', (event) => {
+		event.swap = () => {
+			const firstChild = pageContainer.firstElementChild as HTMLElement
+			const newPageContainer = event.newDocument.body.querySelector('div[data-layout-page]') as HTMLElement
+			swapFunctions.deselectScripts(event.newDocument)
+			swapFunctions.swapRootAttributes(event.newDocument)
+			swapFunctions.swapHeadElements(event.newDocument)
+			const restoreFocusFunction = swapFunctions.saveFocus()
+			swapFunctions.swapBodyElement(event.newDocument.body, document.body)
+			newPageContainer.prepend(firstChild)
+			restoreFocusFunction()
+		}
+	})
+
+	document.addEventListener('astro:before-preparation', (_event) => {
+		requestAnimationFrame(pushHistory)
+	})
+
+	document.addEventListener('tty:history:push', (_event) => {
+		requestAnimationFrame(pushHistory)
+	})
+
+	let pendingScroll = false
+	const scrollToPage = () => {
+		log({
+			top: scrollContainer.scrollTop, 
+			sch: scrollContainer.scrollHeight, 
+			pc_ch: pageContainer.clientHeight, 
+			tic_ch: ttyInContainer.clientHeight,
+			calc: scrollContainer.scrollHeight - pageContainer.clientHeight - ttyInContainer.clientHeight,
+		}, 'PAGE SCROLL')
+		scrollContainer.scrollTop = scrollContainer.scrollHeight - pageContainer.clientHeight - ttyInContainer.clientHeight
+		pendingScroll = false
+	}
+	const scrollToBottom = () => {
+		scrollContainer.scrollTop = scrollContainer.scrollHeight - scrollContainer.clientHeight
+		pendingScroll = false
+	}
+	document.addEventListener('tty:scroll:page', (_event) => {
+		if (!pendingScroll && (scrollContainer.scrollTop !==  scrollContainer.scrollHeight - pageContainer.clientHeight - ttyInContainer.clientHeight)) {
+			pendingScroll = true
+			requestAnimationFrame(scrollToPage)
+		}
+	})
+	document.addEventListener('tty:scroll:bottom', (_event) => {
+		if (!pendingScroll && (scrollContainer.scrollTop !== scrollContainer.scrollHeight - scrollContainer.clientHeight)) {
+			pendingScroll = true
+			requestAnimationFrame(scrollToBottom)
+		}
+	})
+
+	scrollContainer.addEventListener('click', (event) => {
+		event.target === event.currentTarget && dispatch(newTtyFocusEvent())
+	})
+
+	const insertPartial = (event: Event) => {
+		return htmx.ajax(
+			'post',
+			(event as CustomEvent).detail.url,
+			{
+				event,
+				target: '[data-layout-page]',
+				swap: 'beforeend',
+				values: (event as CustomEvent).detail.params
+			}
+		).then(() => {
+			dispatch(newRewireEvent())
+		}) 
+	}
+	document.addEventListener('tty:partial', (event) => {
+		dispatch(newHistoryPushEvent())
+		insertPartial(event).then(() => {
+			dispatch(newScrollToPageEvent())
+		})
+	})
+	document.addEventListener('tty:partial:nopush', (event) => {
+		insertPartial(event).then(() => {
+			dispatch(newScrollToBottomEvent())
+		})
+	})
+
+</script>
+
+<style>
+	.history-container {
+		display: flex;
+		flex-direction: column-reverse;
+	}
+
+	.history-entry {
+		display: flex;
+		flex-direction: column;
+		opacity: 72%;
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+
+	.bottomOverlay {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		inline-size: fit-content;
+		max-inline-size: 70%;
+		height: 1em;
+
+		display: flex;
+		flex-direction: row;
+		justify-content: start;
+		align-items: end;
+		margin: 0.32em;
+
+		z-index: 1;
+	}
+
+	.header {
+		display: grid;
+		grid-template-areas:
+			"left center right"
+		;
+		grid-template-rows: 1fr;
+		grid-template-columns: repeat(3, 1fr);
+		place-items: safe center;
+		padding: 0.22rem .5rem;
+		width: var(--content-area-width);
+		border: solid var(--border-width) var(--color-border);
+		border-start-start-radius: var(--border-radius);
+	}
+
+	.site {
+		font-size: 1rem;
+		grid-area: center;
+	}
+
+	.close {
+		grid-area: right;
+		justify-self: end;
+	}
+
+	.nav {
+		grid-area: right;
+		justify-self: end;
+	}
+
+	.page-area {
+		display: flex;
+		flex-direction: column-reverse;
+		position: relative;
+		width: 100%;
+		min-height: fit-content;
+		contain: layout;
+	}
+
+	.scrollable-container {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: start;
+		width: 100%;
+		height: 100%;
+		padding: 0 calc(var(--content-area-y-padding) - var(--content-area-x-padding) - 0.72rem);
+		box-sizing: border-box;
+		overflow: hidden auto;
+		scrollbar-width: thin;
+		scrollbar-gutter: stable both-edges;
+	}
+
+	.content-area {
+		position: relative;
+		padding: var(--content-area-y-padding) var(--content-area-x-padding);
+		width: var(--content-area-width);
+		height: var(--content-area-height);
+		border: solid var(--border-width) var(--color-border);
+		border-end-end-radius: var(--border-radius);
+		overflow: hidden;
+		contain: strict;
+	}
+
+	.background {
+		position: absolute;
+		opacity: 42%;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+		filter: blur(12rem);
+		will-change: filter;
+		background-size: contain;
+	}
+
+	.glass {
+		position: absolute;
+		opacity: 22%;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+		background: var(--color-foreground);
+		backdrop-filter: blur(2rem) saturate(150%);
+	}
+
+</style>

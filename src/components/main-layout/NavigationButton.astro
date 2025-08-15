@@ -1,0 +1,69 @@
+---
+---
+
+<span>
+    <button class="outer" data-component-navigation-button>
+    </button>
+</span>
+
+<script>
+    import { newInputEvent, dispatch } from "@lib/events"
+    import { layoutId } from "@lib/globals"
+    import { err } from "@lib/log"
+
+    document.addEventListener('tty:rewire:page', (event: Event) => {
+        const layout = document.getElementById(layoutId)
+        !layout && err(`Layout ${layoutId} not found.`)
+        const buttons = layout?.querySelectorAll('button[data-component-navigation-button]') || []
+        const location = window.location.pathname
+        const clickHandler = (_event: Event) => {
+            dispatch(newInputEvent(
+                'help --navigation', 
+                `guest :${location} > help --navigation`
+            ))
+        }
+        buttons.forEach(b => {
+            b.removeEventListener('click', clickHandler)
+            b.addEventListener('click', clickHandler)
+        })
+    })
+</script>
+
+<style>
+
+    span {
+        display: inline-flex;
+        inline-size: fit-content;
+        block-size: fit-content;
+        vertical-align: middle;
+    }
+
+    .outer {
+        display: flex;
+        justify-content: safe center;
+        align-items: safe center;
+        inline-size: 1.5ch;
+        width: 2ch;
+        height: auto;
+        aspect-ratio: 1;
+        border: calc(2 * var(--border-width)) solid var(--color-border);
+        border-radius: var(--border-radius);
+
+        &:hover {
+            scale: 122%;
+            border: calc(2 * var(--border-width)) solid var(--color-highlight);
+
+            & div {
+                border: calc(2 * var(--border-width)) solid var(--color-highlight);
+            }
+        }
+    }
+
+    .inner {
+        height: 0;
+        width: 0;
+        border: var(--border-width) solid var(--color-border);
+        border-radius: var(--border-radius);
+    }
+
+</style>

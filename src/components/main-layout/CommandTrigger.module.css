@@ -1,0 +1,17 @@
+.commandTrigger {
+    /* RESET  */
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    text-decoration: none; 
+    cursor: pointer;
+    outline: none;
+    box-sizing: border-box;
+    /*  */
+    color: var(--color-highlight);
+    text-decoration: underline;
+    text-underline-offset: 0.12em;
+    font-style: italic;
+}

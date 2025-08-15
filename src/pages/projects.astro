@@ -1,0 +1,36 @@
+---
+import MainLayout from "@l/MainLayout.astro"
+import en from '@lib/lang/en'
+import cookies from '@lib/cookies.json'
+import Intro from "@c/pages/Intro.astro"
+import CommandTrigger from "@c/main-layout/CommandTrigger.astro"
+
+export const prerender = false
+
+let theme
+if (Astro.cookies.has(cookies.theme)) theme = Astro.cookies.get(cookies.theme)?.value
+let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Astro.request.formData() : [])
+---
+
+<MainLayout langlib={en} theme={theme} >
+    {hideIntro !== 'true' && <Intro lang="en"/> }
+    <h2>
+        Projects
+    </h2>
+    <p>
+        This section contains projects I've prepared to demonstrate my expertise and experience.
+        It is not an exhaustive list of projects I've worked on.
+    </p>
+    <p>
+        You may navigate to any of them using the nav or sitemap commands. If you don't know how
+        they work, try <CommandTrigger cmd="help --tutorial">help --tutorial</CommandTrigger>.
+    </p>
+    <p>
+        Available projects: 
+    </p>
+    <ul class="inline-list">
+        <li><em>Swkidl</em></li>, 
+        <li><em>Sbupi</em></li>, 
+        <li><em>Dubbi</em></li>.
+    </ul>
+</MainLayout>

@@ -1,0 +1,82 @@
+import { log } from "./log"
+import COOKIES from "./cookies.json"
+
+export {
+    parseDOMData,
+    generateIds,
+    setCookie,
+    clearCookie,
+    getLooselyParsedCookies,
+    localizePath,
+}
+
+function parseDOMData(id,attribute) {
+    return JSON.parse(document.getElementById(id)?.getAttribute(attribute) || '{}')
+}
+
+let idCounter = 0
+/**
+ * Replaces the falsy values of an object with random base 64 strings of negligible collision probability.
+ * @param ids an object with arbitrary keys.
+ */
+function generateIds(ids) {
+    idCounter++
+    for (const key in ids) {
+        if (ids[key]) continue
+        ids[key] = generateShortId(idCounter)
+    }
+}
+
+function generateShortId(idScope) {
+    return `${btoa(crypto.randomUUID()).slice(0, 8)}-${idScope}`
+}
+
+const DAY_SEC = 86_400
+const DEFAULT_MAX_AGE_DAYS = 72
+const RENEWABLE_COOKIES = {
+    theme: DEFAULT_MAX_AGE_DAYS,
+    language: DEFAULT_MAX_AGE_DAYS,
+}
+function setCookie(key, value, days = DEFAULT_MAX_AGE_DAYS) {
+    log({key, value, days}, 'SET COOKIE')
+    document.cookie = `${key}=${value}; Path=/; Secure; SameSite=None; Max-Age=${days * DAY_SEC};`
+}
+
+function clearCookie(key) {
+    document.cookie = `${key}=; Path=/; Secure; SameSite=None; Expires=Thu, 01 Jan 1970 00:00:00 GMT;`
+}
+
+function getLooselyParsedCookies() {
+    const cookies = document.cookie.split(";")
+        .map(str => str.split("=", 2))
+        .reduce((acc, curr) => {
+            acc[curr[0]?.trim() ?? ''] = curr[1]?.trim()
+            return acc;
+        }, {})
+    log(cookies, 'LOOSELY PARSED')
+    return cookies
+}
+
+typeof document !== 'undefined' && (function cookiesAutoRenew() {
+    const cookies = getLooselyParsedCookies()
+
+    if (Object.hasOwn(cookies,COOKIES.renew)) return
+    log(`${COOKIES.renew} not found.}.`, 'COOKIE RENEWAL')
+    log(`Checking cookies: ${JSON.stringify(RENEWABLE_COOKIES)} in ${JSON.stringify(cookies)}`, 'COOKIE RENEWAL')
+    
+    setCookie(COOKIES.renew, '', 1)
+    for (const [qk, days] of Object.entries(RENEWABLE_COOKIES)) {
+        if (Object.hasOwn(cookies, COOKIES[qk])) {
+            log(`Setting ${qk}: ${cookies[qk]}`, 'COOKIE RENEWAL')
+            setCookie(qk, cookies[qk], days)
+        }
+    }
+})()
+
+// TODO do this correctly
+function localizePath(path, locale) {
+    if (path.startsWith('/es')) path = path.slice(3)
+    if (path.startsWith('/es/')) path = path.slice(4)
+    if (path.startsWith('/')) path = path.slice(1)
+    return locale === 'en' ? `/${path}` : `/${locale}/${path}`
+}

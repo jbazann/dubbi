@@ -1,0 +1,77 @@
+<span>
+    <button class="outer" data-component-navigation-button>
+        <div class="left"></div>
+        <div class="right"></div>
+    </button>
+</span>
+
+<script>
+    import { newInputEvent, dispatch } from "@lib/events"
+    import { layoutId } from "@lib/globals"
+    import { err } from "@lib/log"
+
+    document.addEventListener('tty:rewire:page', (event: Event) => {
+        const layout = document.getElementById(layoutId)
+        !layout && err(`Layout ${layoutId} not found.`)
+        const buttons = layout?.querySelectorAll('button[data-component-navigation-button]') || []
+        const location = window.location.pathname
+        const clickHandler = (_event: Event) => {
+            dispatch(newInputEvent(
+                'help --navigation', 
+                `guest :${location} > help --navigation`
+            ))
+        }
+        buttons.forEach(b => {
+            b.removeEventListener('click', clickHandler)
+            b.addEventListener('click', clickHandler)
+        })
+    })
+</script>
+
+<style>
+
+    span {
+        display: inline-flex;
+        inline-size: fit-content;
+        block-size: fit-content;
+        vertical-align: middle;
+    }
+
+    .outer {
+        position: relative;
+        display: flex;
+        justify-content: safe center;
+        align-items: safe center;
+        inline-size: 1.5ch;
+        width: 2ch;
+        height: auto;
+        aspect-ratio: 1;
+        &:hover {
+            scale: 122%;
+            &::after, &::before {
+                background-color: var(--color-highlight);
+            }
+        }
+    }
+
+
+    .outer::before,
+    .outer::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: calc(2 * var(--border-width));;
+        transform-origin: center;
+        transform: translate(-50%, -50%) rotate(0deg);
+        display: block;
+        background-color: var(--color-border);
+        border-radius: var(--border-radius); 
+    }
+
+    /* rotate the two strokes to create an X */
+    .outer::before { transform: translate(-50%, -50%) rotate(45deg); }
+    .outer::after  { transform: translate(-50%, -50%) rotate(-45deg); }
+
+</style>

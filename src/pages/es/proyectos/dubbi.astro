@@ -1,0 +1,18 @@
+---
+import MainLayout from "@l/MainLayout.astro";
+import es from "@lib/lang/es"
+import cookies from "@lib/cookies.json"
+import Intro from "@c/pages/Intro.astro";
+
+let theme
+if (Astro.cookies.has(cookies.theme)) theme = Astro.cookies.get(cookies.theme)?.value
+let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Astro.request.formData() : [])
+---
+
+<MainLayout langlib={es} theme={theme}>
+    {hideIntro !== 'true' && <Intro lang="es"/> }
+    <section>
+        <h2>Proyecto Dubbi</h2>
+        <p>Esta sección estará disponible muy pronto!</p>
+    </section>
+</MainLayout>

@@ -1,0 +1,195 @@
+
+---
+import CommandTrigger from "@c/main-layout/CommandTrigger.astro";
+import NavigationButton from "@c/main-layout/NavigationButton.astro";
+
+const props = Astro.props.props
+---
+{props.navigation &&
+<section>
+    <h2>Herramientas de navegación</h2>
+    <p>
+        Esta sección de ayuda contiene links útiles que podés usar para navegar por el sitio sin escribir.
+        Siempre está disponible en el ícono <NavigationButton /> de la esquina inferior izquierda.
+    </p>
+    <nav>
+        <hr>
+        <ul>
+            <li>
+                <CommandTrigger cmd="help nav">help nav</CommandTrigger> &lt;-- click acá para aprender sobre nav!
+            </li>
+            <li>
+                <CommandTrigger cmd="help sitemap">help sitemap</CommandTrigger> &lt;-- click acá para aprender sobre sitemap!
+            </li>
+            <li>
+                <CommandTrigger cmd="help ls">help ls</CommandTrigger> &lt;-- click acá para aprender sobre ls!
+            </li>
+            <hr>
+            <li>
+                <CommandTrigger cmd="cat">cat</CommandTrigger> &lt;-- click acá para invocar una bestia!
+            </li>
+            <hr>
+            <li>
+                <CommandTrigger cmd="sitemap">sitemap</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="ls">ls</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="nav /">nav /</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="nav ..">nav ..</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="cls">cls</CommandTrigger>
+            </li>
+        </ul> 
+        <hr>
+    </nav>
+</section>
+}
+
+{props.tutorial &&
+<section>
+    <h2>Tutorial rápido</h2>
+    <h3>General</h3>
+    <p>
+        Esta página funciona en forma similar a lo que se conoce como "interfaz de línea de comandos" (abreviado en inglés, CLI).
+    </p>
+    <p>
+        Para hacer cosas, hay que escribir el comando correcto. Debajo de todo el texto, donde dice 'guest : &gt;'.
+    </p>
+    <p>
+        Cuando termines de leer la sección de abajo, probá hacer click en el botón de navegación <NavigationButton /> o escribir
+        <CommandTrigger cmd="sitemap">help -n</CommandTrigger>.
+        Ahí vas a encontrar el comando <CommandTrigger cmd="sitemap">sitemap</CommandTrigger>.
+    </p>
+    <h3>Sitemap</h3>
+    <p>
+        <CommandTrigger cmd="sitemap">Sitemap</CommandTrigger> te va a mostrar una lista de links con las 
+        ubicaciones más importantes, además de los destinos
+        inmediatamente adyacentes a donde estés al usarlo.
+    </p>
+    <hr>
+    <p>
+        ¿Qué significa eso último?
+    </p>
+    <p>
+        La estructura de la página está organizada como un sistema de archivos. Está el "directorio" raíz, "/" (o "/es/" para la versión en español),
+        que contiene todo el sitio; dentro del directorio raiz están los principales menús, "/projects/" (/es/proyectos/), "/about/" (/acerca/),
+        y lo mismo se repite para todo el contenido.
+    </p>
+    <p>
+        Entonces, <CommandTrigger cmd="sitemap">sitemap</CommandTrigger> te permite volver al directorio anterior
+        (<CommandTrigger cmd="nav ..">nav ..</CommandTrigger>), entrar a cualquiera de los directorios en tu ubicación actual,
+        <CommandTrigger cmd="sitemap">nav ./lugar-copado</CommandTrigger>, y saltar a algunas de las ubicaciones más interesantes.
+    </p>
+    <p>
+        Para más información, probá el tutorial extendido con
+        <CommandTrigger cmd="help --tutorial-extendido">help --tutorial-extendido</CommandTrigger>. O
+        <CommandTrigger cmd="help [comando]">help [comando]</CommandTrigger> para aprender sobre un comando en
+        particular.
+    </p>
+    <hr>
+</section>
+}
+
+{props.ext_tutorial &&
+<section>
+    <h2>Extended tutorial</h2>
+    <h3>Overview</h3>
+    <p>
+        This website works similarly to what IT people call a "command line interface" (from now on, "CLI").
+    </p>
+    <p>
+        To get anything done, you need to input the correct command. 
+    </p>
+    <p>
+        In a traditional CLI, you would be forced to type them,
+        but I am nice and I will let you click words that look <CommandTrigger cmd="_silly">like these</CommandTrigger>, if you want to.
+    </p>
+    <p>
+        Usually, the highlighted words wiil be exactly the command that will be sent when you click them (the ones above being one of the few exceptions).
+    </p>
+    <hr>
+    <p>
+        You only need to understand three commands to explore this CLI: 'nav', 'sitemap', and 'ls'. 
+        But before we get into those, let me point out that this site is structured like a file system.
+    </p>
+    <h3>Site Structure</h3>
+    <p>
+        When you arrive at <a href="https://jbazann.dev">jbazann.dev</a>, you are at the base directory,
+        symbolized by '/'. The base directory contains a few other directories, like '/projects' or '/about',
+        and then these may contain more, like '/projects/sbupi'.
+    </p>
+    <p>
+        You can go places in this website by using either relative or absolute paths.
+    </p>
+    <p>
+        You can learn what that means later with <CommandTrigger cmd="help nav">help nav</CommandTrigger>.
+        But for now, when using the nav command, remember to <em>always</em> start your paths with '/', and include
+        the <em>full</em> path. 
+    </p>
+    <p>
+        Suppose you are already in the 'skwidl' project (/projects/skwidl), and you want to see the 'sbupi' project instead.
+        You could be fancy and use a relative path with <CommandTrigger cmd="nav ./../sbupi">nav ./../sbupi</CommandTrigger>,
+        but you don't actually know what that does, 
+        so you will instead use <CommandTrigger cmd="nav /projects/sbupi">nav /projects/sbupi</CommandTrigger>. 
+        Otherwise you might break something.
+    </p>
+    <hr>
+    <h3>Command: nav</h3>
+    <p>
+        The 'nav' command, as you might guess, is what you will use to navigate. 
+        It is very simple to use, just type 'nav' followed by your destination, 
+        like <CommandTrigger cmd="nav youtube">nav youtube</CommandTrigger> (don't click that).  
+    </p>
+    <p>
+        Currently, it can only take you places within this site, so the previous example won't actually work.
+    </p>
+    <p>
+        This is where 'sitemap' comes in.
+    </p>
+    <hr>
+    <h3>Command: sitemap</h3>
+    <p>
+        The <CommandTrigger cmd="sitemap">sitemap</CommandTrigger> command will show you a list of links 
+        with most valid destinations. I was very nice and made it so that clicking any sitemap entry
+        is equivalent to 'nav [entry]'. So you don't even need to ever use nav, if you're a very boring person.
+    </p>
+    <p>
+        Some destinations, though, are either hidden from sitemap, or dynamic (they change depending on things you don't really care about).
+    </p>
+    <p>
+        You can use 'ls' to discover these. This command will show you the immediately accessible destinations wherever you are.
+    </p>
+    <p>
+        I'm not saying you absolutely must, but you should probably try 'ls' when you're in any of my projects, or in some of
+        the poems in the gallery.
+    </p>
+    <hr>
+    <h3>Done!</h3>
+    <p>
+        That's it. If you still don't know what to do, and you haven't run out of patience, you can either 
+        read all that again, or read something new with <CommandTrigger cmd="help help">help help</CommandTrigger>.
+    </p>
+    <p>
+        You may also be interested in:
+        <ul>
+            <li><CommandTrigger cmd="help nav">help nav</CommandTrigger></li>
+            <li><CommandTrigger cmd="help sitemap">help sitemap</CommandTrigger></li>
+            <li><CommandTrigger cmd="help ls">help ls</CommandTrigger></li>
+            <li><CommandTrigger cmd="help --essential">help -essential</CommandTrigger></li>
+            <li><CommandTrigger cmd="help">help</CommandTrigger></li>
+            <li><CommandTrigger cmd="cat">cat</CommandTrigger></li>
+        </ul>
+    </p>
+</section>
+}
+
+{props.base &&
+<section>
+    <p>ESP</p>
+</section>
+}

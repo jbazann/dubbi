@@ -1,0 +1,26 @@
+---
+import Intro from "@c/pages/Intro.astro"
+import CommandTrigger from "@c/main-layout/CommandTrigger.astro"
+import MainLayout from '@l/MainLayout.astro';
+import cookies from '@lib/cookies.json'
+import en from '@lib/lang/en'
+
+export const prerender = false
+
+let theme
+if (Astro.cookies.has(cookies.theme)) theme = Astro.cookies.get(cookies.theme)?.value
+---
+<MainLayout langlib={en} theme={theme} >
+    <Intro lang="en">
+        <h2>
+            Not found.
+        </h2>
+        <p>
+            There is no content to display at /{Astro.params.path}.
+        </p>
+        <p>
+            Use the <CommandTrigger cmd="sitemap">sitemap</CommandTrigger> command to see (most of) the valid locations.
+        </p>
+        <hr/>
+    </Intro>
+</MainLayout>

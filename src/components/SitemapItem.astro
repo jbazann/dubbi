@@ -1,0 +1,10 @@
+---
+import CommandTrigger from "@c/main-layout/CommandTrigger.astro"
+import Tab from "@c/utils/Tab.astro"
+---
+
+<li>
+    <Tab depth={Astro.props.depth}/><CommandTrigger cmd={`nav ${Astro.props.path}`}>
+        {Astro.props.path}
+    </CommandTrigger>
+</li>

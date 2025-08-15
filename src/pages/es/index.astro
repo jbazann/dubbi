@@ -1,0 +1,14 @@
+---
+import MainLayout from '@l/MainLayout.astro';
+import cookies from '@lib/cookies.json'
+import es from '@lib/lang/es'
+import Intro from '@c/pages/Intro.astro';
+
+let theme
+if (Astro.cookies.has(cookies.theme)) theme = Astro.cookies.get(cookies.theme)?.value
+---
+
+<MainLayout langlib={es} theme={theme} >
+    <Intro lang="es" />
+</MainLayout>
+

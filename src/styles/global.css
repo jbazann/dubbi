@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+:root {
+    --font-family: var(--font-kodemono), monospace, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Cascadia Mono", "Segoe UI Mono";
+
+    font-size: medium;
+    font-family: var(--font-family);
+}
+
+* {
+    font-size: 1rem;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+html {
+    background-color: var(--colors-background);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: safe center;
+    align-items: safe center;
+}
+
+em {
+    color: var(--color-highlight);
+}
+
+p {
+    margin-bottom: 1rem;
+}
+
+ul:not(ul ul) > :last-child {
+    margin-bottom: 1rem;
+}
+
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+h1, h2, h3, h4, h5, h6, hr {
+    color: var(--color-highlight)
+}
+
+h1 {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 2rem;
+}
+
+h4 {
+    font-style: italic;
+}
+
+button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    text-decoration: none; 
+    cursor: pointer;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.no-inline-whitespace {
+    display: inline-flex;
+    flex-direction: row;
+    width: fit-content;
+    height: fit-content;
+}
+
+.no-bottom-margin {
+    margin-bottom: 0;
+}
+
+.notice-preface, .error-preface {
+    color: var(--color-highlight);
+}
+
+.padded-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    width: fit-content;
+    padding: 1rem;
+    overflow: hidden;
+}
+
+.inline-list li, .inline-list {
+    display: inline;
+}
