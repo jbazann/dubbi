@@ -11,6 +11,8 @@
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "baseUrl": "./",
+    "typeRoots": ["./node_modules/@types", "./types"],
+    "plugins": [{ "name": "@astrojs/ts-plugin" }],
     "paths": {
       "@c/*": ["src/components/*"],
       "@a/*": ["src/assets/*"],

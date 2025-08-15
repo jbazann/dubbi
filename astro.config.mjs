@@ -1,11 +1,7 @@
 // @ts-check
 import { defineConfig, fontProviders } from 'astro/config';
 
-import react from '@astrojs/react';
-
 import tailwindcss from '@tailwindcss/vite';
-
-import htmx from "astro-htmx";
 
 import cloudflare from "@astrojs/cloudflare";
 
@@ -13,7 +9,7 @@ import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [react(), htmx(), sitemap({
+  integrations: [sitemap({
     i18n: {
       defaultLocale: 'en',
       locales: {

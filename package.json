@@ -10,20 +10,14 @@
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.2",
-    "@astrojs/react": "^4.3.0",
     "@astrojs/sitemap": "^3.5.0",
     "@tailwindcss/vite": "^4.1.11",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
     "astro": "^5.12.3",
-    "astro-htmx": "^1.0.6",
     "htmx.org": "^2.0.6",
-    "radix-ui": "^1.4.2",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
     "tailwindcss": "^4.1.11"
   },
   "devDependencies": {
+    "@astrojs/ts-plugin": "^1.10.4",
     "wrangler": "^4.30.0"
   }
 }

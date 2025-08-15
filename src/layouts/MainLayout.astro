@@ -69,6 +69,12 @@ const {theme, langlib} = Astro.props
 
 	loadSettings()
 
+	import htmx from "htmx.org"
+	window.htmx = htmx
+	document.addEventListener('astro:after-swap', () => {
+		window.htmx.process(document.body)
+	})
+
 	document.addEventListener('astro:page-load', (_event: Event) => {
 		dispatch(newRewireEvent())
 		dispatch(newCheckRedirectEvent())
@@ -101,15 +107,11 @@ const {theme, langlib} = Astro.props
 <script src="@c/main-layout/CommandTrigger.ts"></script>
 
 <script>
-	import { newErrorMessageEvent, newHistoryPushEvent, newPrintEvent, newScrollToBottomEvent, newScrollToPageEvent, newTtyFocusEvent } from "@lib/events"
-	import { dispatch, newRewireEvent, newCheckRedirectEvent, newNoticeEvent } from "@lib/events"
-	import COOKIES from '@lib/cookies.json'
-	import { clearCookie, getLooselyParsedCookies } from "@lib/util"
+	import {  newHistoryPushEvent, newScrollToBottomEvent, newScrollToPageEvent, newTtyFocusEvent } from "@lib/events"
+	import { dispatch, newRewireEvent } from "@lib/events"
 	import { log } from "@lib/log"
-	import { t } from "@lib/t"
 	import { pageId } from "@lib/globals"
 	import { swapFunctions } from "astro:transitions/client"
-	import htmx from 'astro-htmx'
 
 	let pageContainer = document.getElementById(pageId) as HTMLDivElement	
 	let scrollContainer = document.getElementById('layout-scroll') as HTMLDivElement
@@ -191,7 +193,7 @@ const {theme, langlib} = Astro.props
 	})
 
 	const insertPartial = (event: Event) => {
-		return htmx.ajax(
+		return window.htmx.ajax(
 			'post',
 			(event as CustomEvent).detail.url,
 			{
