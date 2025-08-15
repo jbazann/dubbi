@@ -1,0 +1,11 @@
+name = "dubbi"
+main = "./dist/_worker.js/index.js"
+compatibility_date = "2025-04-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[r2_buckets]]
+binding = "CATS"
+bucket_name = "sbupi-cats"
+
+[vars]
+NODE_ENV = "production"

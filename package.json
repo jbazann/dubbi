@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview",
+    "preview": "wrangler dev",
     "astro": "astro"
   },
   "dependencies": {
@@ -22,5 +22,8 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "tailwindcss": "^4.1.11"
+  },
+  "devDependencies": {
+    "wrangler": "^4.30.0"
   }
 }
