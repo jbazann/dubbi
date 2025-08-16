@@ -12,7 +12,8 @@ const en: LocalizedStrings = {
         cat: {
             msg: {
                 err: "Couldn't find the kitties :(",
-            }
+            },
+            alt: "A very dangerous beast (a cat)."
         },
         settings: {
             msg: {

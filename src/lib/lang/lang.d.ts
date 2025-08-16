@@ -13,6 +13,7 @@ type LocalizedStrings = {
             msg: {
                 err: string
             }
+            alt: string
         }
         settings: {
             msg: {

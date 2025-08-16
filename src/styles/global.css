@@ -108,3 +108,12 @@ button {
 .inline-list li, .inline-list {
     display: inline;
 }
+
+.cat-image {
+    max-height: 22rem;
+    max-width: 92%;
+    aspect-ratio: auto 4/3;
+    margin: 1rem;
+    border: solid calc(2 * var(--border-width)) var(--color-border);
+    justify-self: safe center;
+}

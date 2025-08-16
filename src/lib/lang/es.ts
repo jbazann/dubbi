@@ -12,7 +12,8 @@ const es: LocalizedStrings = {
         cat: {
             msg: {
                 err: "No encontré los gatos :(",
-            }
+            },
+            alt: "Una bestia muy peligrosa (un gato)."
         },
         settings: {
             msg: {

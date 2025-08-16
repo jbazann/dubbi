@@ -28,7 +28,7 @@ class RequestBuilder {
             }
         },
         {
-            catch: (e) => {err(e)}
+            catch: (e) => {err(e); throw e}
         }
     ]
 

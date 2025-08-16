@@ -1,4 +1,5 @@
 import { log } from "./log"
+import { t } from "./t"
 
 export {
     dispatch,
@@ -18,6 +19,8 @@ export {
     newCheckRedirectEvent,
     newNoticeEvent,
     newPrintPrefacedEvent,
+    newCatImgEvent,
+    newPrepareCatImgEvent,
     newHrEvent
 }
 
@@ -94,6 +97,14 @@ function newPrintPrefacedEvent(preface,line) {
 
 function newHrEvent() {
     return new CustomEvent('tty:print:hr')
+}
+
+function newCatImgEvent(url) {
+    return new CustomEvent('tty:print:cat', {detail: {url, alt: t('cmd.cat.alt')}})
+}
+
+function newPrepareCatImgEvent(urls) {
+    return new CustomEvent('tty:prepare:print:cat', {detail: {urls}})
 }
 
 function _log(event) {

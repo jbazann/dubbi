@@ -1,5 +1,5 @@
 import { navigate } from "astro:transitions/client"
-import { dispatch, newErrorMessageEvent, newFetchPartialEvent, newLocationEvent, newPrintEvent, newSetAttributeEvent } from "./events"
+import { dispatch, newCatImgEvent, newErrorMessageEvent, newFetchPartialEvent, newLocationEvent, newPrepareCatImgEvent, newPrintEvent, newSetAttributeEvent } from "./events"
 import { err, log, loggedEvent } from "./log"
 import { post } from "./net"
 import { clearCookie, localizePath, setCookie } from "./util"
@@ -417,11 +417,57 @@ function _cookies(args) {
     }
 }
 
-function cat(args) {
-    post(window.location.origin+'/api/commands/cat', {})
-        .then(r => dispatch(newPrintEvent(r)))
+
+let kitties = []
+let moreKitties = null
+async function fetchCats() {
+    if (import.meta.env.DEV) {
+        log("Returning fake cats.", 'CATS')
+        const bob = `${window.location.origin}/spbob.jpg`
+        return {cats: [bob,bob,bob]}
+    }
+    return post(window.location.origin+'/api/commands/cat', {amount: 12})
         .catch(e => {
-            err(e)
             dispatch(newErrorMessageEvent(t('cmd.cat.msg.err')))
+            return {cats: []}
         })
+}
+
+async function catImg() {
+    if (kitties.length === 1 && moreKitties === null) {
+        log("Prefetching.", 'CATS')
+        moreKitties = fetchCats().then((r) => {
+            dispatch(newPrepareCatImgEvent(r.cats))
+            return r
+        })
+    }
+    if (kitties.length > 0) {
+        dispatch(newCatImgEvent(kitties.pop()))
+    } else {
+        let onDemand = false
+        if (!(moreKitties && 'then' in moreKitties && typeof moreKitties.then === 'function')) {
+            onDemand = true
+            log(`Fetching on-demand litter.`, 'CATS')
+            moreKitties = fetchCats().then((r) => {
+                dispatch(newPrepareCatImgEvent(r.cats))
+                return r
+            })
+        } 
+        kitties = (await moreKitties).cats
+        moreKitties = null
+        if (kitties.length > 0) {
+            if (onDemand) {
+                setTimeout(catImg, 222) // give newPrepareCatImgEvent some time to pre-render.
+            } else {
+                catImg()
+            }
+        } 
+    }
+}
+
+function cat(args) {
+    if (args.length === 1) {
+        catImg()
+        return
+    }
 }

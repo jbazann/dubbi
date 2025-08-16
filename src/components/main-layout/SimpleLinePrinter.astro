@@ -24,6 +24,10 @@
     </p>
 </template>
 
+<template id="tty-slp-cat-img">
+    <img class="cat-image" src="" alt="">
+</template>
+
 <script>
     import { eventHandler } from "@lib/_events"
     import { newScrollToBottomEvent, dispatch } from "@lib/events"
@@ -38,6 +42,7 @@
     const error = document.getElementById('tty-slp-error-template') as HTMLTemplateElement
     const notice = document.getElementById('tty-slp-notice-template') as HTMLTemplateElement
     const preface = document.getElementById('tty-slp-preface-template') as HTMLTemplateElement
+    const cat = document.getElementById('tty-slp-cat-img') as HTMLTemplateElement
     
     eventHandler('astro:after-swap', (_event) => {
         pageContainer = document.getElementById(pageId) as HTMLDivElement
@@ -57,6 +62,36 @@
         requestAnimationFrame(() => {
             pageContainer.appendChild(document.createElement('hr'))
             dispatch(newScrollToBottomEvent())
+        })
+    })
+
+    eventHandler('tty:prepare:print:cat', (event) => {
+        const img = document.createElement('img') as HTMLImageElement
+        (event as CustomEvent).detail.urls.forEach((url: string) => {
+            img.src = url
+        })
+    })
+
+    let firstCat = true
+    eventHandler('tty:print:cat', (event) => {
+        const img = cat.content.cloneNode(true) as Element
+        // For the first time in two years I ran into the reason for semicolons.
+        (img.firstElementChild as HTMLImageElement).src = (event as CustomEvent).detail.url; // Hilariously enough, it's Typescript's fault.
+        (img.firstElementChild as HTMLImageElement).alt = (event as CustomEvent).detail.alt
+        requestAnimationFrame(() => {
+            pageContainer.appendChild(img)
+            if (firstCat) {
+                firstCat = false
+                // Images need some extra time to take up space in the layout.
+                // For the first one in particular, the scrollbar may not have appeared yet.
+                // This causes an immediate scrollToBottomEvent to fail to keep the scroll at the bottom.
+                // Subsequent immages follow the bottom of the container if the scrollbar is already there 
+                // (at least in Chromium-based browsers), 
+                // since sending a command already scrolls down, that behavior is "guaranteed".
+                setTimeout(() => dispatch(newScrollToBottomEvent()), 222)
+            } else {
+                dispatch(newScrollToBottomEvent())
+            }
         })
     })
 
