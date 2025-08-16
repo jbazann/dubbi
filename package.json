@@ -6,7 +6,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "wrangler dev",
-    "astro": "astro"
+    "astro": "astro",
+    "types": "wrangler types ./types/wrangler-types.d.ts"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.2",
