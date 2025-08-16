@@ -100,6 +100,7 @@ async function get(url, params = {}, headers = {}) {
 }
 
 async function post(url, body, params = {}, headers = {}) {
+    if (typeof body === 'object') body = JSON.stringify(body)
     return await new RequestBuilder(url)
         .opt({method: 'POST', body, headers})
         .params(params)
