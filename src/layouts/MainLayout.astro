@@ -128,6 +128,13 @@ const {theme, langlib} = Astro.props
 	const historyContainer = document.getElementById('layout-history') as HTMLDivElement
 	const historyEntryTemplate = document.getElementById('layout-history-template') as HTMLTemplateElement
 
+	eventHandler('tty:cls', (_event) => {
+		requestAnimationFrame(() => {
+			pageContainer.replaceChildren()
+			historyContainer.replaceChildren()
+		})
+	})
+
 	const pushHistory = () => {
 		const elems = Array.from(pageContainer.children)
 		const last = elems.at(-1)

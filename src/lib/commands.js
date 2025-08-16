@@ -1,5 +1,5 @@
 import { navigate } from "astro:transitions/client"
-import { dispatch, newCatImgEvent, newErrorMessageEvent, newFetchPartialEvent, newLocationEvent, newPrepareCatImgEvent, newPrintEvent, newSetAttributeEvent } from "./events"
+import { dispatch, newCatImgEvent, newClsEvent, newErrorMessageEvent, newFetchPartialEvent, newLocationEvent, newPrepareCatImgEvent, newPrintEvent, newSetAttributeEvent } from "./events"
 import { err, log, loggedEvent } from "./log"
 import { post } from "./net"
 import { clearCookie, localizePath, setCookie } from "./util"
@@ -41,6 +41,7 @@ const commands = {
     set: settings,
     setting: settings,
     cat,
+    cls,
 }
 
 function splitArguments(str) {
@@ -470,4 +471,8 @@ function cat(args) {
         catImg()
         return
     }
+}
+
+function cls(args) {
+    dispatch(newClsEvent())
 }

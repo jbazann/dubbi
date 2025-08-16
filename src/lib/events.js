@@ -21,6 +21,7 @@ export {
     newPrintPrefacedEvent,
     newCatImgEvent,
     newPrepareCatImgEvent,
+    newClsEvent,
     newHrEvent
 }
 
@@ -105,6 +106,10 @@ function newCatImgEvent(url) {
 
 function newPrepareCatImgEvent(urls) {
     return new CustomEvent('tty:prepare:print:cat', {detail: {urls}})
+}
+
+function newClsEvent() {
+    return new CustomEvent('tty:cls')
 }
 
 function _log(event) {
