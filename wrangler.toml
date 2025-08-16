@@ -5,6 +5,9 @@ compatibility_flags = ["nodejs_compat"]
 
 assets = { directory = "./dist", binding = "ASSETS", html_handling = "auto-trailing-slash" }
 
+[observability.logs]
+enabled = true
+
 [[r2_buckets]]
 binding = "CATS"
 bucket_name = "sbupi-cats"
