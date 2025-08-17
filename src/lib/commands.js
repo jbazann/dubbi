@@ -252,6 +252,13 @@ function sitemap(args) {
     }))
 }
 
+const getCookiesSettingHandler = () => {
+    const handler = (val) => {
+        dispatch(newPrintEvent(t('cmd.settings.cookies.msg.mandatory'))) 
+    }
+    return handler
+}
+
 const getForceLanguageSettingHandler = () => {
     const handler = (val) => {
         if (typeof val === 'undefined') {
@@ -325,6 +332,7 @@ const settingsLanguageSwitchHandler = (_event) => {
         "theme": getThemeSettingHandler(),
         "language": getLanguageSettingHandler(),
         "force-language": getForceLanguageSettingHandler(),
+        "cookies": getCookiesSettingHandler(),
     })
 }
 settingsLanguageSwitchHandler()

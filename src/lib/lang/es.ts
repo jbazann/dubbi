@@ -29,6 +29,11 @@ const es: LocalizedStrings = {
                 language: "lenguaje",
                 "force-language": "forzar-lenguaje"
             },
+            cookies: {
+                msg: {
+                    mandatory: "Mis cookies son obligatorias. Prometo que no hacen nada ilegal. :)"
+                }
+            },
             "force-language": {
                 msg: {
                     available: "Opciones disponibles: !{opt}.", // !{opt}

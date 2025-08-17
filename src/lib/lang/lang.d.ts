@@ -29,6 +29,11 @@ type LocalizedStrings = {
                 language: string
                 "force-language": string
             }
+            cookies: {
+                msg: {
+                    mandatory: string
+                }
+            }
             "force-language": {
                 msg: {
                     available: string // !{opt}

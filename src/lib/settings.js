@@ -17,7 +17,8 @@ export {
 const current = {
     "force-language": true,
     language: '',
-    theme: ''
+    theme: '',
+    cookies: "allow"
 }
 
 
