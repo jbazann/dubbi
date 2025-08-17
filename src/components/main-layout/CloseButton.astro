@@ -10,7 +10,7 @@
     import { layoutId } from "@lib/globals"
     import { err } from "@lib/log"
 
-    document.addEventListener('tty:rewire:page', (event: Event) => {
+    document.addEventListener('tty:rewire:page', (_event: Event) => {
         const layout = document.getElementById(layoutId)
         !layout && err(`Layout ${layoutId} not found.`)
         const buttons = layout?.querySelectorAll('button[data-component-navigation-button]') || []

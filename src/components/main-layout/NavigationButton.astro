@@ -19,7 +19,7 @@ import { newInputEvent, dispatch } from "@lib/events"
         ))
     }
 
-    const rewireHandler = (event?: Event) => {
+    const rewireHandler = (_event?: Event) => {
         const layout = document.getElementById(layoutId)
         !layout && err(`Layout ${layoutId} not found.`)
         const buttons = layout?.querySelectorAll('button[data-component-navigation-button]') || []
