@@ -1,4 +1,4 @@
-import { err } from "./log"
+import { err, log } from "./log"
 
 export {
     t,
@@ -59,7 +59,7 @@ function t_obj(key, init) {
         if (Object.hasOwn(_lang, prop)) {
             obj[_lang[prop]] = val 
         } else {
-            dev(`${k} not found in ${JSON.stringify(_lang)}, falling back to init's property name.`, 'TRANSLATE OBJECT')
+            log(`${prop} not found in ${JSON.stringify(_lang)}, falling back to init's property name.`, 'TRANSLATE OBJECT')
             obj[prop] = val
         }
     }
