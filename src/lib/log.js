@@ -1,20 +1,38 @@
+import { eventHandler } from "./_events"
+import { getCurrentSettings } from "./settings"
+
 export {
     loggedEvent,
     log,
     err
 }
 
+let logging
+const settingsLoader = (_event) => {
+    logging = getCurrentSettings().logging
+}
+settingsLoader()
+// TODO fix this, the scripts are full of circular dependencies
+setTimeout(() => eventHandler('settings:change', settingsLoader))
+
 function log(o, tag) {
-    if (import.meta.env.DEV) {
-        tag 
-            ? console.log(`${tag}: ${JSON.stringify(o)}`)
-            : console.log(JSON.stringify(o))
+    switch (logging) {
+        case 'off':
+            return
+        case 'console':
+            if (tag) { console.log(`${tag}: ${JSON.stringify(o)}`) } 
+            else { console.log(JSON.stringify(o)) }
+            return
     }
 }
 
 function err(e) {
-    if (import.meta.env.DEV) {
-        console.error(e)
+        switch (logging) {
+        case 'off':
+            return
+        case 'console':
+            console.error(e)
+            return
     }
 }
 

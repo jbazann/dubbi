@@ -1,7 +1,4 @@
 const es: LocalizedStrings = {
-    index: {
-
-    },
     notice: {
         "forced-redirect": "\"forzar-lenguaje\" está  activado, por lo que fuiste redirigido/a de \"!{from}\" a \"!{to}\". Si tu intención era ver un lenguaje diferente, usá \"set lenguaje\" para cambiar tu idioma, o \"set forzar-lenguaje false\" para desactivar esta funcionalidad.",
         "notice-preface": "AVISO: ",
@@ -32,6 +29,13 @@ const es: LocalizedStrings = {
             cookies: {
                 msg: {
                     mandatory: "Mis cookies son obligatorias. Prometo que no hacen nada ilegal. :)"
+                }
+            },
+            logging: {
+                msg: {
+                    available: "Opciones disponibles: !{opt}.", // !{opt}
+                    set: "Logging: !{val}.", // !{val}
+                    invalid: "Valor inválido: !{val}.", // !{val}
                 }
             },
             "force-language": {

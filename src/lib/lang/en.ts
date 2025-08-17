@@ -1,7 +1,4 @@
 const en: LocalizedStrings = {
-    index: {
-
-    },
     notice: {
         "forced-redirect": "\"force-language\" is currently set to \"true\", so you were redirected from \"!{from}\" to \"!{to}\". \nIf you were trying to browse a different language, use \"set language\" to change your language, or \"set force-language false\" to disable this behavior.",  // !{from} !{to}
         "notice-preface": "NOTICE: ",
@@ -32,6 +29,13 @@ const en: LocalizedStrings = {
             cookies: {
                 msg: {
                     mandatory: "My cookies are mandatory. I promise they don't do anything illegal. :)"
+                }
+            },
+            logging: {
+                msg: {
+                    available: "Available options: !{opt}.", // !{opt}
+                    set: "Logging set to: !{val}.", // !{val}
+                    invalid: "Invalid force-language value: !{val}.", // !{val}
                 }
             },
             "force-language": {

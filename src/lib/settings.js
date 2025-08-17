@@ -1,10 +1,9 @@
-import { getLooselyParsedCookies, setCookie } from "./util"
+import { getLooselyParsedCookies, getSessionStorage, setCookie, setSessionStorage } from "./util"
 import QK from "./cookies.json"
-import { dispatch, newLanguageSwitchEvent } from "./events"
+import { dispatch, newLanguageSwitchEvent, newSettingsChangeEvent } from "./events"
 import { get } from "./net"
 import { t_obj } from "./t"
 import { log } from "./log"
-import { cookiesMiddleware } from "src/middleware"
 
 export {
     getCurrentSettings,
@@ -12,18 +11,28 @@ export {
     setLanguage,
     setForceLanguage,
     setTheme,
+    setLogging,
+}
+
+// SS: sessionStorage
+const SSKeys = {
+    logs: 'settings:logs'
 }
 
 const current = {
     "force-language": true,
     language: '',
     theme: '',
-    cookies: "allow"
+    cookies: "allow",
+    logging: 'off'
 }
 
+// Exceptionally load this immediately so that log.js doesn't misread an 'off' value.
+// TODO fix
+let logs
+if (logs = sessionStorage.getItem(SSKeys.logs)) current.logging = logs
 
 function loadSettings() {
-    log("LOADING SETTINGS", "SETTINGS")
     const cookies = getLooselyParsedCookies()
     if (cookies[QK.language]) current.language = cookies[QK.language]
     if (cookies[QK["force-language"]]) {
@@ -32,8 +41,10 @@ function loadSettings() {
         setCookie(QK["force-language"], 'true')
     }
     if (cookies[QK.theme]) current.theme = cookies[QK.theme]
+    let logs
+    if (logs = getSessionStorage(SSKeys.logs)) current.logging = logs
+    dispatch(newSettingsChangeEvent())
 }
-
 
 function getCurrentSettings() {
     return Object.assign({}, t_obj('cmd.settings.names', current))
@@ -45,7 +56,8 @@ async function setLanguage(lang) {
             window._jbazann.lang = await get(`${window.location.origin}/api/lang/${lang}.json`)
             current.language = lang
             setCookie(QK.language, lang)
-            dispatch(newLanguageSwitchEvent())
+            dispatch(newLanguageSwitchEvent()) // TODO deprecate this event?
+            dispatch(newSettingsChangeEvent())
             return true
         default:
             return false
@@ -58,6 +70,7 @@ function setForceLanguage(val) {
         case 'false':
             current["force-language"] = val
             setCookie(QK["force-language"], val)
+            dispatch(newSettingsChangeEvent())
             return true
         default:
             return false
@@ -76,9 +89,23 @@ function setTheme(theme) {
             current.theme = theme
             setCookie(QK.theme, theme)
             document.documentElement.setAttribute('data-theme', theme)
+            dispatch(newSettingsChangeEvent())
             return true
         default:
             return false
         
+    }
+}
+
+function setLogging(val) {
+    switch (val) {
+        case 'off':
+        case 'console':
+            current["logging"] = val
+            setSessionStorage(SSKeys.logs, val)
+            dispatch(newSettingsChangeEvent())
+            return true
+        default:
+            return false
     }
 }

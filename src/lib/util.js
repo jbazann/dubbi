@@ -7,6 +7,10 @@ export {
     clearCookie,
     getLooselyParsedCookies,
     localizePath,
+    getLocalStorage,
+    getSessionStorage,
+    setLocalStorage,
+    setSessionStorage
 }
 
 function parseDOMData(id,attribute) {
@@ -60,4 +64,26 @@ function localizePath(path, locale) {
     if (path.startsWith('/es/')) path = path.slice(4)
     if (path.startsWith('/')) path = path.slice(1)
     return locale === 'en' ? `/${path}` : `/${locale}/${path}`
+}
+
+function setLocalStorage(key, val) {
+    localStorage.setItem(key, val)
+    log({key,val}, "LOCAL STORAGE SET")
+}
+
+function getLocalStorage(key) {
+    const r = localStorage.getItem(key)
+    log({key, r}, "LOCAL STORAGE GET")
+    return r
+}
+
+function setSessionStorage(key, val) {
+    sessionStorage.setItem(key, val)
+    log({key,val}, "SESSION STORAGE SET")
+}
+
+function getSessionStorage(key) {
+    const r = sessionStorage.getItem(key)
+    log({key, r}, "SESSION STORAGE GET")
+    return r
 }

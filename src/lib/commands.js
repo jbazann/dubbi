@@ -5,8 +5,7 @@ import { post } from "./net"
 import { clearCookie, localizePath, setCookie } from "./util"
 import COOKIES from "./cookies.json"
 import { t, t_obj } from "./t"
-import { getCurrentSettings, setForceLanguage, setLanguage, setTheme } from "./settings"
-import { FailedToFindPageMapSSR } from "node_modules/astro/dist/core/errors/errors-data"
+import { getCurrentSettings, loadSettings, setForceLanguage, setLanguage, setLogging, setTheme } from "./settings"
 import { eventHandler } from "./_events"
 
 export {
@@ -259,6 +258,22 @@ const getCookiesSettingHandler = () => {
     return handler
 }
 
+const getLoggingSettingHandler = () => {
+    const handler = (val) => {
+        if (typeof val === 'undefined') {
+            dispatch(newPrintEvent(t('cmd.settings.logging.msg.available', {opt: JSON.stringify(handler.opt)}))) 
+            return
+        } 
+        if (setLogging(val)) {
+            dispatch(newPrintEvent(t('cmd.settings.logging.msg.set', {val})))
+        } else {
+            dispatch(newErrorMessageEvent(t('cmd.settings.logging.msg.invalid', {val})))
+        }
+    }
+    handler.opt = ['off', 'console']
+    return handler
+}
+
 const getForceLanguageSettingHandler = () => {
     const handler = (val) => {
         if (typeof val === 'undefined') {
@@ -333,6 +348,7 @@ const settingsLanguageSwitchHandler = (_event) => {
         "language": getLanguageSettingHandler(),
         "force-language": getForceLanguageSettingHandler(),
         "cookies": getCookiesSettingHandler(),
+        "logging": getLoggingSettingHandler(),
     })
 }
 settingsLanguageSwitchHandler()
@@ -347,6 +363,20 @@ function settings(args) {
         dispatch(newPrintEvent(''))
         dispatch(newPrintEvent(t('cmd.settings.msg.current', {settings: JSON.stringify(getCurrentSettings(), null, '\t')})))
         return
+    }
+    if (args[1].startsWith('-')) {
+        const flags = args.filter(a => a.startsWith('-'))
+        for (const flag of flags) {
+            switch (flag) {
+                case '--reload':
+                    loadSettings()
+                    break
+                case '-q':
+                case '--quit':
+                    return
+            }
+        }
+        args = [args[0], ...args.slice(1 + flags.length)]
     }
     if (Object.hasOwn(SETTINGS, args[1])) {
         SETTINGS[args[1]](args.at(2))

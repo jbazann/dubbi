@@ -88,6 +88,10 @@ export function newClsEvent() {
     return new CustomEvent('tty:cls')
 }
 
+export function newSettingsChangeEvent() {
+    return new CustomEvent('settings:change')
+}
+
 function _log(event) {
     log({
         type: event.type,

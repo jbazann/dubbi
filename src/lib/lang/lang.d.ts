@@ -1,7 +1,4 @@
 type LocalizedStrings = {
-    index: {
-
-    },
     notice: {
         "forced-redirect": string // !{from} !{to}
         "notice-preface": string
@@ -32,6 +29,13 @@ type LocalizedStrings = {
             cookies: {
                 msg: {
                     mandatory: string
+                }
+            }
+            logging: {
+                msg: {
+                    available: string // !{opt}
+                    set: string // !{val}
+                    invalid: string // !{val}
                 }
             }
             "force-language": {
