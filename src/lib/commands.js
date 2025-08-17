@@ -7,6 +7,7 @@ import COOKIES from "./cookies.json"
 import { t, t_obj } from "./t"
 import { getCurrentSettings, setForceLanguage, setLanguage, setTheme } from "./settings"
 import { FailedToFindPageMapSSR } from "node_modules/astro/dist/core/errors/errors-data"
+import { eventHandler } from "./_events"
 
 export {
     runCommand
@@ -142,8 +143,6 @@ function recho(args) {
 }
 
 function help(args) {
-    log(args, 'HELP HANDLER')
-    
     // plain cmd
     if (args.length <= 1) {
         dispatch(newFetchPartialEvent({url: '/api/partials/help'}))
@@ -302,18 +301,8 @@ const getThemeSettingHandler = () => {
         } else {
             dispatch(newErrorMessageEvent(t('cmd.settings.theme.msg.invalid', {v})))
         }
-    }  
-    handler.opt = t_obj('cmd.settings.theme.names', {
-        "autumn-dawn": "autumn-dawn",
-        "autumn-dusk": "autumn-dusk",    
-        "psycho-stark": "psycho-stark",
-        "neo-cyan": "neo-cyan",
-        "cloudy-salmon": "cloudy-salmon",
-        "nightly-lavender": "nightly-lavender",
-        "dainty-elegance": "dainty-elegance",
-    })
-    document.addEventListener('tty:lang:switch', (_event) => {
-        // TODO NOOOOOOOOOOOOOOOOOOOOOOO
+    }
+    handler.languageSwitchHandler = (_event) => {
         handler.opt = t_obj('cmd.settings.theme.names', {
             "autumn-dawn": "autumn-dawn",
             "autumn-dusk": "autumn-dusk",    
@@ -323,25 +312,23 @@ const getThemeSettingHandler = () => {
             "nightly-lavender": "nightly-lavender",
             "dainty-elegance": "dainty-elegance",
         })
-    })
+    }
+    handler.languageSwitchHandler()
+    eventHandler('tty:lang:switch', handler.languageSwitchHandler, document, 'theme@commands.js')
 
     return handler
 }
 
-let SETTINGS = t_obj('cmd.settings.names', {
-    "theme": getThemeSettingHandler(),
-    "language": getLanguageSettingHandler(),
-    "force-language": getForceLanguageSettingHandler(),
-})
-
-document.addEventListener('tty:lang:switch', (_event) => {
-    // TODO NOOOOOOOOOOOOOOOOOOOOOOO
+let SETTINGS
+const settingsLanguageSwitchHandler = (_event) => {
     SETTINGS = t_obj('cmd.settings.names', {
         "theme": getThemeSettingHandler(),
         "language": getLanguageSettingHandler(),
         "force-language": getForceLanguageSettingHandler(),
     })
-})
+}
+settingsLanguageSwitchHandler()
+eventHandler('tty:lang:switch', settingsLanguageSwitchHandler, document, 'settings@commands.js')
 
 function settings(args) {
     if (args.length === 1) {
@@ -384,23 +371,18 @@ function _silly(args) {
     }
     dispatch(newPrintEvent(_silly.msg))
 }
-_silly.count = 0
-_silly.msg = _silly.msg1 = t('cmd._silly.msg1')
-_silly.msg2 = t('cmd._silly.msg2')
-_silly.msg3 = t('cmd._silly.msg3')
-_silly.msg4 = t('cmd._silly.msg4')
-_silly.msg5 = t('cmd._silly.msg5')
 _silly.place = '/r/toldyou'
 
-document.addEventListener('tty:lang:switch', (_event) => {
-    // TODO NOOOOOOOOOOOOOOOOOOOOOOO
+const sillyLanguageSwitchHandler = (_event) => {
     _silly.count = 0
     _silly.msg = _silly.msg1 = t('cmd._silly.msg1')
     _silly.msg2 = t('cmd._silly.msg2')
     _silly.msg3 = t('cmd._silly.msg3')
     _silly.msg4 = t('cmd._silly.msg4')
     _silly.msg5 = t('cmd._silly.msg5')
-})
+}
+sillyLanguageSwitchHandler()
+eventHandler('tty:lang:switch', sillyLanguageSwitchHandler, document, "silly@commands.js")
 
 function _cookies(args) {
     if (args.length === 3) {
@@ -417,7 +399,6 @@ function _cookies(args) {
         }
     }
 }
-
 
 let kitties = []
 let moreKitties = null
