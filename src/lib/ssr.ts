@@ -2,7 +2,10 @@ import COOKIES from "./cookies.json"
 
 export {
     getLocale,
-    translatePath
+    translatePath,
+    stripLocale,
+    localizePath,
+    generateIds
 }
 
 function getLocale(request: Request, acceptLanguage?: string, flags?: {unset?: boolean}) {
@@ -38,6 +41,14 @@ function stripLocale(path: string) {
     if (path.startsWith('/es')) path = path.slice(3)
     if (!path.startsWith('/')) path = `/${path}`
     return path
+}
+
+// TODO do this correctly
+function localizePath(path, locale) {
+    if (path.startsWith('/es')) path = path.slice(3)
+    if (path.startsWith('/es/')) path = path.slice(4)
+    if (path.startsWith('/')) path = path.slice(1)
+    return locale === 'en' ? `/${path}` : `/${locale}/${path}`
 }
 
 // This is a stinky solution but, realistically, making it better is a much worse engineering choice
@@ -83,4 +94,21 @@ function translatePath(path: string, targetLocale: string) {
         newPath = `${newPath}/${last}`
     }
     return newPath
+}
+
+let idCounter = 0
+/**
+ * Replaces the falsy values of an object with random base 64 strings of negligible collision probability.
+ * @param ids an object with arbitrary keys.
+ */
+function generateIds(ids) {
+    idCounter++
+    for (const key in ids) {
+        if (ids[key]) continue
+        ids[key] = generateShortId(idCounter)
+    }
+}
+
+function generateShortId(idScope) {
+    return `${btoa(crypto.randomUUID()).slice(0, 8)}-${idScope}`
 }

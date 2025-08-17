@@ -1,16 +1,14 @@
 import { defineMiddleware, sequence } from "astro:middleware";
 import { middleware, getPathByLocale } from "astro:i18n"; 
 import COOKIES from '@lib/cookies.json'
-import { log } from "@lib/log";
-import { getLocale, translatePath } from "@lib/ssr";
-import { localizePath } from "@lib/util";
+import { getLocale, translatePath,  localizePath  } from "@lib/ssr";
 
 export const cookiesMiddleware = defineMiddleware(async (ctx, next) => {
     if (ctx.url.pathname.startsWith('/api')) return next()
 
     const forceLanguage = ctx.cookies.get(COOKIES["force-language"])?.value
     const path = ctx.url.pathname
-    log({forceLanguage, path}, "MIDDLEWARE")
+    console.log({forceLanguage, path}, "MIDDLEWARE")
 
     if (forceLanguage !== 'true') {
         return next()
@@ -18,7 +16,7 @@ export const cookiesMiddleware = defineMiddleware(async (ctx, next) => {
 
     const flags = { unset: false }
     const lang = getLocale(ctx.request, ctx.request.headers.get('Accept-Language'), flags)
-    log({lang,flags}, "MIDDLEWARE")
+    console.log({lang,flags}, "MIDDLEWARE")
 
     if (flags.unset) return next()
     if (ctx.currentLocale === lang) return next()
@@ -32,7 +30,7 @@ export const cookiesMiddleware = defineMiddleware(async (ctx, next) => {
     }
 
     const redirectPath = localizePath(translatedPath,lang)
-    log({path, translatedPath, redirectPath}, "MIDDLEWARE")
+    console.log({path, translatedPath, redirectPath}, "MIDDLEWARE")
 
     const headers = new Headers()
     headers.append('Location', redirectPath)

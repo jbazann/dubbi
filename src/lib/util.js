@@ -3,7 +3,6 @@ import COOKIES from "./cookies.json"
 
 export {
     parseDOMData,
-    generateIds,
     setCookie,
     clearCookie,
     getLooselyParsedCookies,
@@ -12,23 +11,6 @@ export {
 
 function parseDOMData(id,attribute) {
     return JSON.parse(document.getElementById(id)?.getAttribute(attribute) || '{}')
-}
-
-let idCounter = 0
-/**
- * Replaces the falsy values of an object with random base 64 strings of negligible collision probability.
- * @param ids an object with arbitrary keys.
- */
-function generateIds(ids) {
-    idCounter++
-    for (const key in ids) {
-        if (ids[key]) continue
-        ids[key] = generateShortId(idCounter)
-    }
-}
-
-function generateShortId(idScope) {
-    return `${btoa(crypto.randomUUID()).slice(0, 8)}-${idScope}`
 }
 
 const DAY_SEC = 86_400
@@ -53,7 +35,6 @@ function getLooselyParsedCookies() {
             acc[curr[0]?.trim() ?? ''] = curr[1]?.trim()
             return acc;
         }, {})
-    log(cookies, 'LOOSELY PARSED')
     return cookies
 }
 
