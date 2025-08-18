@@ -1,0 +1,118 @@
+---
+import CommandTrigger from "@c/main-layout/CommandTrigger.astro"
+import NavigationButton from "@c/main-layout/NavigationButton.astro"
+
+
+const { lang } = Astro.props
+
+export const prerender = true
+export const getStaticPaths = (() => {    
+    return [
+        {
+            props: {
+                lang: 'es'
+            }
+        },{
+            props: {
+                lang: 'en'
+            }
+        }
+    ]
+}) 
+---
+
+{lang === 'es' &&
+<section>
+    <h2>Herramientas de navegación</h2>
+    <p>
+        Esta sección de ayuda contiene links útiles que podés usar para navegar por el sitio sin escribir.
+        Siempre está disponible en el ícono <NavigationButton /> de la esquina inferior izquierda.
+    </p>
+    <nav>
+        <hr>
+        <ul>
+            <li>
+                <CommandTrigger cmd="help nav">help --tutorial</CommandTrigger> &lt;-- click acá para leer el tutorial!
+            </li>
+            <li>
+                <CommandTrigger cmd="help nav">help nav</CommandTrigger> &lt;-- click acá para aprender sobre nav!
+            </li>
+            <li>
+                <CommandTrigger cmd="help sitemap">help sitemap</CommandTrigger> &lt;-- click acá para aprender sobre sitemap!
+            </li>
+            <li>
+                <CommandTrigger cmd="help ls">help ls</CommandTrigger> &lt;-- click acá para aprender sobre ls!
+            </li>
+            <hr>
+            <li>
+                <CommandTrigger cmd="cat">cat</CommandTrigger> &lt;-- click acá para invocar una bestia!
+            </li>
+            <hr>
+            <li>
+                <CommandTrigger cmd="sitemap">sitemap</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="ls">ls</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="nav /">nav /</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="nav ..">nav ..</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="cls">cls</CommandTrigger>
+            </li>
+        </ul> 
+        <hr>
+    </nav>
+</section>
+}
+
+{lang === 'en' &&
+<section>
+    <h2>Navigation tools</h2>
+    <p>
+        This help section contains useful links you may use to traverse the site without typing. 
+        It's always available in the <NavigationButton /> icon in the bottom left corner.
+    </p>
+    <nav>
+        <hr>
+        <ul>
+            <li>
+                <CommandTrigger cmd="help nav">help --tutorial</CommandTrigger> &lt;-- click here to read the tutorial!
+            </li>
+            <li>
+                <CommandTrigger cmd="help nav">help nav</CommandTrigger> &lt;-- click here to learn more about nav!
+            </li>
+            <li>
+                <CommandTrigger cmd="help sitemap">help sitemap</CommandTrigger> &lt;-- click here to learn more about sitemap!
+            </li>
+            <li>
+                <CommandTrigger cmd="help ls">help ls</CommandTrigger> &lt;-- click here to learn more about ls!
+            </li>
+            <hr>
+            <li>
+                <CommandTrigger cmd="cat">cat</CommandTrigger> &lt;-- click here to summon a beast!
+            </li>
+            <hr>
+            <li>
+                <CommandTrigger cmd="sitemap">sitemap</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="ls">ls</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="nav /">nav /</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="nav ..">nav ..</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="cls">cls</CommandTrigger>
+            </li>
+        </ul> 
+        <hr>
+    </nav>
+</section>
+}

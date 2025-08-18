@@ -1,0 +1,26 @@
+---
+import General from "@c/pages/help/general.astro"
+import Navigation from "@c/pages/help/navigation.astro"
+import Tutorial from "@c/pages/help/tutorial.astro"
+import { getLocale } from "@lib/ssr"
+export const partial = true
+export const prerender = false
+
+const {tutorial = false, navigation = false} = Object.fromEntries(await Astro.request.formData())
+const base = !(tutorial || navigation)
+const sections = {base,tutorial,navigation}
+
+const locale = getLocale(Astro.request,Astro.preferredLocale) || 'en'
+---
+
+{(() => {
+        switch (true) {
+        case sections.base:
+            return <General lang={locale}></General>
+        case sections.tutorial === 'true':
+            return <Tutorial lang={locale}></Tutorial>
+        case sections.navigation === 'true':
+            return <Navigation lang={locale}></Navigation>
+    }
+})()
+}

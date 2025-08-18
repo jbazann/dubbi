@@ -117,3 +117,24 @@ button {
     border: solid calc(2 * var(--border-width)) var(--color-border);
     justify-self: safe center;
 }
+
+.column-grid-fit20-fr {
+    display: grid;
+    grid-template-columns: fit-content(20%) 1fr;
+    column-gap: 1rem;
+    & > *:nth-child(2n+1) {
+        justify-self: end;
+        text-wrap: wrap;
+        word-break: break-all;
+        overflow-wrap: anywhere;
+        padding-left: 1rem;
+    }
+    & > *:nth-child(2n) {
+        justify-self: start;
+    }
+}
+
+.em-command {
+    color: var(--color-highlight);
+    font-style: italic;
+}

@@ -1,0 +1,229 @@
+---
+import CommandTrigger from "@c/main-layout/CommandTrigger.astro"
+
+const { lang } = Astro.props
+
+export const prerender = true
+export const getStaticPaths = (() => {    
+    return [
+        {
+            props: {
+                lang: 'es'
+            }
+        },{
+            props: {
+                lang: 'en'
+            }
+        }
+    ]
+})
+---
+
+{lang === 'es' &&
+<section>
+    <h2>Tutorial</h2>
+    <hr>
+    <h3>Introducción</h3>
+    <p class="no-bottom-margin">
+        Esta página imita lo que se conoce como "interfaz de línea de comandos" (abreviado en inglés, CLI).
+    </p>
+    <p>
+        Para hacer cosas, hay que escribir el comando correcto. 
+        Esto se hace debajo de todo el texto, donde dice "guest :/es/ &gt;".
+    </p>
+    <p>
+        Para explorar la mayoría del sitio, solamente necesitas entender dos comandos: 
+        <span class="em-command">nav</span> y <span class="em-command">sitemap</span>. 
+    </p>
+    <p>
+        <span class="tip-preface">Tip: </span> también te pueden interesar <span class="em-command">cat</span>,
+        <span class="em-command">ls</span>, y <span class="em-command">cd</span>,
+        los podés aprender después, usando el comando <CommandTrigger cmd="help">help</CommandTrigger>.
+    </p>
+    <p>
+        Además, vas a necesitar entender la estructura del sitio, para saber a dónde podés ir.<br>
+        Todo esto está explicado a continuación.
+    </p>
+    <hr>
+    <h3>Sitemap</h3>
+    <p>
+        <CommandTrigger cmd="sitemap">Sitemap</CommandTrigger> te va a mostrar una lista de
+        ubicaciones importantes, además de las adyacentes a tu ubicación actual.
+    </p>
+    <p>
+        Podés navegar a ellas usando el comando <span class="em-command">nav</span>, 
+        o simplemente haciendo click cuando te las muestra <span class="em-command">sitemap</span>.
+    </p>
+    <h3>Nav</h3>
+    <p class="no-bottom-margin">
+        El comando <span class="em-command">nav</span> te va a llevar a la ubicación que le 
+        pidas. Por ejemplo, <CommandTrigger cmd="nav /es/proyectos/">nav /es/proyectos/</CommandTrigger> sirve para
+        navegar al listado de proyectos. 
+    </p>
+    <p>
+        De ahora en adelante, la segunda parte de este comando 
+        ("/es/proyectos/") se llama <em>camino</em>.
+    </p>
+    <p>
+        Para indicar a donde ir, hay tres símbolos especiales a recordar: 
+        <span class="em-command">/</span>,
+        <span class="em-command">./</span>, y
+        <span class="em-command">..</span>:
+    </p>
+    <div class="column-grid-fit20-fr">
+        <span class="em-command">/</span>
+        <p>
+            Simboliza un directorio ("carpeta"). Cuando está al principio del camino (/ahí), 
+            significa "desde el directorio raíz". Cuando viene después de una palabra, la 
+            palabra es el nombre del directorio ("/ahí/" sería la carpeta "ahí", dentro de la carpeta raíz). <br> 
+            Más detalles sobre esto en la próxima sección. 
+        </p>
+        <span class="em-command">./</span>
+        <p>
+            Este símbolo solo tiene sentido al principio del camino, significa 
+            "desde el directorio actual". 
+        </p>
+        <span class="em-command">..</span>
+        <p>
+            Signfica "desde el directorio anterior". Por ejemplo, después de 
+            usar <CommandTrigger cmd="nav /es/proyectos">nav /es/proyectos</CommandTrigger>,
+            <CommandTrigger  cmd="nav ../acerca">nav ../acerca</CommandTrigger> te llevaría a "/es/acerca/".
+            También lo podés usar solito (<CommandTrigger  cmd="nav ..">nav ..</CommandTrigger>) para navegar para atrás.
+        </p>
+    </div>
+    <h3>Estructura</h3>
+    <p>
+        Se puede pensar a este sitio como una carpeta de Windows. Cuando llegas a
+        <em>jbazann.dev/</em>, estás en el primer nivel de la carpeta (el "directorio raíz"). 
+        Para la versión en inglés, esto es "/". La versión en español está dentro del directorio
+        "es", así que, a los fines del tutorial en español, el directorio raíz queda en "/es/".
+    </p>
+    <p>
+        Entonces, para "abrir una carpeta", tenés dos opciones:
+    </p>
+    <p class="no-bottom-margin">
+        &emsp;&emsp;Podés usar <span class="em-command">nav ./carpeta</span> para navegar
+        desde tu ubicación actual.
+    </p>
+    <p>
+        &emsp;&emsp;O podes usar <span class="em-command">nav /es/camino/desde/raiz/a/carpeta</span>.
+    </p>
+    <p>
+        <span>Consejo: </span> si usás la segunda opción, no te olvides del "/es/"! 
+        No pasa nada si te olvidas, probá; pero una CLI
+        real te mandaría a la versión en inglés sin hacer preguntas.
+    </p>
+    <h3>Y listo!</h3>
+    <p>
+        Si te quedaron dudas sobre algún comando, o querés descubrir otros: 
+        <CommandTrigger cmd="help">help</CommandTrigger>.
+    </p>
+    <p>
+        No te preocupes si no te acordás todo, probá usar <CommandTrigger cmd="sitemap">sitemap</CommandTrigger>, 
+        vas a ver que podés usar la rueda del mouse para subir y
+        volver a ver este texto.
+    </p>
+</section>
+}
+
+{lang === 'en' &&
+<section>
+    <h2>Tutorial</h2>
+    <hr>
+    <h3>Introduction</h3>
+    <p class="no-bottom-margin">
+        This website imitates what is known as a "command line interface" (CLI).
+    </p>
+    <p>
+        To get things done, you have to input the right command.
+        This is done under all this text, where it says "guest :/ &gt;".
+    </p>
+    <p>
+        To explore most of this site, you only need to understand two commands: 
+        <span class="em-command">nav</span> and <span class="em-command">sitemap</span>. 
+    </p>
+    <p>
+        <span class="tip-preface">Tip: </span> you may also want to know about <span class="em-command">cat</span>,
+        <span class="em-command">ls</span>, and <span class="em-command">cd</span>,
+        you can do it later, using the command <CommandTrigger cmd="help">help</CommandTrigger>.
+    </p>
+    <p>
+        Also, you will need to understand the structure of the site, to know where you can go. <br> 
+        All of this is explained below.
+    </p>
+    <hr>
+    <h3>Sitemap</h3>
+    <p>
+        <CommandTrigger cmd="sitemap">Sitemap</CommandTrigger> will show you a list of
+        important locations, along with the ones adyacent to where you are. 
+    </p>
+    <p>
+        You may navigate to them using the <span class="em-command">nav</span> command, 
+        or simply clicking them when they are shown by <span class="em-command">sitemap</span>.
+    </p>
+    <h3>Nav</h3>
+    <p class="no-bottom-margin">
+        The <span class="em-command">nav</span> command will take you to the location you tell
+        it to. For example, <CommandTrigger cmd="nav /projects">nav /projects</CommandTrigger>
+        will navigate to the project listing.
+    </p>
+    <p>
+        From now on, the second part of this command ("/projects")
+        is called <em>path</em>.
+    </p>
+    <p>
+        To indicate where to go, there are three special symbols to remember:
+        <span class="em-command">/</span>,
+        <span class="em-command">./</span>, and
+        <span class="em-command">..</span>:
+    </p>
+    <div class="column-grid-fit20-fr">
+        <span class="em-command">/</span>
+        <p>
+            Symbolizes a directory ("folder"). When it appears at the start of a path (/there),
+            it means "from the root directory". When it appears after a word, that word is the
+            name of the directory ("/there/" would be the folder "there", inside the root folder). <br>
+            More details on this in the next section.
+        </p>
+        <span class="em-command">./</span>
+        <p>
+            This symbol only makes sense at the start of a path, 
+            it means "from the current directory".
+        </p>
+        <span class="em-command">..</span>
+        <p>
+            Means "from the previous directory". For instance, after using
+            <CommandTrigger cmd="nav /projects">nav /projects/sbupi</CommandTrigger>,
+            <CommandTrigger  cmd="nav ../acerca">nav ../skwidl</CommandTrigger> would take you to "/projects/skwidl/".
+            You may also use it on its own (<CommandTrigger  cmd="nav ..">nav ..</CommandTrigger>) to navigate to
+            the outer directory.
+        </p>
+    </div>
+    <h3>Structure</h3>
+    <p>
+        You may think of this site as a Windows folder. When you arrive at 
+        <em>jbazann.dev/</em>, you are at the first level of the folder (the "root directory"). 
+        If you want to read about me, you need to open the "about/" folder, which happens to be
+        inside "/".
+    </p>
+    <p>
+        So, to "open a folder", you have two options:
+    </p>
+    <p class="no-bottom-margin">
+        &emsp;&emsp;You may use <span class="em-command">nav ./directory</span> to navigate
+        from your current location.
+    </p>
+    <p>
+        &emsp;&emsp;Or you may use <span class="em-command">nav /path/from/root/to/directory</span>.
+    </p>
+    <h3>Done!</h3>
+    <p>
+        If you have any doubts about a command, or you want to learn about the others:
+        <CommandTrigger cmd="help">help</CommandTrigger>.
+    </p>
+    <p>
+        Don't worry if you don't remember everything, try using <CommandTrigger cmd="sitemap">sitemap</CommandTrigger>,
+        you will notice you can always scroll up to read this text again.
+    </p>
+</section>
+}
