@@ -158,9 +158,6 @@ function help(args) {
                 case '--navigation': flags.navigation = true; break;
                 case '-t':
                 case '--tutorial': flags.tutorial = true; break;
-                case '-te':
-                case '--tutorial-extendido':
-                case '--tutorial-extended': flags.ext_tutorial = true; break;
             }
         }
        dispatch(newFetchPartialEvent({
