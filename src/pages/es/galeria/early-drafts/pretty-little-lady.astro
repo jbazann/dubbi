@@ -1,0 +1,101 @@
+---
+import MainLayout from "@l/MainLayout.astro"
+import en from '@lib/lang/en'
+import cookies from '@lib/cookies.json'
+import Intro from "@c/pages/Intro.astro"
+
+export const prerender = false
+
+let theme
+if (Astro.cookies.has(cookies.theme)) theme = Astro.cookies.get(cookies.theme)?.value
+let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Astro.request.formData() : [])
+---
+
+<MainLayout langlib={en} theme={theme} >
+    {hideIntro !== 'true' && <Intro lang="en"/> }
+    <section>
+        <h2>
+            Pretty little Lady
+        </h2>
+        <hr>
+        <div class="poem">
+            <p>
+                Pretty little Lady,<br>
+                quiet eyes I'm missing lately;<br>
+                I don't know you, and yet, maybe,<br>
+                all I'd give to call you baby.<br>
+                Call me foolish, call me crazy,<br>
+                but such beauty makes me hasty.<br>
+                Is it wrong think it daily,<br>
+                being yours until I'm eighty?<br>
+            </p>
+            <p>
+                Pretty little Lady,<br>
+                do I dream of your lips daily?<br>
+                Couldn't tell you the truth, baby,<br>
+                you can ask me when we're eighty.<br>
+                All this time, I've wasted, hazy,<br>
+                all I do is regret, lately.<br>
+                Should we meet again, Miss Lady:<br>
+                meet my eyes again, please, maybe.<br>
+            </p>
+        </div>
+        <hr>
+        <h3>
+            Comentarios
+        </h3>
+        <p>
+            "Pretty little Lady" es probablemente una de las peores
+            piezas con las que logré sentirme feliz de haber creado.
+            A pesar del ligero logro de comunicar un mensaje usando
+            un único sonido para rimar, el poema es un desastre.
+        </p>
+        <p>
+            Desde referirse a Miss Lady como "Lady" y "little" al mismo tiempo,
+            a "ser tuyo hasta tener ochenta" sin dar un único mitovo para sentirse
+            de esta manera por una desconocida (a parte de su "belleza" (leer con voz de imbécil)).
+        </p>
+        <p>
+            La estructura es repetitiva y obsesiva,
+            lo que más o menos refleja la temática por accidente,
+            pero simplemente no hay suficientes versos para desarrollar la historia,
+            y ya me cansé de la rima. La cantidad de sílabas es demasiado monótona
+            para mi gusto. Solamente tiene dos estrofas y se atreve a ser superficial, 
+            la lista sigue. <br>
+            Este poema no fue en la dirección en la que lo quería llevar.
+        </p>
+        <hr>
+        <p>
+            Sin embargo, decidí incluirlo acá porque encontré algo que me gustó contemplando
+            mi frustración con el resultado.
+        </p>
+        <p>
+            "Pretty little Lady" es una historia que claramente tenía más para explorar,
+            y tanto Lady como la voz del poema querían hacerlo.
+            Quedó como está por mi incompetencia, circunstancias de la vida,
+            y las restricciones que impuse a voluntad, que hicieron que el poema 
+            no funcione desde el principio.
+        </p>
+        <p>
+            Hay algo entre "quiet eyes I'm missing lately" y "meet my eyes again, please, maybe"
+            que no puedo alcanzar todavía. La clase de algo que le confiaría a una mejor versión de mí.
+        </p>
+        <p>
+            O quizás no hay nada. En cuyo caso lo puedo convertir en uno de mis
+            otros poemas. Por raro que sea, se me hace más fácil disfrutar el
+            resultado cuando todos mueren.
+        </p>
+        <p>
+            Como está ahora, hay algo muy mal con el hablante. Qué diría esta
+            persona si los años pasaran y nunca tuviera otra oportunidad 
+            para encontrarse con Miss Lady? Cómo se sentiría sobre mi
+            fracaso en darles una historia?
+        </p>
+        <hr>
+        <p>
+            Por eso, este poema está acá para que me acuerde de "Miss Lady." Capaz
+            en diez años lo pueda retomar con una historia más desarrollada,
+            y ojalá con la sabiduría para convertirlo en algo digno de ser real.
+        </p>
+    </section>
+</MainLayout>

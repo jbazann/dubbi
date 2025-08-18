@@ -14,18 +14,20 @@ let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Ast
 <MainLayout langlib={en} theme={theme} >
     {hideIntro !== 'true' && <Intro lang="en"/> }
     <h2>
-        Projects
+        Gallery
     </h2>
     <p>
-        This section contains projects I've prepared to demonstrate my expertise and experience.
-        It is not an exhaustive list of projects I've worked on.
+        This section contains poems I write to improve my English. Warning: they may be really bad,
+        they also may involve sensitive topics.
     </p>
     <p>
-        Available projects: 
+        I have split them into collections, but I just started writing a couple years ago,
+        so I only have one collection until I feel like I know what I'm doing.
+    </p>
+    <p>
+        Available collections: 
     </p>
     <ul class="inline-list">
-        <li><em>Swkidl</em></li>, 
-        <li><em>Sbupi</em></li>, 
-        <li><em>Dubbi</em></li>.
+        <li><em>early-drafts</em></li>.
     </ul>
 </MainLayout>

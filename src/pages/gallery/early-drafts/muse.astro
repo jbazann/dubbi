@@ -13,19 +13,15 @@ let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Ast
 
 <MainLayout langlib={en} theme={theme} >
     {hideIntro !== 'true' && <Intro lang="en"/> }
-    <h2>
-        Projects
-    </h2>
-    <p>
-        This section contains projects I've prepared to demonstrate my expertise and experience.
-        It is not an exhaustive list of projects I've worked on.
-    </p>
-    <p>
-        Available projects: 
-    </p>
-    <ul class="inline-list">
-        <li><em>Swkidl</em></li>, 
-        <li><em>Sbupi</em></li>, 
-        <li><em>Dubbi</em></li>.
-    </ul>
+    <section>
+        <h2>
+            Muse
+        </h2>
+        <hr>
+            <p>
+                I cannot find where I wrote "Muse", it was long ago and I really liked it;
+                I am putting this here to pressure myself into finding it. 
+            </p>
+        <hr>
+    </section>
 </MainLayout>

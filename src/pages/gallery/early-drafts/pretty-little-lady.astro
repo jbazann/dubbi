@@ -1,0 +1,106 @@
+---
+import MainLayout from "@l/MainLayout.astro"
+import en from '@lib/lang/en'
+import cookies from '@lib/cookies.json'
+import Intro from "@c/pages/Intro.astro"
+
+export const prerender = false
+
+let theme
+if (Astro.cookies.has(cookies.theme)) theme = Astro.cookies.get(cookies.theme)?.value
+let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Astro.request.formData() : [])
+---
+
+<MainLayout langlib={en} theme={theme} >
+    {hideIntro !== 'true' && <Intro lang="en"/> }
+    <section>
+        <h2>
+            Pretty little Lady
+        </h2>
+        <hr>
+        <div class="poem">
+            <p>
+                Pretty little Lady,<br>
+                quiet eyes I'm missing lately;<br>
+                I don't know you, and yet, maybe,<br>
+                all I'd give to call you baby.<br>
+                Call me foolish, call me crazy,<br>
+                but such beauty makes me hasty.<br>
+                Is it wrong think it daily,<br>
+                being yours until I'm eighty?<br>
+            </p>
+            <p>
+                Pretty little Lady,<br>
+                do I dream of your lips daily?<br>
+                Couldn't tell you the truth, baby,<br>
+                you can ask me when we're eighty.<br>
+                All this time, I've wasted, hazy,<br>
+                all I do is regret, lately.<br>
+                Should we meet again, Miss Lady:<br>
+                meet my eyes again, please, maybe.<br>
+            </p>
+        </div>
+        <hr>
+        <h3>
+            Comments
+        </h3>
+        <p>
+            "Pretty little Lady" is probably one of the worse
+            pieces I've managed to feel happy to have created. 
+            Despite the mildly significant
+            achievement of managing to convey 
+            a message with a single rhyme sound,
+            the poem is all over the place.
+        </p>
+        <p>
+            From addressing Miss Lady as "Lady" and "little" at the same time,
+            to thinking about "being yours until I'm eighty" without providing
+            a single reason to feel this way about a stranger 
+            (other than her "beauty" (read with a moron's voice)).
+        </p>
+        <p>
+            The structure is repetitive and obsessive, 
+            which sort of accidentally mirrors the theme,
+            but there is simply not enough verses to develop the story,
+            and I am already tired of the rhyme. The syllable count is
+            too monotonous for my taste. It has only two stanzas 
+            and it dares to feel shallow, 
+            the list goes on. <br>
+            This poem did not go in the direction I wanted to take it.
+        </p>
+        <hr>
+        <p>
+            Still, I decided to include it here because found something I liked while contemplating
+            my frustration with the result. 
+        </p>
+        <p>
+            "Pretty little Lady" is a story that clearly had a lot more to explore,
+            and both Lady and the speaker wanted to do it.
+            It was left as it is because of my incompetence, life circumstances, 
+            and the restrictions I willingly immposed, which made the poem
+            unlikely to happen from the beginning.
+        </p>
+        <p>
+            There is something between "quiet eyes I'm missing lately"
+            and "meet my eyes again, please, maybe" that I can't reach yet. 
+            It's the kind of something I'd entrust a better version of myself.
+        </p>
+        <p>
+            Or maybe, there is nothing. In which case I can turn it into
+            one of my other poems. Weird as it is, I find easier to enjoy
+            the result when everyone dies.
+        </p>
+        <p>
+            As it stands, there is something very
+            wrong with the speaker. What would this person say, if the
+            years went by and he never had another chance to meet Miss Lady?
+            How would they feel about my failure to give them a proper story?
+        </p>
+        <hr>
+        <p>
+            So, this poem is here for me to remember "Miss Lady." Perhaps in
+            ten years I can come back to it with a more developed story,
+            and hopefully the wisdom to turn it into something worthy of being real.
+        </p>
+    </section>
+</MainLayout>

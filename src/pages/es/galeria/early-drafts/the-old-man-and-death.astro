@@ -1,0 +1,90 @@
+---
+import MainLayout from "@l/MainLayout.astro"
+import en from '@lib/lang/en'
+import cookies from '@lib/cookies.json'
+import Intro from "@c/pages/Intro.astro"
+
+export const prerender = false
+
+let theme
+if (Astro.cookies.has(cookies.theme)) theme = Astro.cookies.get(cookies.theme)?.value
+let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Astro.request.formData() : [])
+---
+
+<MainLayout langlib={en} theme={theme} >
+    {hideIntro !== 'true' && <Intro lang="en"/> }
+    <section>
+        <h2>
+            The old man and Death
+        </h2>
+        <hr>
+        <div class="poem">
+            <p>
+                This chair I sit on, I could use,<br>
+                to reach the rhyme that I refuse.<br>
+                My dear acquaintance, summoned be,<br>
+                to lift my burdens onto me.<br>
+            </p>
+            <p>
+                These thoughts I bear though I wish not;<br>
+                thick flesh I wear, I feel it rot.<br>
+                So I just stare right at the knot,<br>
+                right from this chair&mdash;my secret spot.<br>
+            </p>
+            <p>
+                It has a peace I never found,<br>
+                not in the sky, not on the ground.<br>
+                It is this one, of all the views,<br>
+                this promised rhyme, I still refuse.<br>
+            </p>
+            <p>
+                So, if I may, I seek your aid;<br>
+                show me the way and then just fade.<br>
+                It's not today, I'm not afraid.<br>
+                It's not today, my mind is made.<br>
+            </p>
+        </div>
+        <hr>
+        <h3>
+            Comentarios
+        </h3>
+        <p>
+            De los poemas en esta colección, "The old man and Death"
+            es definitivamente con el que más feliz estoy.
+        </p>
+        <p>
+            Está inspirado en una de las fábulas de Esopo, con el mismo título (El viejo y la Muerte).
+            En esta fábula, un hombre cansado se rinde y llama a la Muerte,
+            y cuando la Muerte sí responde, el viejo pretende que la llamó
+            para pedirle ayuda levantando la leña que había dejado caer al piso.
+        </p>
+        <p>
+            La historia oirignal es sobre el miedo a morir, y como los problemas
+            mundanos son insignificantes comparados con nuestro destino.  
+        </p>
+        </h3>
+        <p>
+            Pero, y si la historia hubiera sido sobre aprovechar 
+            nuestro vínculo con el concepto de morir?
+            Así lo interpreté la primera vez, 
+            y me fascinó la idea de pedirle ayuda a la Muerte.
+        </p>
+        <p>
+            Me salió crear algo que refleja la simplicidad de las fábulas de Esopo,
+            al mismo tiempo que es remarcablemente sofisticado <em>comparado
+            con lo que suelo terminar escribiendo.</em> 
+        </p>
+        <p>
+            Incluso tuve espacio para jugar con esta "rhyme I still refuse,"
+            que me da ganas de contarle a todo el mundo que podría haber 
+            rimado con "noose" (el nudo de la horca). Pero me rehusé,
+            como la voz del poema se rehúsa a usarlo.
+        </p>
+        <hr>
+        <p>
+            Podría hacer mucho más con este concepto. Y estoy seguro de que puedo encontrar
+            problemas y formas de mejorar este poema, pero ahora mismo, esto se siente <em>suficiente</em>.
+            Y eso me hace feliz.
+        </p>
+    </section>
+</MainLayout>

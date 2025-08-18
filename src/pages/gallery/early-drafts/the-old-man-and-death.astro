@@ -1,0 +1,88 @@
+---
+import MainLayout from "@l/MainLayout.astro"
+import en from '@lib/lang/en'
+import cookies from '@lib/cookies.json'
+import Intro from "@c/pages/Intro.astro"
+
+export const prerender = false
+
+let theme
+if (Astro.cookies.has(cookies.theme)) theme = Astro.cookies.get(cookies.theme)?.value
+let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Astro.request.formData() : [])
+---
+
+<MainLayout langlib={en} theme={theme} >
+    {hideIntro !== 'true' && <Intro lang="en"/> }
+    <section>
+        <h2>
+            The old man and Death
+        </h2>
+        <hr>
+        <div class="poem">
+            <p>
+                This chair I sit on, I could use,<br>
+                to reach the rhyme that I refuse.<br>
+                My dear acquaintance, summoned be,<br>
+                to lift my burdens onto me.<br>
+            </p>
+            <p>
+                These thoughts I bear though I wish not;<br>
+                thick flesh I wear, I feel it rot.<br>
+                So I just stare right at the knot,<br>
+                right from this chair&mdash;my secret spot.<br>
+            </p>
+            <p>
+                It has a peace I never found,<br>
+                not in the sky, not on the ground.<br>
+                It is this one, of all the views,<br>
+                this promised rhyme, I still refuse.<br>
+            </p>
+            <p>
+                So, if I may, I seek your aid;<br>
+                show me the way and then just fade.<br>
+                It's not today, I'm not afraid.<br>
+                It's not today, my mind is made.<br>
+            </p>
+        </div>
+        <hr>
+        <h3>
+            Comments
+        </h3>
+        <p>
+            From the poems in this collection, "The old man and Death" 
+            is definitely the one I am the happiest about.
+        </p>
+        <p>
+            It was inspired by one of Aesop's fables, titled the same. 
+            In this fable, a tired man gives up and calls for Death, and when Death
+            actually answers his call, he plays it off and asks it for
+            help picking up the logs he had just dropped to the ground. 
+        </p>
+        <p>
+            The original story is about the fear of dying, and how mundane
+            problems are insignificant in comparison with our ultimate fate.  
+        </p>
+        </h3>
+        <p>
+            But, what if the story was instead about leveraging our relationship with Death? 
+            This was my initial interpretation of the fable,
+            and I was fascinated by the idea of asking Death for help.
+        </p>
+        <p>
+            I managed to craft something that mirrors the simplicity of
+            Aesop's fables, while being remarkably sophisticated <em>compared
+            to what I usually end up writing</em>. 
+        </p>
+        <p>
+            I even had room to play with
+            this "rhyme that I refuse," which makes me want to go around
+            telling everyone that I could have rhymed with "noose." But I refused
+            it, just like the speaker refuses to use it.
+        </p>
+        <hr>
+        <p>
+            I could make so much more of this concept. I'm sure I can find flaws and ways to improve, 
+            but right now, this feels <em>enough</em>. And that makes me happy.
+        </p>
+    </section>
+</MainLayout>

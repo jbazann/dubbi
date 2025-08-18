@@ -1,0 +1,75 @@
+---
+import MainLayout from "@l/MainLayout.astro"
+import en from '@lib/lang/en'
+import cookies from '@lib/cookies.json'
+import Intro from "@c/pages/Intro.astro"
+
+export const prerender = false
+
+let theme
+if (Astro.cookies.has(cookies.theme)) theme = Astro.cookies.get(cookies.theme)?.value
+let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Astro.request.formData() : [])
+---
+
+<MainLayout langlib={en} theme={theme} >
+    {hideIntro !== 'true' && <Intro lang="en"/> }
+    <section>
+        <h2>
+            The end of I
+        </h2>
+        <hr>
+        <div class="poem">
+            <p>
+                The long way walking, by darkness nigh; <br>
+                the starkest nothing, by me beside. <br>
+                As I rehearsed my next morrow's lie, <br>
+                the voice of something, be found inside&mdash; <br>
+                would preach to my ear, the end of I. <br>
+            </p>
+            <p>
+                My burdened gaze at the umber sky, <br>
+                wry stellar maze of no true outside. <br>
+                The voice's words tell me not to try, <br>
+                toward the edge they shall lead my stride&mdash; <br>
+                to see the end near, the end of I. <br>
+            </p>
+            <p>
+                To rest in silence, I needn't cry, <br>
+                stranger to violence, the voice may hide. <br>
+                These words at times with my will comply, <br>
+                for they shall always resurge with pride&mdash; <br>
+                still making me hear, the end of I. <br>
+            </p>
+            <p>
+                Although their message, I may deny, <br>
+                the heavens presage, they coincide. <br>
+                "The truth is true, no matter how high;" <br>
+                the voice is merely my inner guide&mdash; <br>
+                and saying so clear, the end of I. <br>
+            </p>
+            <p>
+                So what is left now, but wonder why, <br>
+                I couldn't tell how; the rope is tied. <br>
+                The voice is gone now, and I would cry, <br>
+                but I found peace in the drowning tide&mdash; <br>
+                so I face my worst fear, <br>
+            </p>
+        </div>
+        <hr>
+        <h3>
+            Comments
+        </h3>
+        <p>
+            "The end of I" was the best piece I wrote
+            at the time. I believe there is something fundamentally wrong with 
+            the register, but because
+            the entire English language sounds weird to me, it cannot
+            stop my wrongdoing. 
+        </p>
+        <p>
+            It's been a few months since I wrote this and I start to see
+            room for improvement, but I like the structure so much I'd still
+            include this one even if everything else was flawed. 
+        </p>
+    </section>
+</MainLayout>
