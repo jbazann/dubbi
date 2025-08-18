@@ -42,7 +42,7 @@ function getLooselyParsedCookies() {
     return cookies
 }
 
-typeof document !== 'undefined' && (function cookiesAutoRenew() {
+typeof document !== 'undefined' && setTimeout((function cookiesAutoRenew() {
     const cookies = getLooselyParsedCookies()
 
     if (Object.hasOwn(cookies,COOKIES.renew)) return
@@ -56,7 +56,7 @@ typeof document !== 'undefined' && (function cookiesAutoRenew() {
             setCookie(qk, cookies[qk], days)
         }
     }
-})()
+}))
 
 // TODO do this correctly
 function localizePath(path, locale) {
