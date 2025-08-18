@@ -1,0 +1,105 @@
+---
+import SitemapItem from '@c/SitemapItem.astro'
+import { paths as mappedPaths } from '../../../static/sitemap/[...path].sitemap.json'
+
+export const partial = true
+export const prerender = false // TODO find a way to access sitemap assets during build and enable prerendering.
+export const getStaticPaths = () => {
+    return mappedPaths.map(p => ({ params: {lang: 'es', path: p}}))
+            .concat(mappedPaths.map(p => ({ params: {lang: 'en', path: p}})))
+}
+
+let {lang = 'en', path = null} = Astro.params
+const paths: string[] | null = await fetch(new URL(`/api/static/sitemap/${path}.sitemap.json`, Astro.url))
+    .then(r => r.ok ? r.json() : null, e => {
+        console.log(e)
+        return null
+    })
+---
+{lang === 'en' && (paths !== null 
+? (
+    <h4 class="regular-text-color" >
+        Main locations
+    </h4>
+    <ul>
+        <SitemapItem path="/" depth={0} />
+        <ul>
+            <SitemapItem path="/about" depth={1} />
+            <SitemapItem path="/projects" depth={1} />
+            <SitemapItem path="/gallery" depth={1} />
+        </ul>
+    </ul>
+    <h4 class="regular-text-color">
+        Under "/{path?.replace('index','')}"
+    </h4>
+    <ul>
+        {paths.length > 0 ? paths.map(p => {
+            return (<SitemapItem path={`./${p}`} depth={0} />)
+        }) : (<li>Nothing!</li>) }
+    </ul>
+)
+: (
+    <h4 class="regular-text-color">
+        Unmapped region
+    </h4>
+    <p>
+        You requested the sitemap for a path that does not exist. 
+        Try returning to one of the main locations.
+    </p>
+    <h4 class="regular-text-color">
+        Main locations
+    </h4>
+    <ul>
+        <SitemapItem path="/" depth={0} />
+        <ul>
+            <SitemapItem path="/about" depth={1} />
+            <SitemapItem path="/projects" depth={1} />
+            <SitemapItem path="/gallery" depth={1} />
+        </ul>
+    </ul>
+))
+}
+
+{lang === 'es' && (paths !== null 
+? (
+    <h4 class="regular-text-color">
+        Ubicaciones principales
+    </h4>
+    <ul>
+        <SitemapItem path="/" depth={0} />
+        <ul>
+            <SitemapItem path="/about" depth={1} />
+            <SitemapItem path="/projects" depth={1} />
+            <SitemapItem path="/gallery" depth={1} />
+        </ul>
+    </ul>
+    <h4 class="regular-text-color">
+        En "/{path?.replace('index','')}"
+    </h4>
+    <ul>
+        {paths.length > 0 ? paths.map(p => {
+           return (<SitemapItem path={`./${p}`} depth={0} />)
+        }) : (<li>Nada!</li>) }
+    </ul>
+)
+: (
+    <h4 class="regular-text-color">
+        Región no mapeada
+    </h4>
+    <p>
+        Solicitaste el sitemap para un camino que no existe.
+        Intentá volver a una de las ubicaciones principales.
+    </p>
+    <h4 class="regular-text-color">
+        Ubicaciones principales
+    </h4>
+    <ul>
+        <SitemapItem path="/es/" depth={0} />
+        <ul>
+            <SitemapItem path="/es/acerca" depth={1} />
+            <SitemapItem path="/es/proyectos" depth={1} />
+            <SitemapItem path="/es/galeria" depth={1} />
+        </ul>
+    </ul>
+))
+}

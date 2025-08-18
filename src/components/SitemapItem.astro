@@ -5,6 +5,6 @@ import Tab from "@c/utils/Tab.astro"
 
 <li>
     <Tab depth={Astro.props.depth}/><CommandTrigger cmd={`nav ${Astro.props.path}`}>
-        {Astro.props.path}
+        nav {Astro.props.path}
     </CommandTrigger>
 </li>

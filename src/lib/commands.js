@@ -240,11 +240,14 @@ function _ev(args) {
 }
 
 function sitemap(args) {
-   dispatch(newFetchPartialEvent({
-        url: '/api/partials/sitemap',
-        params: {
-            at: window.location.pathname
-        }
+    let path = `${window.location.pathname}`
+    path += path.endsWith('/') ? 'index' : '/index'
+
+    const lang = document.documentElement.getAttribute('lang')
+    const url = `/api/partials/sitemap/${lang}${path}`
+
+    dispatch(newFetchPartialEvent({
+        url
     }))
 }
 

@@ -145,3 +145,7 @@ button {
         text-align: center;
     }
 }
+
+.regular-text-color {
+    color: var(--color-text);
+}
