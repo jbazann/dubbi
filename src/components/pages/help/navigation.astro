@@ -22,32 +22,38 @@ export const getStaticPaths = (() => {
 ---
 
 {lang === 'es' &&
-<section>
-    <h2>Herramientas de navegación</h2>
-    <p>
-        Esta sección de ayuda contiene links útiles que podés usar para navegar por el sitio sin escribir.
-        Siempre está disponible en el ícono <NavigationButton /> de la esquina inferior izquierda.
-    </p>
-    <nav>
+<nav>
+    <ul>
         <hr>
-        <ul>
-            <li>
-                <CommandTrigger cmd="help nav">help --tutorial</CommandTrigger> &lt;-- click acá para leer el tutorial!
-            </li>
-            <li>
-                <CommandTrigger cmd="help nav">help nav</CommandTrigger> &lt;-- click acá para aprender sobre nav!
-            </li>
-            <li>
-                <CommandTrigger cmd="help sitemap">help sitemap</CommandTrigger> &lt;-- click acá para aprender sobre sitemap!
-            </li>
-            <li>
-                <CommandTrigger cmd="help ls">help ls</CommandTrigger> &lt;-- click acá para aprender sobre ls!
-            </li>
-            <hr>
             <li>
                 <CommandTrigger cmd="cat">cat</CommandTrigger> &lt;-- click acá para invocar una bestia!
             </li>
-            <hr>
+        <hr>
+        <div class="navtools-bulk-container">
+            <li>
+                <CommandTrigger cmd="help --tutorial">help --tutorial</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="help">help</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="help nav">help nav</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="help sitemap">help sitemap</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="help ls">help ls</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="help cd">help cd</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="help cls">help cls</CommandTrigger>
+            </li>
+        </div>
+        <hr>
+        <div class="navtools-bulk-container">
             <li>
                 <CommandTrigger cmd="sitemap">sitemap</CommandTrigger>
             </li>
@@ -61,41 +67,52 @@ export const getStaticPaths = (() => {
                 <CommandTrigger cmd="nav ..">nav ..</CommandTrigger>
             </li>
             <li>
+                <CommandTrigger cmd="cd /">cd /</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="cd ..">cd ..</CommandTrigger>
+            </li>
+            <li>
                 <CommandTrigger cmd="cls">cls</CommandTrigger>
             </li>
-        </ul> 
-        <hr>
-    </nav>
-</section>
+        </div>
+    </ul> 
+</nav>
 }
 
 {lang === 'en' &&
-<section>
-    <h2>Navigation tools</h2>
-    <p>
-        This help section contains useful links you may use to traverse the site without typing. 
-        It's always available in the <NavigationButton /> icon in the bottom left corner.
-    </p>
-    <nav>
+<nav>
+    <ul>
         <hr>
-        <ul>
-            <li>
-                <CommandTrigger cmd="help nav">help --tutorial</CommandTrigger> &lt;-- click here to read the tutorial!
-            </li>
-            <li>
-                <CommandTrigger cmd="help nav">help nav</CommandTrigger> &lt;-- click here to learn more about nav!
-            </li>
-            <li>
-                <CommandTrigger cmd="help sitemap">help sitemap</CommandTrigger> &lt;-- click here to learn more about sitemap!
-            </li>
-            <li>
-                <CommandTrigger cmd="help ls">help ls</CommandTrigger> &lt;-- click here to learn more about ls!
-            </li>
-            <hr>
             <li>
                 <CommandTrigger cmd="cat">cat</CommandTrigger> &lt;-- click here to summon a beast!
             </li>
-            <hr>
+        <hr>
+        <div class="navtools-bulk-container">
+            <li>
+                <CommandTrigger cmd="help --tutorial">help --tutorial</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="help">help</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="help nav">help nav</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="help sitemap">help sitemap</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="help ls">help ls</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="help cd">help cd</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="help cls">help cls</CommandTrigger>
+            </li>
+        </div>
+        <hr>
+        <div class="navtools-bulk-container">
             <li>
                 <CommandTrigger cmd="sitemap">sitemap</CommandTrigger>
             </li>
@@ -109,10 +126,15 @@ export const getStaticPaths = (() => {
                 <CommandTrigger cmd="nav ..">nav ..</CommandTrigger>
             </li>
             <li>
+                <CommandTrigger cmd="cd /">cd /</CommandTrigger>
+            </li>
+            <li>
+                <CommandTrigger cmd="cd ..">cd ..</CommandTrigger>
+            </li>
+            <li>
                 <CommandTrigger cmd="cls">cls</CommandTrigger>
             </li>
-        </ul> 
-        <hr>
-    </nav>
-</section>
+        </div>
+    </ul> 
+</nav>
 }

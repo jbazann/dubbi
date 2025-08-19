@@ -176,3 +176,9 @@ button {
     color: var(--color-highlight);
     font-style: italic;
 }
+
+.navtools-bulk-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 3rem;
+}
