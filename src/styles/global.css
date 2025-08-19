@@ -68,6 +68,14 @@ h4 {
     font-style: italic;
 }
 
+code {
+    border-radius: var(--border-radius);
+    color: var(--color-highlight);
+    background-color: var(--color-foreground);
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
 button {
     background: none;
     border: none;
@@ -148,4 +156,12 @@ button {
 
 .regular-text-color {
     color: var(--color-text);
+}
+
+.error-preface {
+    color: var(--color-error);
+}
+
+.tip-preface {
+    color: var(--color-highlight);
 }

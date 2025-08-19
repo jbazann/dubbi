@@ -5,6 +5,10 @@
     <p class="no-bottom-margin whitespace-pre-line"></p>
 </template>
 
+<template id="tty-slp-code-template">
+    <code class="no-bottom-margin whitespace-pre-line"></code>
+</template>
+
 <template id="tty-slp-preface-template">
     <p class="no-bottom-margin whitespace-pre-line">
         <span class="simple-preface"></span><span></span>
@@ -39,6 +43,7 @@
     !pageContainer && err(`Page container ${pageContainer} not found.`)
 
     const line = document.getElementById('tty-slp-template') as HTMLTemplateElement
+    const code = document.getElementById('tty-slp-code-template') as HTMLTemplateElement
     const error = document.getElementById('tty-slp-error-template') as HTMLTemplateElement
     const notice = document.getElementById('tty-slp-notice-template') as HTMLTemplateElement
     const preface = document.getElementById('tty-slp-preface-template') as HTMLTemplateElement
@@ -51,6 +56,15 @@
 
     eventHandler('tty:print', (event) => {
         const newline = line.content.cloneNode(true) as Element
+        newline.firstElementChild!.textContent = (event as CustomEvent).detail.line
+        requestAnimationFrame(() => {
+            pageContainer.appendChild(newline)
+            dispatch(newScrollToBottomEvent())
+        })
+    })
+
+    eventHandler('tty:print:code', (event) => {
+        const newline = code.content.cloneNode(true) as Element
         newline.firstElementChild!.textContent = (event as CustomEvent).detail.line
         requestAnimationFrame(() => {
             pageContainer.appendChild(newline)
