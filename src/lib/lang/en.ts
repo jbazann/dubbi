@@ -20,12 +20,25 @@ const en: LocalizedStrings = {
         },
         settings: {
             msg: {
-                variants: "Also valid: s, set, setting, settings.",
-                usage: "Usage: settings [setting] [value]",
-                available: "Available settings: !{available}.", // !{available}
-                try: "Try settings [setting] to see more details about a setting option.",
-                current: "Current settings: !{settings}", // !{settings}
-                invalid: "Invalid setting \"!{arg}\"." // !{arg}
+                variants: { 
+                    pref: "Also valid: ",
+                    line: "s, set, setting, settings.",
+                },
+                usage: {
+                    pref: "Usage: ",
+                    line: "settings [setting] [value]",
+                },
+                available: {
+                    pref: "Available settings: ",
+                },
+                try: {
+                    pref: "Tip: ",
+                    line: "try settings [setting] to see more details about a setting option.",
+                },
+                current: {
+                    pref: "Current settings: ",
+                },
+                invalid: "Invalid setting \"!{arg}\".", // !{arg}
             },
             names: {
                 theme: "theme",

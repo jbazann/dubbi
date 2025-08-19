@@ -20,11 +20,24 @@ const es: LocalizedStrings = {
         },
         settings: {
             msg: {
-                variants: "También válido: s, set, setting, settings.",
-                usage: "Modo de uso: settings [opción] [valor]",
-                available: "Opciones disponibles: !{available}.", // !{available}
-                try: "Probá settings [opción] para ver más detalles sobre una opción en particular.",
-                current: "Configuración actual: !{settings}", // !{settings}
+                variants: {
+                    pref: "También válido: ",
+                    line: "s, set, setting, settings.",
+                },
+                usage: {
+                    pref: "Modo de uso: ",
+                    line: "settings [opción] [valor]",
+                },
+                available: {
+                    pref: "Opciones disponibles: ", 
+                },
+                try: {
+                    pref: "Tip: ",
+                    line: "Probá settings [opción] para ver más detalles sobre una opción en particular.",
+                },
+                current: {
+                    pref: "Configuración actual: ", 
+                },
                 invalid: "Opción inválida \"!{arg}\"." // !{arg}
             },
             names: {

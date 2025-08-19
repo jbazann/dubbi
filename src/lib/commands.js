@@ -368,12 +368,12 @@ eventHandler('tty:lang:switch', settingsLanguageSwitchHandler, document, 'settin
 
 function settings(args) {
     if (args.length === 1) {
-        dispatch(newPrintEvent(t('cmd.settings.msg.variants')))
-        dispatch(newPrintEvent(t('cmd.settings.msg.usage'))) // Usage: settings [setting] [value]
-        dispatch(newPrintEvent(t('cmd.settings.msg.available', {available: JSON.stringify(Object.keys(SETTINGS))}))) // Available settings: !{}
-        dispatch(newPrintEvent(t('cmd.settings.msg.try'))) // Try settings [setting] to see a list of valid  values (when possible).
+        dispatch(newPrintPrefacedEvent(t('cmd.settings.msg.variants.pref'), t('cmd.settings.msg.variants.line')))
+        dispatch(newPrintPrefacedEvent(t('cmd.settings.msg.usage.pref'), t('cmd.settings.msg.usage.line')))
+        dispatch(newPrintPrefacedEvent(t('cmd.settings.msg.available.pref'), JSON.stringify(Object.keys(SETTINGS))))
+        dispatch(newPrintPrefacedEvent(t('cmd.settings.msg.try.pref'), t('cmd.settings.msg.try.line')))
         dispatch(newPrintEvent(''))
-        dispatch(newPrintEvent(t('cmd.settings.msg.current', {settings: JSON.stringify(getCurrentSettings(), null, '\t')})))
+        dispatch(newPrintPrefacedEvent(t('cmd.settings.msg.current.pref'), JSON.stringify(getCurrentSettings(), null, '\t')))
         return
     }
     if (args[1].startsWith('-')) {

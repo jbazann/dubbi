@@ -20,11 +20,24 @@ type LocalizedStrings = {
         }
         settings: {
             msg: {
-                variants: string
-                usage: string
-                available: string // !{available}
-                try: string
-                current: string // !{settings}
+                variants: {
+                    pref: string
+                    line: string
+                }
+                usage: {
+                    pref: string
+                    line: string
+                }
+                available: {
+                    pref: string
+                } 
+                try: {
+                    pref: string
+                    line: string
+                }
+                current: {
+                    pref: string
+                } 
                 invalid: string // !{arg}
             }
             names: {
