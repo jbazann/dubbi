@@ -79,12 +79,18 @@ function setForceLanguage(val) {
 
 function setTheme(theme) {
     switch (theme) {
+        case "default":
+        case "default-light":
+        case "default-dark":
         case "autumn-dawn":
         case "autumn-dusk":
         case "psycho-stark":
+        case "psycho-dark":
         case "neo-cyan":
+        case "retro-cyan":
         case "cloudy-salmon":
         case "nightly-lavender":
+        case "dawnly-lavender":
         case "dainty-elegance":
             current.theme = theme
             setCookie(QK.theme, theme)

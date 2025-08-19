@@ -1,5 +1,5 @@
 import { navigate } from "astro:transitions/client"
-import { dispatch, newCatImgEvent, newClsEvent, newErrorMessageEvent, newFetchPartialEvent, newLocationEvent, newPrepareCatImgEvent, newPrintEvent, newSetAttributeEvent } from "./events"
+import { dispatch, newCatImgEvent, newClsEvent, newErrorMessageEvent, newFetchPartialEvent, newLocationEvent, newPrepareCatImgEvent, newPrintCodeEvent, newPrintEvent, newPrintLsEvent, newSetAttributeEvent } from "./events"
 import { err, log, loggedEvent } from "./log"
 import { post } from "./net"
 import { clearCookie, localizePath, setCookie } from "./util"
@@ -133,6 +133,10 @@ function invalidInput(str) {
 }
 
 function echo(args) {
+    if (args[1] === '-c' || args[1] === '--code') {
+        dispatch(newPrintCodeEvent(args.length === 3 ? args[2] : args[0].slice(args[0].indexOf(' ', args[0].indexOf(' ') + 1)).trim()))
+        return
+    }
    dispatch(newPrintEvent(args.length === 2 ? args[1] : args[0].slice(args[0].indexOf(' ')).trim()))
 }
 
@@ -326,12 +330,18 @@ const getThemeSettingHandler = () => {
     }
     handler.languageSwitchHandler = (_event) => {
         handler.opt = t_obj('cmd.settings.theme.names', {
+            "default": "default",
+            "default-light": "default-light",
+            "default-dark": "default-dark",
             "autumn-dawn": "autumn-dawn",
             "autumn-dusk": "autumn-dusk",    
             "psycho-stark": "psycho-stark",
+            "psycho-dark": "psycho-dark",
             "neo-cyan": "neo-cyan",
+            "retro-cyan": "retro-cyan",
             "cloudy-salmon": "cloudy-salmon",
             "nightly-lavender": "nightly-lavender",
+            "dawnly-lavender": "dawnly-lavender",
             "dainty-elegance": "dainty-elegance",
         })
     }

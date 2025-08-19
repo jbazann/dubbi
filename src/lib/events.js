@@ -16,6 +16,10 @@ export function newPrintEvent(line) {
     return new CustomEvent('tty:print', {detail: {line}})
 }
 
+export function newPrintCodeEvent(line) {
+    return new CustomEvent('tty:print:code', {detail: {line}})
+}
+
 export function newScrollToBottomEvent() {
     return new CustomEvent('tty:scroll:bottom')
 }
