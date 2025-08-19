@@ -72,6 +72,10 @@ export function newNoticeEvent(msg) {
     return new CustomEvent('tty:print:notice', {detail: {line: msg}})
 }
 
+export function newTipEvent(msg) {
+    return new CustomEvent('tty:print:tip', {detail: {line: msg}})
+}
+
 export function newPrintPrefacedEvent(preface,line) {
     return new CustomEvent('tty:print:preface', {detail: {preface,line}})
 }
@@ -94,6 +98,10 @@ export function newClsEvent() {
 
 export function newSettingsChangeEvent() {
     return new CustomEvent('settings:change')
+}
+
+export function newPrintLsEvent(entries) {
+    return new CustomEvent('tty:print:ls', {detail: {entries}})
 }
 
 function _log(event) {

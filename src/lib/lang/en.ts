@@ -12,6 +12,12 @@ const en: LocalizedStrings = {
             },
             alt: "A very dangerous beast (a cat)."
         },
+        ls: {
+            msg: {
+                err: "there was an error querying the directory. Are you in a valid path?",
+                tip: "use the sitemap command to return to a valid directory.",
+            },
+        },
         settings: {
             msg: {
                 variants: "Also valid: s, set, setting, settings.",

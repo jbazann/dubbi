@@ -12,6 +12,12 @@ type LocalizedStrings = {
             }
             alt: string
         }
+        ls: {
+            msg: {
+                err: string
+                tip: string
+            }
+        }
         settings: {
             msg: {
                 variants: string

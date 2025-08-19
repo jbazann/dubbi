@@ -12,6 +12,12 @@ const es: LocalizedStrings = {
             },
             alt: "Una bestia muy peligrosa (un gato)."
         },
+        ls: {
+            msg: {
+                err: "hubo un error consultando el directorio. Estás en una ubicación válida?",
+                tip: "usá el comando sitemap para volver a un directorio válido.",
+            },
+        },
         settings: {
             msg: {
                 variants: "También válido: s, set, setting, settings.",

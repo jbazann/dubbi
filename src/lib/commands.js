@@ -1,7 +1,7 @@
 import { navigate } from "astro:transitions/client"
-import { dispatch, newCatImgEvent, newClsEvent, newErrorMessageEvent, newFetchPartialEvent, newLocationEvent, newPrepareCatImgEvent, newPrintCodeEvent, newPrintEvent, newPrintLsEvent, newSetAttributeEvent } from "./events"
+import { dispatch, newCatImgEvent, newClsEvent, newErrorMessageEvent, newFetchPartialEvent, newLocationEvent, newPrepareCatImgEvent, newPrintCodeEvent, newPrintEvent, newPrintLsEvent, newPrintPrefacedEvent, newSetAttributeEvent } from "./events"
 import { err, log, loggedEvent } from "./log"
-import { post } from "./net"
+import { get, post } from "./net"
 import { clearCookie, localizePath, setCookie } from "./util"
 import COOKIES from "./cookies.json"
 import { t, t_obj } from "./t"
@@ -42,6 +42,8 @@ const commands = {
     setting: settings,
     cat,
     cls,
+    ls,
+    l: ls,
 }
 
 function splitArguments(str) {
@@ -504,4 +506,17 @@ function cat(args) {
 
 function cls(args) {
     dispatch(newClsEvent())
+}
+
+function ls(args) {
+    let path = window.location.pathname
+    path += path.endsWith('/') ? 'index' : '/index' 
+    get(window.location.origin + `/api/static/sitemap${path}.sitemap.json`)
+        .then(
+            (r) => dispatch(newPrintLsEvent(r)), 
+            e => {
+                dispatch(newErrorMessageEvent(t('cmd.ls.msg.err')))
+                dispatch(newPrintPrefacedEvent('Tip: ',t('cmd.ls.msg.tip')))
+            }
+        )
 }

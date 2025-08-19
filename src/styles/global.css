@@ -162,6 +162,17 @@ button {
     color: var(--color-error);
 }
 
-.tip-preface {
+.tip-preface, .simple-preface {
     color: var(--color-highlight);
+}
+
+.ls-container {
+    display: flex;
+    gap: 1rem 2rem;
+    flex-wrap: wrap;
+}
+
+.ls-entry {
+    color: var(--color-highlight);
+    font-style: italic;
 }

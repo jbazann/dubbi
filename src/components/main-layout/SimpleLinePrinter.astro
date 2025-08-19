@@ -9,6 +9,11 @@
     <code class="no-bottom-margin whitespace-pre-line"></code>
 </template>
 
+<template id="tty-slp-ls-template">
+    <div class="ls-container">
+    </div>
+</template>
+
 <template id="tty-slp-preface-template">
     <p class="no-bottom-margin whitespace-pre-line">
         <span class="simple-preface"></span><span></span>
@@ -43,6 +48,7 @@
     !pageContainer && err(`Page container ${pageContainer} not found.`)
 
     const line = document.getElementById('tty-slp-template') as HTMLTemplateElement
+    const ls = document.getElementById('tty-slp-ls-template') as HTMLTemplateElement
     const code = document.getElementById('tty-slp-code-template') as HTMLTemplateElement
     const error = document.getElementById('tty-slp-error-template') as HTMLTemplateElement
     const notice = document.getElementById('tty-slp-notice-template') as HTMLTemplateElement
@@ -62,6 +68,21 @@
             dispatch(newScrollToBottomEvent())
         })
     })
+
+    eventHandler('tty:print:ls', (event) => {
+        const newline = ls.content.cloneNode(true) as HTMLDivElement
+        (event as CustomEvent).detail.entries.map((e: string) => {
+            const p = document.createElement('p')
+            p.textContent = `./${e}`
+            p.classList.add('ls-entry')
+            return p
+        }).forEach(newline.firstElementChild!.appendChild.bind(newline.firstElementChild))
+        requestAnimationFrame(() => {
+            pageContainer.appendChild(newline)
+            dispatch(newScrollToBottomEvent())
+        })
+    })
+
 
     eventHandler('tty:print:code', (event) => {
         const newline = code.content.cloneNode(true) as Element
