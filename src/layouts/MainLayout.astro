@@ -23,7 +23,6 @@ const {theme, langlib} = Astro.props
 	</MainHead>
 	<body>
 		<div class="background" style={`background-image: url('${background.src}');`}></div>
-		<!-- <div class="glass"></div> -->
 		<header class="header">
 			<h1 class="site">jbazann.dev</h1>
 		</header>
@@ -52,7 +51,6 @@ const {theme, langlib} = Astro.props
 	</body>
 </html>
 
-<!-- inline init -->
 <script define:vars={{langlib}} is:inline>
 	window._jbazann = {}
 	window._jbazann.lang = langlib
