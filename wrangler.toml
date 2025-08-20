@@ -14,3 +14,7 @@ bucket_name = "sbupi-cats"
 
 [vars]
 NODE_ENV = "production"
+
+[[routes]]
+pattern = "v4.jbazann.dev"
+custom_domain = true
