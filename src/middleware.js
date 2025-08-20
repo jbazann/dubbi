@@ -25,7 +25,8 @@ export const cookiesMiddleware = defineMiddleware(async (ctx, next) => {
     let translatedPath
     if (ctx.currentLocale !== 'en') {
         const currentLocalePath = getPathByLocale(ctx.currentLocale)
-        translatedPath = translatePath(path.slice(currentLocalePath.length), lang)
+        // TODO do this again but better
+        translatedPath = translatePath(path.slice(currentLocalePath.length + 1), lang)
     } else {
         translatedPath = translatePath(path, lang)
     }
