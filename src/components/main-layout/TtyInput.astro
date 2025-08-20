@@ -309,13 +309,22 @@ import "@s/fonts.css"
     }   
 
     .text {
+        position: relative;
         display: flex;
         flex-direction: row;
         justify-items: start;
         flex-wrap: wrap;
-        width: 100%;
-        max-width:100%;
+        max-width: 100%;
+        width: fit-content;
         height: fit-content;
+        opacity: 72%;
+        color: var(--color-text);
+
+        &:focus-within {
+            color: inherit;
+            opacity: 1;
+        }
+        
     }
 
     .preHLText, .HLText, .postHLText {
@@ -330,6 +339,28 @@ import "@s/fonts.css"
         text-wrap: wrap;
         word-break: break-all;
         overflow-wrap: anywhere;
+    }
+
+    .input {
+        position: absolute;
+        /* outline: none; */
+        width: 20ch;
+        height: auto;
+        opacity: 0;
+        z-index: -1;
+        caret-color: transparent;
+
+        &:placeholder-shown {
+            opacity: 1;
+        }
+    }
+    
+    .input:focus-visible {
+        position: absolute;
+        z-index: 22222;
+        outline: solid var(--color-highlight) var(--border-width);
+        border-radius: var(--border-radius);
+        outline-offset: 0.32em;
     }
 
     .input:focus ~ .preCaretText {
@@ -352,20 +383,6 @@ import "@s/fonts.css"
         }
         50%, 99% {
             opacity: 0;
-        }
-    }
-
-    .input {
-        position: absolute;
-        outline: none;
-        width: 90%;
-        height: 100%;
-        opacity: 0;
-        z-index: -1;
-        caret-color: transparent;
-
-        &:placeholder-shown {
-            opacity: 1;
         }
     }
 
