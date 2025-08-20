@@ -9,6 +9,8 @@ const en: LocalizedStrings = {
         cat: {
             msg: {
                 err: "Couldn't find the kitties :(",
+                fetching: "Searching for beasts...",
+                no_impl: "The version with arguments of cat is not implemented yet.",
             },
             alt: "A very dangerous beast (a cat)."
         },

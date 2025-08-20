@@ -9,6 +9,8 @@ type LocalizedStrings = {
         cat: {
             msg: {
                 err: string
+                fetching: string
+                no_impl: string
             }
             alt: string
         }

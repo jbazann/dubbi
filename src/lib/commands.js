@@ -522,9 +522,11 @@ async function catImg() {
 
 function cat(args) {
     if (args.length === 1) {
+        dispatch(newPrintEvent(t("cmd.cat.msg.fetching")))
         catImg()
         return
     }
+    dispatch(newPrintEvent(t("cmd.cat.msg.no_impl")))
 }
 
 function cls(args) {

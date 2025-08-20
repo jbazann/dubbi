@@ -9,6 +9,8 @@ const es: LocalizedStrings = {
         cat: {
             msg: {
                 err: "No encontré los gatos :(",
+                fetching: "Buscando bestias...",
+                no_impl: "La versión de cat con argumentos todavía no está implementada.",
             },
             alt: "Una bestia muy peligrosa (un gato)."
         },
