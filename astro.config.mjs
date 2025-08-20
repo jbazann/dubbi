@@ -17,6 +17,13 @@ export default defineConfig({
         es: 'es',
       },
     },
+    filter: (page) => {
+      switch (true) {
+        case page.includes('jbazann.dev/api/'):
+          return false
+      }
+      return true
+    }
   })],
 
   experimental: {
