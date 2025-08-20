@@ -2,8 +2,20 @@
     --border-width: 2px;
     --border-radius: 1.2rem;
 
-    --content-area-width: 72%;
-    --content-area-height: 72%;
+    --content-area-height: 82%;
+    --content-area-width: 92%;
+
+    @media (min-width: 768px) {
+        --content-area-height: 72%;
+        --content-area-width: 92%;
+    }
+
+    @media (min-width: 1024px) {
+        --content-area-width: 72%;
+        --content-area-height: 72%;
+    }
+
+
     --content-area-y-padding: 1.8rem;
     --content-area-x-padding: .2rem;
 }
