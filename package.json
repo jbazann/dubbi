@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "wrangler dev",
+    "preview": "wrangler dev --x-remote-bindings",
     "astro": "astro",
     "types": "wrangler types ./types/wrangler-types.d.ts"
   },
