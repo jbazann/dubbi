@@ -12,7 +12,9 @@ let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Ast
 <MainLayout langlib={en} theme={theme}>
     {hideIntro !== 'true' && <Intro lang="en"/> }
     <section>
-        <h2>Proyecto Skwidl</h2>
-        <p>Esta sección estará disponible muy pronto!</p>
+        <h2>Project Skwidl</h2>
+        <p>This section will be available soon!</p>
+        <p>Meanwhile, you can check out an outdated version at 
+            <a href="https://v3.jbazann.dev/projects/skwidl">v3.jbazann.dev/projects/skwidl</a></p>
     </section>
 </MainLayout>
