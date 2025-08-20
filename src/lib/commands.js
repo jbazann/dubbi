@@ -275,7 +275,8 @@ function sitemap(args) {
     const url = `/api/partials/sitemap/${lang}${path}`
 
     dispatch(newFetchPartialEvent({
-        url
+        url,
+        method: 'get'
     }))
 }
 

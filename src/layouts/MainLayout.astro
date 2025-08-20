@@ -204,7 +204,7 @@ const {theme, langlib} = Astro.props
 
 	const insertPartial = (event: Event) => {
 		return window.htmx.ajax(
-			'post',
+			(event as CustomEvent).detail.method || 'post',
 			(event as CustomEvent).detail.url,
 			{
 				event,
