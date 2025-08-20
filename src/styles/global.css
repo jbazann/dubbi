@@ -68,6 +68,33 @@ h4 {
     font-style: italic;
 }
 
+a {
+    color: var(--color-highlight);
+    text-decoration: underline;
+    text-underline-offset: 0.12em;
+    font-style: italic;
+}
+
+a:hover {
+    &::after {
+        position: relative;
+        scale: 1.22;
+    }
+}
+
+a::after {
+    background-color: currentColor;
+    content: "\200b" / " (external)";
+    display: inline-block;
+    height: 1em;
+    width: 1em;
+    vertical-align: text-top;
+    margin-left: .22em;
+    padding: .22em;
+    mask-image: url('/external-link.svg');
+    mask-size: cover;
+}
+
 code {
     border-radius: var(--border-radius);
     color: var(--color-highlight);
