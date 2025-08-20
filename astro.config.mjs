@@ -62,7 +62,7 @@ export default defineConfig({
     defaultLocale: 'en'
   },
 
-  site: 'https://v4.jbazann.dev',
+  site: 'https://jbazann.dev',
   trailingSlash: 'ignore',
   output: 'server',
   adapter: cloudflare({imageService: 'compile'}),

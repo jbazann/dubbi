@@ -18,3 +18,7 @@ NODE_ENV = "production"
 [[routes]]
 pattern = "v4.jbazann.dev"
 custom_domain = true
+
+[[routes]]
+pattern = "jbazann.dev"
+custom_domain = true
