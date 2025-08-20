@@ -14,6 +14,11 @@ const es: LocalizedStrings = {
             },
             alt: "Una bestia muy peligrosa (un gato)."
         },
+        whoami: {
+            msg: {
+                fake: "Actualmente sos \"guest\"."
+            }
+        },
         ls: {
             msg: {
                 err: "hubo un error consultando el directorio. Estás en una ubicación válida?",

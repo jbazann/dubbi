@@ -44,6 +44,7 @@ const commands = {
     cls,
     ls,
     l: ls,
+    whoami,
 }
 
 function splitArguments(str) {
@@ -544,4 +545,8 @@ function ls(args) {
                 dispatch(newPrintPrefacedEvent('Tip: ',t('cmd.ls.msg.tip')))
             }
         )
+}
+
+function whoami(args) {
+    dispatch(newPrintEvent(t('cmd.whoami.fake')))
 }

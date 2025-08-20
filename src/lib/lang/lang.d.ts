@@ -14,6 +14,11 @@ type LocalizedStrings = {
             }
             alt: string
         }
+        whoami: {
+            msg: {
+                fake: string
+            }
+        }
         ls: {
             msg: {
                 err: string
