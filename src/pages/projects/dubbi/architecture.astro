@@ -1,0 +1,61 @@
+---
+import MainLayout from "@l/MainLayout.astro";
+import en from "@lib/lang/en"
+import cookies from "@lib/cookies.json"
+import Intro from "@c/pages/Intro.astro";
+import Dubbi from "../dubbi.astro";
+
+let theme
+if (Astro.cookies.has(cookies.theme)) theme = Astro.cookies.get(cookies.theme)?.value
+let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Astro.request.formData() : [])
+---
+
+<MainLayout langlib={en} theme={theme}>
+    {hideIntro !== 'true' && <Intro lang="en"/> }
+    {hideIntro !== 'true' && <Dubbi/> }
+    <section>
+        <h3>Architecture</h3>
+        <p>
+            This application is mostly server-rendered, and I am progressively
+            adapting certain components to statically generate them.   
+        </p>
+        <p>
+            I also use some manual client-side rendering, which helps reduce
+            the load on the server by simply bundling some re-usable templates with
+            every page.
+        </p>
+        <p>
+            Aside from HTMX (useful with Astro partials), and Astro's ClientRouter 
+            (handles view transitions), the only javascript running on your
+            device is written by me. I continuously review the code to make sure
+            I am only performing the minimal required computation for the behavior
+            I want, no unnecessary abstraction consuming resources.
+        </p>
+        <hr>
+        <p>
+            More specifically, each "directory" in this application is actually
+            a <code>.astro</code> page. Whenever you use <span class="em-command">nav</span>,
+            you are loading a new full page. 
+        </p>
+        <p>
+            Thanks to the View Transitions API, and ClientRounter's integration with it,
+            the content from the previous page is carried over to the new one, and the 
+            swap is made so smoothly you may think you are using an SPA.
+        </p>
+        <p>
+            Some commands are implemented entirely with client-side Javascript, like 
+            <span class="em-command">echo</span>, <span class="em-command">settings</span> 
+            or <span class="em-command">cls</span>. Others like <span class="em-command">cat</span>
+            and <span class="em-command">ls</span> are fetching various resources from the server,
+            and commands like <span class="em-command">help</span> and <span class="em-command">sitemap</span>
+            request Astro Partials rendered on-demand. 
+        </p>
+        <hr>
+        <p>
+            That is all I have to say about the architecture, Cloudflare's Workers and other 
+            serverless services provide all I need to run the backend. As I optimize my
+            implementations (still a long way to go), I may bundle some client-side framework
+            to render content that would otherwise be unnecessarily complex to implement.
+        </p>
+    </section>
+</MainLayout>

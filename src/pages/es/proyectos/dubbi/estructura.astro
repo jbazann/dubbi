@@ -1,0 +1,49 @@
+---
+import MainLayout from "@l/MainLayout.astro";
+import en from "@lib/lang/en"
+import cookies from "@lib/cookies.json"
+import Intro from "@c/pages/Intro.astro";
+import Dubbi from "../dubbi.astro";
+
+let theme
+if (Astro.cookies.has(cookies.theme)) theme = Astro.cookies.get(cookies.theme)?.value
+let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Astro.request.formData() : [])
+---
+
+<MainLayout langlib={en} theme={theme}>
+    {hideIntro !== 'true' && <Intro lang="en"/> }
+    {hideIntro !== 'true' && <Dubbi/> }
+    <section>
+        <h3>Estructura del proyecto</h3>
+        <p>
+            La UI está compuesta principalmente por tres elementos: el layout principal,
+            páginas y partials, y mi librería de scripts.
+        </p>
+        <p>
+            El layout trae la caja de contenido, el input principal (donde escribís los comandos),
+            y dos contenedores "inivisbles", uno para la página actual, y otro para todas las anteriores.
+        </p>
+        <p>
+            Antes de navegar, el contenido del contenedor de la página actual es movido al del historial,
+            el cual es acarreado a la nueva página por el ClientRounter de Astro.
+        </p>
+        <p>
+            En cuanto a páginas y partials, la mayoría son renderizadas por el servidor, para 
+            responder con el lenguaje/tema correspondiente, y opcionalmente incluír un mensaje
+            introductorio mencionando el tutorial. Esto lo podés probar, el mensaje de bienvenida
+            se muestra al abrir la página en una nueva pestaña, sin importar qué ubicación solicites.
+            Pero si llegas a esa misma ubicación con <span class="em-command">nav</span>, 
+            el mensaje no va a aparecer.
+        </p>
+        <p>
+            Tengo la intención de revisar los modos de renderizado en algún momento, ya que la mayoría
+            del tiempo es innecesario usar SSR, dado mi uso de View Transitions.
+        </p>
+        <p>
+            Por último, la librería de scripts controla los comandos, la configuración, y el renderizado
+            en el cliente, todo mediante eventos. Esto lo podés ver si seteas logging a 'console' (con el
+            comando <span class="em-command">settings</span>), y abrís la consola de DevTools después de
+            usar algunos comandos.
+        </p>
+    </section>
+</MainLayout>

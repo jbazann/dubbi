@@ -1,0 +1,47 @@
+---
+import MainLayout from "@l/MainLayout.astro";
+import en from "@lib/lang/en"
+import cookies from "@lib/cookies.json"
+import Intro from "@c/pages/Intro.astro";
+import Dubbi from "../dubbi.astro";
+
+let theme
+if (Astro.cookies.has(cookies.theme)) theme = Astro.cookies.get(cookies.theme)?.value
+let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Astro.request.formData() : [])
+---
+
+<MainLayout langlib={en} theme={theme}>
+    {hideIntro !== 'true' && <Intro lang="en"/> }
+    {hideIntro !== 'true' && <Dubbi/> }
+    <section>
+        <h3>Project structure</h3>
+        <p>
+            The UI is mainly composed of three elements: the main layout,
+            pages and partials, and and my script library.
+        </p>
+        <p>
+            The layout brings the content box, the main input (where you write your commands),
+            and two "invisible" containers, one for the current page, and another for all the previous ones.
+        </p>
+        <p>
+            Before navigation, the content in the page container is moved to the history container,
+            which Astro's ClientRounter will carry to the new page.
+        </p>
+        <p>
+            As for pages and partials, most are server rendered to serve the right theme/language
+            and to optionally display an introductory message mentioning the tutorial.
+            You can try this yourself, the welcome message is displayed when you open the site
+            on a new tab, regardless of the path you request. But if you arrive to that same path 
+            using <span class="em-command">nav</span>, it won't be included.
+        </p>
+        <p>
+            I intend to review rendering modes at some point, since it is often unnecessary given
+            my use of view transitions.
+        </p>
+        <p>
+            Lastly, the script library handles settings, commands, and client-side rendering through events. 
+            You can actually see it in action if you set the logging setting to 'console',
+            and then look at the DevTools console after sending some commands.
+        </p>
+    </section>
+</MainLayout>

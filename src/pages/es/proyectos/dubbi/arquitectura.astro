@@ -1,0 +1,65 @@
+---
+import MainLayout from "@l/MainLayout.astro";
+import en from "@lib/lang/en"
+import cookies from "@lib/cookies.json"
+import Intro from "@c/pages/Intro.astro";
+import Dubbi from "../dubbi.astro";
+
+let theme
+if (Astro.cookies.has(cookies.theme)) theme = Astro.cookies.get(cookies.theme)?.value
+let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Astro.request.formData() : [])
+---
+
+<MainLayout langlib={en} theme={theme}>
+    {hideIntro !== 'true' && <Intro lang="en"/> }
+    {hideIntro !== 'true' && <Dubbi/> }
+    <section>
+        <h3>Arquitectura</h3>
+        <p>
+            Esta aplicación es principalmente renderizada por el servidor,
+            y estoy adaptando ciertos componentes de manera progresiva para
+            generarlos de manera estática.   
+        </p>
+        <p>
+            También uso algo de renderizado manual del lado del cliente 
+            (manipulando el DOM con Javascript vanilla), lo que me ayuda
+            a reducir la carga en el servidor al simplemente incluír en 
+            el bundle del cliente algunos templates reutilizables.
+        </p>
+        <p>
+            Salvo por HTMX (útil con Astro partials), y el ClientRouter de Astro
+            (integra con view transitions), todo el javascript que ejecuta en tu
+            dispositivo es escrito por mi. Continuamente estoy revisando este
+            código para asegurarme de que estoy realizando las computaciones mínimas
+            requeridas para el comportamiento que quiero que tenga mi aplicación,
+            sin abstracciones innecesarias que consuman recursos.
+        </p>
+        <hr>
+        <p>
+            Más especificamente, cada "directorio" en esta aplicación es una página
+            escrita en <code>.astro</code>. Cada vez que usas el comando <span class="em-command">nav</span>,
+            estas cargando una página completa.
+        </p>
+        <p>
+            Gracias a la API de View Transitions, y a ClientRounter, el contenido de
+            la página anterior es acarreado a la nueva, y el cambio se hace tan
+            prolijamente que puede que pienses que estás usando una SPA.
+        </p>
+        <p>
+            Algunos comandos están implementados enteramente con Javascript en el cliente,
+            por ejempelo <span class="em-command">echo</span>, <span class="em-command">settings</span> 
+            y <span class="em-command">cls</span>. Otros, como <span class="em-command">cat</span>
+            y <span class="em-command">ls</span>, solicitan algún recurso del servidor, y comandos como
+            <span class="em-command">help</span> y <span class="em-command">sitemap</span>
+            solicitan Astro Partials renderizados a demanda.
+        </p>
+        <hr>
+        <p>
+            Eso es todo lo que tengo para decir sobre la arquitectura, Workers y otros 
+            servicios serverless de Cloudflare proveen todo lo que necesito para ejecutar 
+            el backend. A medida que optimizo mis implementaciones (todavía falta mucho),
+            puede que incluya algún framework CSR para renderizar contenido que de otra manera 
+            sería innecesariamente complejo de implementar manualmente.
+        </p>
+    </section>
+</MainLayout>

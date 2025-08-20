@@ -12,16 +12,27 @@ let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Ast
 ---
 
 <MainLayout langlib={es} theme={theme} >
-    {hideIntro !== 'true' && <Intro lang="es"/> }
+    {hideIntro !== 'true' && <Intro lang="en"/> }
     <section>
         <h2>
             Joaquín Leonel Bazán
         </h2>
         <p>
-            Estudiente de Ingeniería en Sistemas de Información. Desarrollador full-stack.
+            Estudiante de Ingeniería en Sistemas de Información. Desarrollador full-stack.
         </p>
         <p>
-            Esta sección estará disponible pronto.
+            Soy un perfeccionista que disfruta resolver problemas y crear.
+            A veces me gusta escribir poesía (por ahora solo en inglés),
+            a veces me alcanza con ver videos de gatos en internet.
         </p>
+        <hr>
+        <h3>
+            Enlaces relevantes:
+        </h3>
+        <ul>
+            <li><a href="https://linkedin.com/in/jbazann">linkedin.com/in/jbazann</a></li>
+            <li><a href="https://github.com/jbazann">github.com/jbazann</a></li>
+            <li><a href="https://twitter.com/jbazann_">twitter.com/jbazann_</a></li>
+        </ul>
     </section>
 </MainLayout>

@@ -3,6 +3,7 @@ import MainLayout from "@l/MainLayout.astro";
 import en from "@lib/lang/en"
 import cookies from "@lib/cookies.json"
 import Intro from "@c/pages/Intro.astro";
+import CommandTrigger from "@c/main-layout/CommandTrigger.astro";
 
 let theme
 if (Astro.cookies.has(cookies.theme)) theme = Astro.cookies.get(cookies.theme)?.value
@@ -13,6 +14,25 @@ let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Ast
     {hideIntro !== 'true' && <Intro lang="en"/> }
     <section>
         <h2>Project Dubbi</h2>
-        <p>This section will be available soon!</p>
+        <h3>Overview</h3>
+        <p>
+            This project is the fourth iteration of my personal website. 
+            Version three is available at 
+            <a href="v3.jbazann.dev">v3.jbazann.dev</a>,
+            and you can read about it with 
+            <CommandTrigger cmd="nav ../sbupi">nav ../sbupi</CommandTrigger>. 
+        </p>
+        <p>
+            I divided this section into the following sub-sections:
+        </p>
+        <ul class="inline-list">
+            <li>Architecture</li>
+            <li>Structure</li>
+            <li>Roadmap</li>
+        </ul>
+        <p>
+            You may also want to take a loot at the following GitHub repository:
+            <a href="https://github.com/jbazann/dubbi">github.com/jbazann/dubbi</a>.
+        </p>
     </section>
 </MainLayout>
