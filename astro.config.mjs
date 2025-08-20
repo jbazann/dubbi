@@ -37,6 +37,7 @@ export default defineConfig({
 
   redirects: {
     "/r/toldyou": "https://youtu.be/dQw4w9WgXcQ",
+    "/w/orldwide": "https://youtu.be/a15nUK87Tzo"
   },
 
   vite: {
