@@ -6,11 +6,11 @@ import { getLocale, translatePath,  localizePath  } from "@lib/ssr";
 export const cookiesMiddleware = defineMiddleware(async (ctx, next) => {
     if (ctx.url.pathname.startsWith('/api')) return next()
 
-    const forceLanguage = ctx.cookies.get(COOKIES["force-language"])?.value
+    let forceLanguage = ctx.cookies.get(COOKIES["force-language"])?.value
     const path = ctx.url.pathname
     // console.log({forceLanguage, path}, "MIDDLEWARE")
 
-    if (forceLanguage !== 'true') {
+    if (forceLanguage !== 'true' && typeof forceLanguage !== 'undefined') {
         return next()
     }
 
