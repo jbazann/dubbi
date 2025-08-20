@@ -548,5 +548,5 @@ function ls(args) {
 }
 
 function whoami(args) {
-    dispatch(newPrintEvent(t('cmd.whoami.fake')))
+    dispatch(newPrintEvent(t('cmd.whoami.msg.fake')))
 }
