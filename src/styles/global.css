@@ -9,6 +9,14 @@
 
 * {
     font-size: 1rem;
+
+    &:focus-visible {
+        position: relative;
+        scale: 1.22;
+        outline: solid var(--color-highlight) var(--border-width);
+        border-radius: var(--border-radius);
+        outline-offset: 0.32em;
+    }
 }
 
 html,

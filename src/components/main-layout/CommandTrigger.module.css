@@ -7,7 +7,7 @@
     font: inherit;
     text-decoration: none; 
     cursor: pointer;
-    outline: none;
+    /* outline: none; */
     box-sizing: border-box;
     /*  */
     color: var(--color-highlight);
