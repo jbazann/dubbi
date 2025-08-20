@@ -10,11 +10,18 @@ export const getStaticPaths = () => {
 }
 
 let {lang = 'en', path = null} = Astro.params
-const paths: string[] | null = await fetch(new URL(`/api/static/sitemap/${path}.sitemap.json`, Astro.url))
-    .then(r => r.ok ? r.json() : null, e => {
-        console.log(e)
+const _static = `/api/static/sitemap/${path}.sitemap.json`, o = Astro.url.origin
+console.log("SITEMAP SUBREQUEST",JSON.stringify({_static,o}))
+const paths: string[] | null = await Astro.locals.runtime.env.ASSETS.fetch(new URL(_static, o))
+    .then(async r => {
+        const qsy: string[] | null = r.ok ? await r.json() : null
+        console.log("SITEMAP SUBREQUEST RESPONSE", JSON.stringify({status: r.status,qsy}))
+        return qsy
+    }, e => {
+        console.log("SITEMAP SUBREQUEST ERROR", JSON.stringify({e}))
         return null
     })
+
 ---
 {lang === 'en' && (paths !== null 
 ? (
