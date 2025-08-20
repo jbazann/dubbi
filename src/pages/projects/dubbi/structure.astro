@@ -3,7 +3,6 @@ import MainLayout from "@l/MainLayout.astro";
 import en from "@lib/lang/en"
 import cookies from "@lib/cookies.json"
 import Intro from "@c/pages/Intro.astro";
-import Dubbi from "../dubbi.astro";
 
 let theme
 if (Astro.cookies.has(cookies.theme)) theme = Astro.cookies.get(cookies.theme)?.value
@@ -12,7 +11,6 @@ let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Ast
 
 <MainLayout langlib={en} theme={theme}>
     {hideIntro !== 'true' && <Intro lang="en"/> }
-    {hideIntro !== 'true' && <Dubbi/> }
     <section>
         <h3>Project structure</h3>
         <p>
