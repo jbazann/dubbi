@@ -8,15 +8,16 @@ export const cookiesMiddleware = defineMiddleware(async (ctx, next) => {
 
     const forceLanguage = ctx.cookies.get(COOKIES["force-language"])?.value
     const path = ctx.url.pathname
-    console.log({forceLanguage, path}, "MIDDLEWARE")
+    // console.log({forceLanguage, path}, "MIDDLEWARE")
 
     if (forceLanguage !== 'true') {
         return next()
     }
 
     const flags = { unset: false }
-    const lang = getLocale(ctx.request, ctx.request.headers.get('Accept-Language'), flags)
-    console.log({lang,flags}, "MIDDLEWARE")
+    
+    const lang = getLocale(ctx.request, ctx.preferredLocale, flags)
+    // console.log({lang,flags, ctx.preferredLocale}, "MIDDLEWARE")
 
     if (flags.unset) return next()
     if (ctx.currentLocale === lang) return next()
@@ -30,7 +31,7 @@ export const cookiesMiddleware = defineMiddleware(async (ctx, next) => {
     }
 
     const redirectPath = localizePath(translatedPath,lang)
-    console.log({path, translatedPath, redirectPath}, "MIDDLEWARE")
+    // console.log({path, translatedPath, redirectPath}, "MIDDLEWARE")
 
     const headers = new Headers()
     headers.append('Location', redirectPath)
