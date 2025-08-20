@@ -18,6 +18,12 @@ const en: LocalizedStrings = {
                 tip: "use the sitemap command to return to a valid directory.",
             },
         },
+        help: {
+            msg: {
+                soon: "Help sections by command will be available in a few days. Good luck in the meantime!",
+                unknown: "Unknown help section: \"!{cmd}\".", // !{cmd}
+            },
+        },
         settings: {
             msg: {
                 variants: { 

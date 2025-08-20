@@ -18,6 +18,12 @@ type LocalizedStrings = {
                 tip: string
             }
         }
+        help: {
+            msg: {
+                soon: string
+                unknown: string // !{cmd}
+            }
+        }
         settings: {
             msg: {
                 variants: {

@@ -173,10 +173,32 @@ function help(args) {
         return
     }
     
-    // else
-    switch (args[1].toLowerCase()) {
-        //
+    const command = getCommandHelpSection(args[1])
+
+    if (command) {
+        dispatch(newPrintEvent(t('cmd.help.msg.soon')))
+    } else {
+        dispatch(newPrintEvent(t('cmd.help.msg.unknown', {cmd: args[1]})))
     }
+}
+
+function getCommandHelpSection(arg) {
+    let command = null
+    switch (arg?.toLowerCase()) {
+        case 'help':
+        case 'nav':
+        case 'cd':
+        case 'ls':
+        case 'cat':
+        case 'sitemap':
+        case 'whoami':
+        case 'remote-echo':
+        case 'recho':
+        case 'settings':
+        case 'cls':
+            command = arg.toLowerCase()
+    }
+    return command
 }
 
 const FORM_HACK = document.createElement('form') // TODO find a better way
