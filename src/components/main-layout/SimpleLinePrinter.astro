@@ -34,7 +34,9 @@
 </template>
 
 <template id="tty-slp-cat-img">
-    <img class="cat-image" src="" alt="">
+    <div class="cat-image-container">
+        <img class="cat-image" src="" alt="">
+    </div>
 </template>
 
 <script>
@@ -111,8 +113,8 @@
     eventHandler('tty:print:cat', (event) => {
         const img = cat.content.cloneNode(true) as Element
         // For the first time in two years I ran into the reason for semicolons.
-        (img.firstElementChild as HTMLImageElement).src = (event as CustomEvent).detail.url; // Hilariously enough, it's Typescript's fault.
-        (img.firstElementChild as HTMLImageElement).alt = (event as CustomEvent).detail.alt
+        (img.firstElementChild!.firstElementChild as HTMLImageElement).src = (event as CustomEvent).detail.url; // Hilariously enough, it's Typescript's fault.
+        (img.firstElementChild!.firstElementChild as HTMLImageElement).alt = (event as CustomEvent).detail.alt
         requestAnimationFrame(() => {
             pageContainer.appendChild(img)
             if (firstCat) {
