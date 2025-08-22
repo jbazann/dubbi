@@ -13,8 +13,43 @@ let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Ast
     {hideIntro !== 'true' && <Intro lang="en"/> }
     <section>
         <h2>Project Sbupi</h2>
-        <p>This section will be available soon!</p>
-        <p>Meanwhile, you can check out an outdated version at 
-            <a href="https://v3.jbazann.dev/projects/sbupi">v3.jbazann.dev/projects/sbupi</a></p>
+        <p>
+            This project was my first approach to React and Cloudflare.
+        </p>
+        <p>
+            I didn't love the idea of making the client render an entire page of static content,
+            with only a couple dynamic elements I forcibly introduced. This is how I found
+            that Vike lets me control how hydration happens.
+        </p>
+        <p>
+            I essentially pre-render most of the page, but then I don't let
+            React take over it on the client side.
+            Instead, I only hydrate content islands where necessary, leaving most of 
+            the document untouched by client-side React. I wrote more about this
+            under <em>./hydration</em>.
+        </p>
+        <p>
+            As for Cloudflare, deployment of static assets on Cloudflare Pages is trivial, 
+            but I had some fun with e-mail re-routing and "fake" server routing. This
+            is under <em>./routing</em>.
+        </p>
+        <p>
+            Another fun thing I did was use CSS and simple event listeners
+            to completely eliminate the need for re-rendering. If you look on
+            DevTools, you'll see the <em>entire</em> website is in the DOM
+            sent by the server.
+        </p>
+        <p>
+            I wrote about that in <em>./display</em>.
+        </p>
+        <hr>
+        <p> You can check out the final version at
+            <a target="_blank" href="https://v3.jbazann.dev">v3.jbazann.dev/</a>
+            and the repository is under
+            <a target="_blank" href="https://github.com/jbazann/sbupi">github.com/jbazann/sbupi</a>.
+            Do keep in mind that I stopped working on this project before it was
+            "completed," and then I moved it to a different origin without 
+            checking if any configurations depended on it. It may no longer work as expected.
+        </p>
     </section>
 </MainLayout>

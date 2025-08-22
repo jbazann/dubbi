@@ -124,6 +124,14 @@ button {
     box-sizing: border-box;
 }
 
+figure > .img {
+    padding-bottom: 0;
+}
+
+figure > figcaption {
+    padding-bottom: 1rem;
+}
+
 .no-inline-whitespace {
     display: inline-flex;
     flex-direction: row;
@@ -152,7 +160,7 @@ button {
     display: inline;
 }
 
-.cat-image-container {
+.cat-image-container, .image-container {
     display: flex;
     flex-direction: column;
     justify-content: safe center;
@@ -224,4 +232,8 @@ button {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem 3rem;
+}
+
+.img {
+    padding: 0 2rem 1rem 2rem;
 }

@@ -12,9 +12,46 @@ let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Ast
 <MainLayout langlib={es} theme={theme}>
     {hideIntro !== 'true' && <Intro lang="es"/> }
     <section>
-        <h2>Proyecto Sbupi</h2>
-        <p>Esta sección estará disponible muy pronto!</p>
-        <p>Mientras tanto, podés ver una versión desactualizada en 
-            <a href="https://v3.jbazann.dev/es/projects/sbupi">v3.jbazann.dev/es/projects/sbupi</a></p>
+        <h2>Projecto Sbupi</h2>
+        <p>
+            Este proyecto fue mi primera aproximación a React y Cloudflare.
+        </p>
+        <p>
+            No me encantó la idea de hacer que el cliente renderice una página entera de contenido estático,
+            con solamente un par de elementos dinámicos que introduje a la fuerza. Así fue como 
+            descubrí que Vike me permite controlar cómo ocurre la hidratación.
+        </p>
+        <p>
+            Esencialmente estoy pre-renderizando la mayoría de la página, 
+            pero después no permito que React tome control de este contenido 
+            del lado del cliente.
+            En cambio, solamente hidrato "islas" de contenido donde hace falta, dejando
+            la mayoría del documento sin tocar por React. Escribí más
+            sobre esto en <em>./hidratacion</em>.
+        </p>
+        <p>
+            En cuanto a Cloudflare, desplegar en Cloudflare Pages es trivial,
+            pero me entretuve con re-enrutamiento de e-mails y server routing "falso." 
+            Esto está detallado en <em>./enrutamiento</em>.
+        </p>
+        <p>
+            Otra cosa entretenida que hice fue usar CSS y event listeners simples 
+            para eliminar completamente la necesidad de hacer re-renders.
+            Si mirás en DevTools, vas a ver que <em>toda</em> la página está 
+            en el DOM recibido del servidor.
+        </p>
+        <p>
+            Escribí sobre esto en <em>./display</em>.
+        </p>
+        <hr>
+        <p> 
+            Podés ver la versión final en
+            <a target="_blank" href="https://v3.jbazann.dev">v3.jbazann.dev/es/</a>
+            y el repositorio está en
+            <a target="_blank" href="https://github.com/jbazann/sbupi">github.com/jbazann/sbupi</a>.
+            Tené en mente que dejé de trabajar en este proyecto antes de que esté "completado,"
+            y después lo moví a un origen diferente sin revisar si había configuraciones que
+            dependieran de esto. Puede que no todo siga funcionando como debería.
+        </p>
     </section>
 </MainLayout>
