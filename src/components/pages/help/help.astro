@@ -1,0 +1,116 @@
+---
+import CommandTrigger from "@c/main-layout/CommandTrigger.astro"
+
+const { lang } = Astro.props
+
+export const prerender = true
+export const getStaticPaths = (() => {    
+    return [
+        {
+            props: {
+                lang: 'es'
+            }
+        },{
+            props: {
+                lang: 'en'
+            }
+        }
+    ]
+}) 
+---
+
+{lang === 'es' &&
+<section>
+    <h2>Ayuda: help</h2>
+    <hr>
+    <p class="no-bottom-margin"><span>Alias: </span> ?, h, help, ayuda.
+    </p>
+    <p class="no-bottom-margin"><span>Modo de uso: </span> help &lt;--opción&gt; &lt;comando&gt;
+    </p>
+    <p><span>Ejemplos: </span>
+        <ul>
+            <li><CommandTrigger cmd="help">help</CommandTrigger></li> 
+            <li><CommandTrigger cmd="help help">help help</CommandTrigger></li> 
+            <li><CommandTrigger cmd="help -n">help -n</CommandTrigger></li> 
+            <li><CommandTrigger cmd="help --navigation">help --navigation</CommandTrigger></li> 
+            <li><CommandTrigger cmd="help cls">help cls</CommandTrigger></li>
+        </ul>
+    </p>
+    <p>
+        El comando <span class="em-command">help</span> muestra documentación
+        útil para operar esta consola. En general, los comandos pueden
+        recibir <em>argumentos</em> y/u <em>opciones</em>.
+    </p>
+    <p>
+        Un argumento es cualquier valor que se escriba después del comando. El
+        órden de los mismos suele importar, aunque existen excepciones. En general,
+        si la documentación no menciona que el orden no importa, <em>probablemente</em>
+        sea obligatorio escribirlos en el orden que sugiere <em>"modo de uso"</em>. 
+    </p>
+    <p>
+        Una opción es un argumento que comienza con dos guiones (<em>--</em>). 
+        En algunos casos, las opciones tienen formas abreviadas,
+        las cuales comienzan con un único guión.
+    </p>
+    <p>
+        El comando <span class="em-command">help</span>, en su apartado <em>"modo de uso"</em>, indica argumentos 
+        y/u opciones <i>opcionales</i> (o sea, opciones que pueden ser omitidas...) 
+        entre signos "mayor que" y "menor que". Mientras que argumentos y opciones 
+        obligatorias se indican entre corchetes:
+        <em>&gt;</em>opcional<em>&lt;</em>; <em>[</em>obligatorio<em>]</em>.
+    </p>
+    <p>
+        El apartado <em>"alias"</em> indica comandos equivalentes. Notar que
+        para acceder a la sección de ayuda de un comando específico, sólo 
+        es válida la forma utilizada por el comando <CommandTrigger cmd="help">help</CommandTrigger>, 
+        en la sección <em>"comandos"</em>.
+    </p>
+</section>
+}
+
+{lang === 'en' &&
+<section>
+    <h2>Help: help</h2>
+    <hr>
+    <p class="no-bottom-margin"><span>Alias: </span> ?, h, help, ayuda.
+    </p>
+    <p class="no-bottom-margin"><span>Usage: </span> help &lt;--option&gt; &lt;command&gt;
+    </p>
+    <p><span>Examples: </span>
+        <ul>
+            <li><CommandTrigger cmd="help">help</CommandTrigger></li> 
+            <li><CommandTrigger cmd="help help">help help</CommandTrigger></li> 
+            <li><CommandTrigger cmd="help -n">help -n</CommandTrigger></li> 
+            <li><CommandTrigger cmd="help --navigation">help --navigation</CommandTrigger></li> 
+            <li><CommandTrigger cmd="help cls">help cls</CommandTrigger></li>
+        </ul>
+    </p>
+    <p>
+        The <span class="em-command">help</span> command shows documentation
+        useful to operate this console. In general, commands can receive
+        <em>arguments</em> and/or <em>options</em>.
+    </p>
+    <p>
+        An argument is any value following the command. The order of these
+        usually matters, but exceptions exist. Generally, if the documentation 
+        doesn't mention that order doesn't matter, it <em>probably</em> does
+        and you should type them in the order suggested by <em>"usage"</em>. 
+    </p>
+    <p>
+        An option is an argument that starts with two dashes (<em>--</em>).
+        In some cases, options have shorthand forms, which start with a single dash.
+    </p>
+    <p>
+        The <span class="em-command">help</span> command, in its <em>"usage"</em> section, 
+        indicates optional arguments and/or options between "greater than" and "less than" symbols.
+        While arguments and/or options that are mandatory are shown between brackets:
+        <em>&gt;</em>optional<em>&lt;</em>; <em>[</em>mandatory<em>]</em>.
+    </p>
+    <p>
+        The <em>"alias"</em> section indicates equivalent commands. Note that
+        to access the help section of a specific command, the only valid
+        form is the one used by the <CommandTrigger cmd="help">help</CommandTrigger> command, 
+        under its <em>"commands"</em> section.
+    </p>
+</section>
+}
