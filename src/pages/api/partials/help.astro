@@ -1,6 +1,7 @@
 ---
 import General from "@c/pages/help/general.astro"
 import Navigation from "@c/pages/help/navigation.astro"
+import HelpHelp from "@c/pages/help/help.astro"
 import Tutorial from "@c/pages/help/tutorial.astro"
 import { getLocale } from "@lib/ssr"
 export const partial = true
@@ -37,6 +38,7 @@ switch (true) {
         case 'navigation':
             return <Navigation lang={locale}></Navigation>
         case 'help':
+            return <HelpHelp lang={locale}></Help>
         case 'nav':
         case 'cd':
         case 'ls':
