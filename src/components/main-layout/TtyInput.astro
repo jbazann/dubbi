@@ -56,10 +56,13 @@ import "@s/fonts.css"
     //
 
     let charWidth, lineLength: number
-    eventHandler('DOMContentLoaded', async () => {
-        await document.fonts.ready;
+    const updateLineLength = () => {
         charWidth = user.offsetWidth / user.textContent!.length
         lineLength = Math.floor(textContainer.clientWidth / charWidth)
+    }
+    eventHandler('DOMContentLoaded', async () => {
+        await document.fonts.ready;
+        updateLineLength()
     })
 
     //
@@ -210,6 +213,18 @@ import "@s/fonts.css"
             dispatch(newScrollToBottomEvent())
         }
     }
+    
+    let throttledResize: any
+    const resizeHandler = () => {
+        throttledResize = null
+        updateLineLength()
+        updateDisplayedText(null as any)
+    }
+    const observer = new ResizeObserver((_entries, _observer) => {
+        if (throttledResize) return
+        throttledResize = setTimeout(resizeHandler, 1_000/12)
+    })
+    observer.observe(textContainer)
 
     const updateCaretPos = (event: Event) => {
         if (input.selectionStart !== caretPos || input.selectionStart !== input.selectionEnd) {
@@ -284,7 +299,7 @@ import "@s/fonts.css"
         dispatch(newTtyFocusEvent())
     }
 
-    eventHandler('click', focusInput, ttyin, "TTY_IN")
+    eventHandler('pointerup', focusInput, ttyin, "TTY_IN")
     eventHandler('click', setActualCaretOnCaretPos, input, "TTY_IN")
     eventHandler('focus', setActualCaretOnCaretPos, input, "TTY_IN")
     eventHandler('input', updateDisplayedText, input, "TTY_IN")
