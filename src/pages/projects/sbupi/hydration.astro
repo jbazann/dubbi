@@ -1,0 +1,103 @@
+---
+import MainLayout from "@l/MainLayout.astro";
+import en from "@lib/lang/en"
+import cookies from "@lib/cookies.json"
+import Intro from "@c/pages/Intro.astro";
+import sbupi_render from "@a/sbupi/sbupi_render.png"
+import sbupi_page from "@a/sbupi/sbupi_page.png"
+
+let theme
+if (Astro.cookies.has(cookies.theme)) theme = Astro.cookies.get(cookies.theme)?.value
+let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Astro.request.formData() : [])
+---
+
+<MainLayout langlib={en} theme={theme}>
+    {hideIntro !== 'true' && <Intro lang="en"/> }
+    <section>
+        <h3>Hydration</h3>
+        <p>
+            I approached client-side rendering with an interesting idea, what if
+            I leveraged Vike's prerendering to create 
+            my own "<code>HydrationRoot</code>," 
+            (basically an empty div left by the server for the client to start hydration from) 
+            and then only allowed React to take over specific DOM subtrees?
+        </p>
+        <p>
+            I found that this is called "islands architecture," and it was
+            surprisingly simple to implement thanks to Vike's <code>+onRenderClient</code>
+            hook, which lets me control how React hydrates. 
+        </p>
+        <figure class="image-container">
+            <img src={sbupi_render.src} class="img i1" alt="A screenshot of https://github.com/jbazann/sbupi/blob/main/src/pages/+onRenderClient.jsx">
+            <figcaption>/src/pages/+onRenderClient.js</figcaption>
+        </figure>
+        <p>
+            (1): The <code>Page</code> value I am extracting from <code>pageContext</code> is, as you might guess,
+            the React component that represents a page. Except it isn't, 
+            not to the client at least. As you will see below, after SSR 
+            (that means at build time, since I don't deploy a server) 
+            <code>Page</code> is an object
+            with dynamic imports, one for each component that needs hydration.
+        </p>
+        <figure class="image-container">
+            <img src={sbupi_page.src} class="img i2" alt="A screenshot of https://github.com/jbazann/sbupi/blob/main/src/pages/+Page.jsx">
+            <figcaption>/src/pages/+Page.jsx</figcaption>
+        </figure>
+        <p>
+            (2): The names of these components are retrieved from a data attribute,
+            and they correspond with the keys in <code>Page</code>.
+        </p>
+        <p>
+            (3): Then, all it takes is loading these imports and passing them to React,
+            along with some props (<code>const data</code>) if needed. 
+            This line in particular looks a bit ugly, but it's really just React's way
+            of loading components when you need dynamic imports.
+        </p>
+        <p>
+            Dynamic imports are necessary with this setup because I don't want 
+            <em>all</em> my React components to be bundled for the client, I 
+            only want to send those that actually need CSR. I'm sure there are
+            other ways to do it, but I found that Vite and Rollup conveniently
+            produce the bundles I want, if I use dynamic imports wisely.
+        </p>
+        <hr>
+        <p>
+            So far, this is great, I get to learn React <em>and</em> build something I like.
+            The catch? I still need to attach event listeners to the static HTML, 
+            and because in this project I was focused on learning React, 
+            I didn't invest time into finding an appropriate solution 
+            for this problem.
+        </p>
+        <p>
+            What I ended up doing is using those script components you saw imported in <code>+Page</code>.
+            They return null, so they don't render anything, but they call <code>useEffect()</code>
+            to attach the listeners and whatnot. 
+        </p>
+        <p>
+            This means that I am spinning up a bunch of independent virtual DOMs just to call
+            <code>someElement.addEventListener(...)</code>. If you check out the deployed version, 
+            you may notice it takes a funny amount of time to enable the buttons; that's
+            me obliterating all the gains from islands architecture, or at least
+            all the ones I could have had for the initial load.
+        </p>
+        <hr>
+        <p>
+            Still, the concept works and I am not that far off from a decent solution, it's just
+            not what React was meant for, and I got bored of fighting my tools. 
+            I found Astro and here we are, <em>The Dubbi Project</em>. 
+        </p>
+    </section>
+</MainLayout>
+
+
+<style>
+
+    .i1 {
+        max-height: 25rem;
+    }
+
+    .i2 {
+        max-height: 32rem;
+    }
+
+</style>

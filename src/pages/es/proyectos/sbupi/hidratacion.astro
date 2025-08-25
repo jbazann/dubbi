@@ -1,0 +1,106 @@
+---
+import MainLayout from "@l/MainLayout.astro";
+import es from "@lib/lang/es"
+import cookies from "@lib/cookies.json"
+import Intro from "@c/pages/Intro.astro";
+import sbupi_render from "@a/sbupi/sbupi_render.png"
+import sbupi_page from "@a/sbupi/sbupi_page.png"
+
+let theme
+if (Astro.cookies.has(cookies.theme)) theme = Astro.cookies.get(cookies.theme)?.value
+let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Astro.request.formData() : [])
+---
+
+<MainLayout langlib={es} theme={theme}>
+    {hideIntro !== 'true' && <Intro lang="es"/> }
+    <section>
+        <h3>Hidratación</h3>
+        <p>
+            Encaré el renderizado en el cliente con una idea interesante, y 
+            si aprovecho el pre-renderizado de Vike para crear mi propio
+            "<code>HydrationRoot</code>," 
+            (básicamente un div vacío colocado por el servidor para que el cliente inicie la hidratación desde ahí)
+            y después solamente permita que React tome control de subárboles específicos del DOM?
+        </p>
+        <p>
+            Descubrí que a esto se le llama "arquitectura de islas," y fue
+            sorprendentemente simple de implementar gracias al hook
+            <code>+onRenderClient</code> de Vike,
+            que me permite controlar como hidrata React. 
+        </p>
+        <figure class="image-container">
+            <img src={sbupi_render.src} class="img i1" alt="Captura de pantalla de https://github.com/jbazann/sbupi/blob/main/src/pages/+onRenderClient.jsx">
+            <figcaption>/src/pages/+onRenderClient.js</figcaption>
+        </figure>
+        <p>
+            (1): El valor <code>Page</code> que estoy extrayendo de <code>pageContext</code> es, como uno
+            adivinaría, el componente React que representa una página. Excepto que no, no lo es,
+            al menos no en el cliente. Como vas a ver abajo, después de SSR
+            (o sea tras la build, ya que no despliego un servidor),
+            <code>Page</code> es un objeto con imports dinámicos,
+            uno por cada componente que necesita hidratación.
+        </p>
+        <figure class="image-container">
+            <img src={sbupi_page.src} class="img i2" alt="Captura de pantalla de https://github.com/jbazann/sbupi/blob/main/src/pages/+Page.jsx">
+            <figcaption>/src/pages/+Page.jsx</figcaption>
+        </figure>
+        <p>
+            (2): Los nombres de estos componentes son recuperados de un atributo "data",
+            y correpsonden con las keys en <code>Page</code>.
+        </p>
+        <p>
+            (3): Entonces, todo lo que se necesita es cargar estos componentes y pasárselos
+            a React, junto con algunas props (<code>const data</code>) de ser necesarias.
+            Esta línea en particular es un poco fea, pero solamente es la forma
+            de cargar componentes React cuando se necesitan imports dinámicos.
+        </p>
+        <p>
+            Estos imports dinámicos son necesarios con este setup porque 
+            no quiero que <em>todos</em> los componentes se incluyan 
+            en la bundle para el cliente, solamente hay que mandar
+            lo que realmente necesite CSR. Estoy seguro de que existen
+            otras formas de hacerlo, pero descubrí que Vike y Rollup 
+            convenientemente producen las bundles que quiero, si
+            uso imports dinámicos sabiamente.
+        </p>
+        <hr>
+        <p>
+            Hasta acá, está genial, puedo aprender React <em>y</em> construir algo que me guste.
+            El problema? Todavía tengo que agregar event listeners al HTML estático,
+            y como durante este proyecto estaba enfocado en aprender React, 
+            no invertí tiempo en encontrar una solución apropiada para este
+        </p>
+        <p>
+            Lo que terminé haciendo, en cambio, es usar esos componentes "**Script" que 
+            se ven importados en <code>+Page.jsx</code>.
+            Retornan null, así que no renderizan nada, pero llaman a <code>useEffect()</code>
+            para agregar event listeners y otros detalles menores.
+        </p>
+        <p>
+            Esto signifca que estoy creando un montón de DOMs virtuales independientes, solo 
+            para ejecutar <code>algunElemento.addEventListener(...)</code>. Si visitás
+            la versión desplegada, puede que te des cuenta que tarda un poco en habilitar los
+            botones; ese soy yo destruyendo todas las ganancias de la arquiectura de islas,
+            o al menos todas las que podría haber conseguido en cuanto a carga inicial.
+        </p>
+        <hr>
+        <p>
+            De todos modos, el concepto funciona, y no estoy tan lejos de una solución decente. 
+            Simpelmente no es para lo que se inventó React, y me aburrí de pelear
+            con mis herramientas. Descubrí Astro, y acá estamos, <em>El Proyecto Dubbi</em>.
+        </p>
+    </section>
+</MainLayout>
+
+
+<style>
+
+    .i1 {
+        max-height: 25rem;
+    }
+
+    .i2 {
+        max-height: 32rem;
+    }
+
+</style>

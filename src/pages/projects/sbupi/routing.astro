@@ -1,0 +1,100 @@
+---
+import MainLayout from "@l/MainLayout.astro";
+import en from "@lib/lang/en"
+import cookies from "@lib/cookies.json"
+import Intro from "@c/pages/Intro.astro";
+import sbupi_es from "@a/sbupi/sbupi_es.png"
+
+let theme
+if (Astro.cookies.has(cookies.theme)) theme = Astro.cookies.get(cookies.theme)?.value
+let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Astro.request.formData() : [])
+---
+
+<MainLayout langlib={en} theme={theme}>
+    {hideIntro !== 'true' && <Intro lang="en"/> }
+    <section>
+        <h3>Routing</h3>
+        <p>
+            Despite being mostly a static page, I perform three kinds of routing in
+            this project. 
+        </p>
+        <p>
+            First, file-based routing serves localized versions of the site.
+        </p>
+        <p>
+            As I explained in the <em>hydration</em> section, most of my React
+            components are only used at build time, which means I can use
+            the React context to set the language, and then translate 
+            the site on a per-component basis.
+        </p>
+        <p>
+            Then, generating a version of a specific language
+            is as simple as the following example, provided the components
+            already support the language:
+        </p>
+        <figure class="image-container">
+            <img src={sbupi_es.src} class="img" alt="A screenshot of https://github.com/jbazann/sbupi/blob/main/src/pages/es/+Page.jsx">
+            <figcaption>/src/pages/es/+Page.jsx</figcaption>
+        </figure>
+        <p>
+            I showed what <code>RootPage</code> is in the <em>hydration</em> section, as well
+            as the reason why my components aren't bundled. What I didn't mention is that
+            I avoided a lot of CSR and re-rendering by using hidden input elements and
+            CSS.
+        </p>
+        <p>
+            I won't get into details, but if you look at the HTML, you'll notice the
+            entire site is there, no matter where you are. That means I only have two
+            HTML documents, one for each supported language, 
+            and essentially no client-side rendering.
+        </p>
+        <hr>
+        <p>
+            The real fun begins when a path other than index is requested. Since the 
+            page's visible contents depend on the state of HTML inputs, I have two options:
+            either embrace FUOC and initialize the inputs on load, or use Cloudflare's
+            convenient <code>HTMLRewriter</code> API.
+        </p>
+        <p>
+            I did the latter, but I won't show it, because it's rather boring. On each 
+            request, the server parses JSON from a data attribute in the HTML, then uses
+            this object to understand the valid paths and which inputs it needs to toggle.
+        </p>
+        <hr>
+        <p>
+            Following up on the class attribute vs hidden inputs choice I mentioned
+            in the display section, this JSON data is fairly easy to generate programmatically,
+            and it only needs to map paths to element IDs. If I was using class attributes,
+            I'd need the IDs <em>plus</em> some string manipulation that may mess up 
+            the styling of the element.
+        </p>
+        <hr>
+        <p>
+            The result is that the client receives a (technically) server-rendered page
+            that shows the content they want, despite the document always being the same.
+        </p>
+        <p>
+            Something very similar happens on the client, I wrote a small but annoyingly
+            complicated script that parses the same JSON as the server, then keeps the 
+            browser location updated as you switch through the menus.
+        </p>
+        <hr>
+        <p>
+            As for the e-mail re-routing I mentioned, Cloudlfare can route mails
+            based on configurable rules, and I found out that Gmail lets you
+            send messages under an "alias" or as some other address. 
+        </p>
+        <p>
+            It takes a few steps to set up, but I was able to make it so that
+            any emails sent to <em>@jbazann.dev</em> addresses are re-routed
+            to <em>jbazanndev@gmail.com</em>, from where I can send my own
+            as if they came from <em>mail@jbazann.dev</em>. 
+        </p>
+        <p>
+            This is not a production-ready solution though, you'll find plenty
+            of warnings about email re-routing being a bad idea. But Cloudflare
+            lets me monitor for failed deliveries, and I like playing with
+            non-standard solutions.
+        </p>
+    </section>
+</MainLayout>

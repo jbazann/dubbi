@@ -1,0 +1,107 @@
+---
+import MainLayout from "@l/MainLayout.astro";
+import es from "@lib/lang/es"
+import cookies from "@lib/cookies.json"
+import Intro from "@c/pages/Intro.astro";
+import sbupi_es from "@a/sbupi/sbupi_es.png"
+
+let theme
+if (Astro.cookies.has(cookies.theme)) theme = Astro.cookies.get(cookies.theme)?.value
+let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Astro.request.formData() : [])
+---
+
+<MainLayout langlib={es} theme={theme}>
+    {hideIntro !== 'true' && <Intro lang="es"/> }
+    <section>
+        <h3>Enrutamiento</h3>
+        <p>
+            A pesar de ser en su mayoría un sitio estático, usé tres tipos
+            de enrutamiento en este proyecto.
+        </p>
+        <p>
+            Primero, enrutamiento basado en archivos sirve versiones localizadas
+            del sitio.
+        </p>
+        <p>
+            Como expliqué en la sección de <em>hidratacion</em>, la mayoría
+            de mis componentes React son usados únicamente en tiempo de build.
+            Esto significa que puedo usar el contexto de React para definir
+            el idioma, y después traducir el sitio componente a componente.
+        </p>
+        <p>
+            Entonces, generar una versión de una página para un lenguage 
+            en específico es tan simple como el siguiente ejemplo, asumiendo
+            que los componentes ya soportan el lenguaje en cuestión.
+        </p>
+        <figure class="image-container">
+            <img src={sbupi_es.src} class="img" alt="Una captura de pantalla de https://github.com/jbazann/sbupi/blob/main/src/pages/es/+Page.jsx">
+            <figcaption>/src/pages/es/+Page.jsx</figcaption>
+        </figure>
+        <p>
+            Ya mostré la implementación de <code>RootPage</code> en la sección
+            que ya mencioné, así como la razón por la que mis componentes no 
+            son inlcuídos en la bundle para el cliente. Lo que no mencioné es
+            que estoy usando inputs ocultos y CSS para evitar la mayoría
+            del renderizado del lado del cliente.
+        </p>
+        <p>
+            No voy a entrar en detalles, pero si te fiajs en el HTML, vas a ver que 
+            <em>toda</em> la página está ahí, no importa qué sección estés viendo.
+            Esto significa que solamente necesito dos documentos HTML, uno por cada lenguage, 
+            y esencialmente nada de CSR.
+        </p>
+        <hr>
+        <p>
+            La parte divertida empieza cuando se solicita un camino que no sea
+            la raíz. Como los contenidos visibles de la página dependen del estado
+            de los inputs, tengo dos opciones:
+            Aceptar que al cargar la página siempre se va a ver el menú principal,
+            o usar la API <code>HTMLRewriter</code> de Cloudflare.
+        </p>
+        <p>
+            Hice esto último, pero no lo voy a mostrar acá porque es aburrido. Para
+            cada solicitud, el servidor parsea datos JSON en el HTML, y los 
+            usa para entende los caminos válidos y qué inputs tiene que activar.
+        </p>
+        <hr>
+        <p>
+            Continuando la discusión sobre modificar atributos de clase o usar inputs
+            ocultos (de la sección de display), estos datos JSON son bastante fáciles
+            de generar programáticamente, y solamente necesitan mapear elementos
+            del path a IDs de inputs. Si estuviera usando atributos de clase,
+            necesitaría los IDs <em>más</em> manipulación manual de strings,
+            que podría arruinar los estilos del elemento.
+        </p>
+        <hr>
+        <p>
+            El resultado es que el cliente recibe una página (técnicamente) renderizada
+            por el servidor, que muestra el contenido que solicitó, a pesar de que
+            el documento siempre es el mismo.
+        </p>
+        <p>
+            Algo muy similar pasa en el cliente, escribí un script corto pero molesto
+            y complicado que parsea el mismo JSON que el server, y después mantiene
+            la ubicación del navegardor actualizada a medida que navegás por los menús.
+        </p>
+        <hr>
+        <p>
+            Respecto al enrutamiento de e-mails que mencione, CLoudflare puede
+            enrutar correos en base a reglas configuradas, y descubrí que Gmail
+            permite enviar mensajes usando un "alias" o como si vinieran
+            de otra dirección. 
+        </p>
+        <p>
+            Require algunos pasos para configurar, pero pude hacer que cualquier
+            correo enviado a direcciones bajo el dominio <em>@jbazann.dev</em>
+            sean reenrutados hacia <em>jbazanndev@gmail.com</em>, 
+            desde donde puedo enviar mis propios correos como si vinieran de
+            <em>mail@jbazann.dev</em>. 
+        </p>
+        <p>
+            Esto no es una solución para producción, cabe mencionar, en internet
+            está lleno de advertencias sobre por qué re-enrutar correos es
+            mala idea. Pero Cloudflare me permite monitorear entregas fallidas,
+            y me gusta jugar con soluciones no estándar.
+        </p>
+    </section>
+</MainLayout>

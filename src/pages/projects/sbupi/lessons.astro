@@ -1,0 +1,72 @@
+---
+import MainLayout from "@l/MainLayout.astro";
+import en from "@lib/lang/en"
+import cookies from "@lib/cookies.json"
+import Intro from "@c/pages/Intro.astro";
+
+let theme
+if (Astro.cookies.has(cookies.theme)) theme = Astro.cookies.get(cookies.theme)?.value
+let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Astro.request.formData() : [])
+---
+
+<MainLayout langlib={en} theme={theme}>
+    {hideIntro !== 'true' && <Intro lang="en"/> }
+    <section>
+        <h3>Lessons leared</h3>
+        <p>
+            The first and most important lesson I learned is that I <em>shouldn't</em>
+            disregard what people who are smarter and more experienced than me
+            are doing. React was made to be rendered on the client. There
+            is implicit knowledge in that idea.
+        </p>
+        <p>
+            I was aware from the beginning that the steps I was taking to 
+            render React statically wouldn't scale beyond a personal project.
+            What I should have also known was how much this would impact my
+            productivity.
+        </p>
+        <p>
+            I had to solve a lot of artificial or unnecessary problems that only appear when
+            you're working against your framework. This became expecially
+            evident when I switched to Astro, and suddenly everything I wanted
+            to do was supported and easy.
+        </p>
+        <p>
+            The second lesson is that I <em>should</em> disregard what people who
+            are smarter and more experienced than me are doing.
+            If I understand their reasons, there are occasions when
+            requiriements enable a better, even if less orthodox approach.
+        </p>
+        <p>
+            I still think including hidden content instead of generating 
+            it dynamically is a valid engineering choice. The benefit
+            may be considered a micro-optimization in isolation,
+            but in the frontend,
+            these add up to the final user experience.
+        </p>
+        <p>
+            <em>Some</em> loading times are expected when using web applications,
+            especially when you understand how they are built. 
+            But if you can use CSS tricks to insert instantaneous responses
+            in between loading times, I actually <em>need</em> the delay.
+            
+        </p>
+        <p>
+            I can move through menus as fast as my mouse can click, but at some  
+            point, I need to slow down and think about what I am doing. This 
+            is when I expect my computer to be processing the next step.
+        </p>
+        <p>
+            Does pre-processing the next step take too much RAM? 
+            Is it too much network traffic?
+            Are there too many branching flows?
+            I am not yet convinced that these aren't macroscopic problems
+            that can be solved with smarter design.
+        </p>
+        <p>
+            Computers are faster than us, it's unfortunate that for the
+            sake of productivity, we split systems into so many parts that
+            we start to lose track of the global experience. 
+        </p>
+    </section>
+</MainLayout>

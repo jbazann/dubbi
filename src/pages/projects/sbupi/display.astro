@@ -1,0 +1,85 @@
+---
+import MainLayout from "@l/MainLayout.astro";
+import en from "@lib/lang/en"
+import cookies from "@lib/cookies.json"
+import Intro from "@c/pages/Intro.astro";
+import sbupi_fast from "@a/sbupi/sbupi_fast.gif"
+import sbupi_entire from "@a/sbupi/entire-site.png"
+
+let theme
+if (Astro.cookies.has(cookies.theme)) theme = Astro.cookies.get(cookies.theme)?.value
+let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Astro.request.formData() : [])
+---
+
+<MainLayout langlib={en} theme={theme}>
+    {hideIntro !== 'true' && <Intro lang="en"/> }
+    <section>
+        <h3>Display</h3>
+        <p>
+            Why would I let React re-render large DOM sections on-demand,
+            consuming precious client CPU time, when I can send everything
+            in the initial response and just be clever about it?
+        </p>
+        <figure class="image-container">
+            <img src={sbupi_entire.src} class="img" alt="A screenshot of DevTools, showing how the entire website is sent every time.">
+            <figcaption>All the menus can be seen in DevTools.</figcaption>
+        </figure>
+        <p>
+            Admittedly, the site isn't particularly large, and there is
+            practically no dynamic content. This means I will not find
+            the answer to that question with this project.
+        </p>
+        <p>
+            What I can find, though, 
+            is how much there is to be gained when adding up
+            micro-optimizations.
+        </p>
+        <hr>
+        <p>
+            The CSS I wrote is a bit too scattered to show it here, but you can
+            very easily tell the browser to show/hide elements based on
+            input elements such as checkboxes or radio buttons.
+        </p>
+        <p>
+            You can also just change the class attribute of the element,
+            but that's the boring person approach. I also preferred
+            not having to check what Javascript is doing in order
+            to understand the possible stylings of an element. 
+        </p>
+        <p>
+            Using inputs instead of directly manipulating the class 
+            attribute also has the benefit of simplifying the "server routing"
+            logic I discuss in the routing section.
+        </p>
+        <p>
+            So, each menu is wrapped in a div, and with just an event listener
+            that repeats menu button clicks onto the hidden inputs that control the CSS,
+            you can simulate navigation efficiently.
+        </p>
+        <figure class="image-container">
+            <img src={sbupi_fast.src} class="img" alt="A gif depicting interaction with the proposed implementation.">
+        </figure>
+        <p>
+            You can go give it a try, click the menu buttons as fast as you can,
+            the UI is faster than your eyes, how queer!
+        </p>
+        <p>
+            This does have accessibility implications. You need to be mindful
+            about how you mark your HTML, since screen readers may end up
+            reading content that isn't supposed to be shown.
+        </p>
+        <p>
+            As far as I've tested though, you can effectively hide content
+            even to screen readers. But if this is a significant concern
+            for your site, the LinkedIn way may be the safest choice.
+        </p>
+    </section>
+</MainLayout>
+
+<style>
+
+    img {
+        max-height: 16rem;
+    }
+
+</style>

@@ -1,0 +1,87 @@
+---
+import MainLayout from "@l/MainLayout.astro";
+import es from "@lib/lang/es"
+import cookies from "@lib/cookies.json"
+import Intro from "@c/pages/Intro.astro";
+import sbupi_fast from "@a/sbupi/sbupi_fast.gif"
+import sbupi_entire from "@a/sbupi/entire-site.png"
+
+let theme
+if (Astro.cookies.has(cookies.theme)) theme = Astro.cookies.get(cookies.theme)?.value
+let {hideIntro} = Object.fromEntries(Astro.request.method === 'POST' ? await Astro.request.formData() : [])
+---
+
+<MainLayout langlib={es} theme={theme}>
+    {hideIntro !== 'true' && <Intro lang="es"/> }
+    <section>
+        <h3>Display</h3>
+        <p>
+            Por qué dejaría que React re-renderice grandes porciones del DOM a demanda,
+            consumiendo preciado tiempo de CPU del cliente, cuando puedo 
+            enviar todo en la respuesta inicial y simplemente ser inteligente al respecto?
+        </p>
+        <figure class="image-container">
+            <img src={sbupi_entire.src} class="img" alt="Una captura de pantalla de DevTools, mostrando como toda la página se envía en cada solicitud.">
+            <figcaption>Todos los menús pueden ser vistos en DevTools.</figcaption>
+        </figure>
+        <p>
+            Convengamos que la página no es particularmente grande,
+            y prácticamente no hay contenido dinámico. Esto significa 
+            que no voy a encontrar la respuesta a esa pregunta 
+            en este proyecto.
+        </p>
+        <p>
+            Lo que sí puedo descubrir es cuánto se puede ganar
+            con "micro" optimizaciones.
+        </p>
+        <hr>
+        <p>
+            El CSS que escribí está un poco fragmentado para mostrarlo acá, pero es muy
+            fácil decirle al navegador que muestre/oculte elementos según
+            el estado de inputs como checkboxes y radio buttons.
+        </p>
+        <p>
+            También se puede simplemente cambiar el atributo "class"
+            del elemento, pero eso lo haría una persona aburrida. Además,
+            prefiero no tener que ver qué hace Javascript para saber qué
+            clases pueden aplicarse a qué elementos; si lo hago con inputs,
+            se puede ver todo en CSS.
+        </p>
+        <p>
+            Usar inputs en vez de manipular la clase también tiene
+            el beneficio de simplificar el "server routing"
+            que implementé, como menciono en la sección correspondiente.
+        </p>
+        <p>
+            Entonces, cada menú es envuelto en un div, y con solo un event listener,
+            que repita los clicks de los botones del menú sobre inputs ocultos que controlan
+            el CSS, se puede simular navegación en forma eficiente.
+        </p>
+        <figure class="image-container">
+            <img src={sbupi_fast.src} class="img" alt="Un gif mostrando la interacción con la implementación propuesta.">
+        </figure>
+        <p>
+            Podés ir a probarlo, hacé clicks en los menús tan rápido como puedas,
+            la UI es más rápida que tus ojos, qué raro!
+        </p>
+        <p>
+            Esto tiene implicaciones para la accesibilidad. Hay que prestar atención
+            a cómo se marca el HTML, ya que algunos lectores de pantalla pueden 
+            terminar leyendo contenido que no debería mostrarse.
+        </p>
+        <p>
+            Pero hasta donde probé, se puede ocultar contenido efectivamente
+            incluso a los lectores de pantalla. Aunque si esto es un requerimiento
+            particularmente importante para tu sitio, el approach de LinkedIn 
+            probablemente sea la opción más segura.
+        </p>
+    </section>
+</MainLayout>
+
+<style>
+
+    img {
+        max-height: 16rem;
+    }
+
+</style>
