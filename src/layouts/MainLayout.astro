@@ -43,6 +43,7 @@ const {theme, langlib} = Astro.props
 					</section>
 				</div>	
 			</div>
+			<div id="bottom-underlay" class="bottomUnderlay"></div>
 			<div class="bottomOverlay">
 				<NavigationButton />
 			</div>
@@ -115,14 +116,16 @@ const {theme, langlib} = Astro.props
 	let pageContainer = document.getElementById(pageId) as HTMLDivElement	
 	let scrollContainer = document.getElementById('layout-scroll') as HTMLDivElement
 	let ttyInContainer = document.getElementById('tty-in-container') as HTMLDivElement
+	let bottomUnderlay = document.getElementById('bottom-underlay') as HTMLDivElement
 
 	eventHandler('astro:after-swap', (_event) => {
 		scrollContainer = document.getElementById('layout-scroll') as HTMLDivElement
 		pageContainer = document.getElementById(pageId) as HTMLDivElement
 		ttyInContainer = document.getElementById('tty-in-container') as HTMLDivElement
+		bottomUnderlay = document.getElementById('bottom-underlay') as HTMLDivElement
 		dispatch(newScrollToPageEvent())
 	})
-	
+
 	const historyContainer = document.getElementById('layout-history') as HTMLDivElement
 	const historyEntryTemplate = document.getElementById('layout-history-template') as HTMLTemplateElement
 
@@ -198,10 +201,6 @@ const {theme, langlib} = Astro.props
 		}
 	})
 
-	scrollContainer.addEventListener('click', (event) => {
-		event.target === event.currentTarget && dispatch(newTtyFocusEvent())
-	})
-
 	const insertPartial = (event: Event) => {
 		return window.htmx.ajax(
 			(event as CustomEvent).detail.method || 'post',
@@ -228,9 +227,31 @@ const {theme, langlib} = Astro.props
 		})
 	})
 
+	const ttyFocus = (event: Event) => {
+		event.target === event.currentTarget && dispatch(newTtyFocusEvent())
+	}
+	
+	const rewire = (_event: Event) => {
+		eventHandler('pointerup', ttyFocus, scrollContainer)
+		eventHandler('pointerup', ttyFocus, bottomUnderlay)
+	}
+
+	rewire(null as any)
+	eventHandler('tty:rewire:page', rewire)
+
 </script>
 
 <style>
+
+	.bottomUnderlay {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 32%;
+		z-index: -2222;
+	}
+
 	.history-container {
 		display: flex;
 		flex-direction: column-reverse;
@@ -297,6 +318,7 @@ const {theme, langlib} = Astro.props
 		position: relative;
 		width: 100%;
 		min-height: fit-content;
+		margin-bottom: 1rem;
 		contain: layout;
 	}
 
