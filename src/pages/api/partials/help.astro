@@ -1,6 +1,7 @@
 ---
 import General from "@c/pages/help/general.astro"
 import Navigation from "@c/pages/help/navigation.astro"
+import HelpHelp from "@c/pages/help/help.astro"
 import Tutorial from "@c/pages/help/tutorial.astro"
 import { getLocale } from "@lib/ssr"
 export const partial = true
@@ -11,16 +12,43 @@ const base = !(tutorial || navigation)
 const sections = {base,tutorial,navigation}
 
 const locale = getLocale(Astro.request,Astro.preferredLocale) || 'en'
+
+let section: string = ''
+
+switch (true) {
+    case sections.base:
+        section = 'base'
+        break
+    case sections.tutorial === 'true':
+        section = 'tutorial'
+        break
+    case sections.navigation === 'true':
+        section = 'navigation'
+        break
+}
+
 ---
 
 {(() => {
-        switch (true) {
-        case sections.base:
+        switch (section) {
+        case 'base':
             return <General lang={locale}></General>
-        case sections.tutorial === 'true':
+        case 'tutorial':
             return <Tutorial lang={locale}></Tutorial>
-        case sections.navigation === 'true':
+        case 'navigation':
             return <Navigation lang={locale}></Navigation>
+        case 'help':
+            return <HelpHelp lang={locale}></Help>
+        case 'nav':
+        case 'cd':
+        case 'ls':
+        case 'cat':
+        case 'sitemap':
+        case 'whoami':
+        case 'echo':
+        case 'remote-echo':
+        case 'settings':
+        case 'cls':
     }
 })()
 }
