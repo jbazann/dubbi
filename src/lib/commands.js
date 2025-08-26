@@ -496,6 +496,7 @@ async function fetchCats() {
     }
     return post(window.location.origin+'/api/commands/cat', {amount: 12})
         .catch(e => {
+            dispatch(newEndLoadEvent())
             dispatch(newErrorMessageEvent(t('cmd.cat.msg.err')))
             return {cats: []}
         })

@@ -31,6 +31,7 @@
     
     const run = () => {
         log("Starting.", "LOADING INDICATOR")
+        if (interval) clearInterval(interval)
         interval = setInterval(spin, 1_000 / (symbols.length * 2))
     }
 
