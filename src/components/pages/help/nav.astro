@@ -1,0 +1,64 @@
+---
+import CommandTrigger from "@c/main-layout/CommandTrigger.astro"
+
+const { lang } = Astro.props
+
+export const prerender = true
+export const getStaticPaths = (() => {    
+    return [
+        {
+            props: {
+                lang: 'es'
+            }
+        },{
+            props: {
+                lang: 'en'
+            }
+        }
+    ]
+}) 
+---
+
+{lang === 'es' &&
+<section>
+    <h2>Ayuda: nav</h2>
+    <hr>
+    <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> n, nav, navigate, navegar.
+    </p>
+    <p class="no-bottom-margin"><span class="simple-preface">Modo de uso: </span> nav &lt;camino&gt;
+    </p>
+    <p><span>Ejemplos: </span>
+        <ul>
+            <li><CommandTrigger cmd="nav /">nav /</CommandTrigger></li>
+            <li><CommandTrigger cmd="nav /es/proyectos">nav /es/proyectos</CommandTrigger></li>
+            <li><CommandTrigger cmd="nav ./camino/relativo">nav ./camino/relativo</CommandTrigger></li>
+            <li><CommandTrigger cmd="nav ..">nav ..</CommandTrigger></li>
+        </ul>
+    </p>
+    <p>
+        La documentación estará lista dentro de poco!.
+    </p>
+</section>
+}
+
+{lang === 'en' &&
+<section>
+    <h2>Help: nav</h2>
+    <hr>
+    <p class="no-bottom-margin"><span class="simple-preface">Alias: </span>  n, nav, navigate, navegar.
+    </p>
+    <p class="no-bottom-margin"><span class="simple-preface">Usage: </span> nav &lt;path&gt;
+    </p>
+    <p><span>Examples: </span>
+        <ul>
+            <li><CommandTrigger cmd="nav /">nav /</CommandTrigger></li>
+            <li><CommandTrigger cmd="nav /projects">nav /projects</CommandTrigger></li>
+            <li><CommandTrigger cmd="nav ./relative/path">nav ./relative/path</CommandTrigger></li>
+            <li><CommandTrigger cmd="nav ..">nav ..</CommandTrigger></li>
+        </ul>
+    </p>
+    <p>
+        Documentation coming soon!.
+    </p>
+</section>
+}

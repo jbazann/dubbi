@@ -1,0 +1,84 @@
+---
+import CommandTrigger from "@c/main-layout/CommandTrigger.astro"
+
+const { lang } = Astro.props
+
+export const prerender = true
+export const getStaticPaths = (() => {    
+    return [
+        {
+            props: {
+                lang: 'es'
+            }
+        },{
+            props: {
+                lang: 'en'
+            }
+        }
+    ]
+}) 
+---
+
+{lang === 'es' &&
+<section>
+    <h2>Ayuda: remote-echo</h2>
+    <hr>
+    <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> recho, remote-echo.
+    </p>
+    <p class="no-bottom-margin"><span class="simple-preface">Modo de uso: </span> remote-echo &lt;mensaje&gt;
+    </p>
+    <p><span>Ejemplos: </span>
+        <ul>
+            <li><CommandTrigger cmd="remote-echo hola">
+                remote-echo hola</CommandTrigger>
+            </li>
+            <li><CommandTrigger cmd='remote-echo "hola pero con varias palabras"'>
+                remote-echo "hola pero con varias palabras"</CommandTrigger>
+            </li>
+            <li><CommandTrigger cmd="remote-echo 'hola pero con varias palabras y comillas simples'">
+                remote-echo 'hola pero con varias palabras y comillas simples'</CommandTrigger>
+            </li>
+            <li><CommandTrigger cmd="remote-echo hola igual también se puede sin comillas pero en una versión futura puede que no">
+                remote-echo hola igual también se puede sin comillas pero en una versión futura puede que no</CommandTrigger>
+            </li>
+        </ul>
+    </p>
+    <p>
+        El comando <span class="em-command">remote-echo</span> envía el mensaje
+        recibido como argumento al servidor, y luego imprime en la pantalla la
+        respuesta del mismo. El servidor responde con el mismo mensaje.
+    </p>
+</section>
+}
+
+{lang === 'en' &&
+<section>
+    <h2>Help: remote-echo</h2>
+    <hr>
+    <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> echo.
+    </p>
+    <p class="no-bottom-margin"><span class="simple-preface">Usage: </span> echo &lt;message&gt;
+    </p>
+    <p><span>Examples: </span>
+        <ul>
+            <li><CommandTrigger cmd="remote-echo hi">
+                remote-echo hi</CommandTrigger>
+            </li>
+            <li><CommandTrigger cmd='remote-echo "hi but with several words"'>
+                remote-echo "hi but with several words"</CommandTrigger>
+            </li>
+            <li><CommandTrigger cmd="remote-echo 'hi but with several words and simple quotes'">
+                remote-echo 'hi but with several words and simple quotes'</CommandTrigger>
+            </li>
+            <li><CommandTrigger cmd="remote-echo hi this is also valid but it may no longer be in a future version">
+                remote-echo hi this is also valid but it may no longer be in a future version</CommandTrigger>
+            </li>
+        </ul>
+    </p>
+    <p>
+        The <span class="em-command">remote-echo</span> command sends the received 
+        message to the server, and then prints its response to the screen.
+        The server responds with the same message.
+    </p>
+</section>
+}
