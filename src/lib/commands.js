@@ -1,5 +1,5 @@
 import { navigate } from "astro:transitions/client"
-import { dispatch, newCatImgEvent, newClsEvent, newErrorMessageEvent, newFetchPartialEvent, newLocationEvent, newPrepareCatImgEvent, newPrintCodeEvent, newPrintEvent, newPrintLsEvent, newPrintPrefacedEvent, newSetAttributeEvent } from "./events"
+import { dispatch, newCatImgEvent, newClsEvent, newErrorMessageEvent, newFetchPartialEvent, newLocationEvent, newPrepareCatImgEvent, newPrintCodeEvent, newPrintEvent, newPrintLsEvent, newPrintPrefacedEvent, newSetAttributeEvent, newStartLoadEvent, newEndLoadEvent } from "./events"
 import { err, log, loggedEvent } from "./log"
 import { get, post } from "./net"
 import { clearCookie, currentLanguage, localizePath, setCookie } from "./util"
@@ -488,17 +488,22 @@ async function fetchCats() {
     if (import.meta.env.DEV) {
         log("Returning fake cats.", 'CATS')
         const bob = `${window.location.origin}/spbob.jpg`
-        return {cats: [bob,bob,bob]}
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve({cats: [bob,bob,bob]})
+            }, 2222)
+        })
     }
     return post(window.location.origin+'/api/commands/cat', {amount: 12})
         .catch(e => {
+            dispatch(newEndLoadEvent())
             dispatch(newErrorMessageEvent(t('cmd.cat.msg.err')))
             return {cats: []}
         })
 }
 
 async function catImg() {
-    if (kitties.length === 1 && moreKitties === null) {
+    if (kitties.length === 2 && moreKitties === null) {
         log("Prefetching.", 'CATS')
         moreKitties = fetchCats().then((r) => {
             dispatch(newPrepareCatImgEvent(r.cats))
@@ -506,6 +511,7 @@ async function catImg() {
         })
     }
     if (kitties.length > 0) {
+        dispatch(newEndLoadEvent())
         dispatch(newCatImgEvent(kitties.pop()))
     } else {
         let onDemand = false
@@ -517,6 +523,7 @@ async function catImg() {
                 return r
             })
         } 
+        dispatch(newStartLoadEvent())
         kitties = (await moreKitties).cats
         moreKitties = null
         if (kitties.length > 0) {
@@ -531,7 +538,6 @@ async function catImg() {
 
 function cat(args) {
     if (args.length === 1) {
-        dispatch(newPrintEvent(t("cmd.cat.msg.fetching")))
         catImg()
         return
     }

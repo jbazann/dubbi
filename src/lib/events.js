@@ -104,6 +104,14 @@ export function newPrintLsEvent(entries) {
     return new CustomEvent('tty:print:ls', {detail: {entries}})
 }
 
+export function newStartLoadEvent() {
+    return new CustomEvent('tty:loading:start')
+}
+
+export function newEndLoadEvent() {
+    return new CustomEvent('tty:loading:end')
+}
+
 function _log(event) {
     log({
         type: event.type,
