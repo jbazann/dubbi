@@ -1,0 +1,58 @@
+---
+import CommandTrigger from "@c/main-layout/CommandTrigger.astro"
+
+const { lang } = Astro.props
+
+export const prerender = true
+export const getStaticPaths = (() => {    
+    return [
+        {
+            props: {
+                lang: 'es'
+            }
+        },{
+            props: {
+                lang: 'en'
+            }
+        }
+    ]
+}) 
+---
+
+{lang === 'es' &&
+<section>
+    <h2>Ayuda: sitemap</h2>
+    <hr>
+    <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> m, sm, map, sitemap.
+    </p>
+    <p class="no-bottom-margin"><span class="simple-preface">Modo de uso: </span> sitemap
+    </p>
+    <p><span>Ejemplos: </span>
+        <ul>
+            <li><CommandTrigger cmd="sitemap">sitemap</CommandTrigger></li>
+        </ul>
+    </p>
+    <p>
+        La documentación estará lista dentro de poco!.
+    </p>
+</section>
+}
+
+{lang === 'en' &&
+<section>
+    <h2>Help: sitemap</h2>
+    <hr>
+    <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> m, sm, map, sitemap.
+    </p>
+    <p class="no-bottom-margin"><span class="simple-preface">Usage: </span> sitemap
+    </p>
+    <p><span>Examples: </span>
+        <ul>
+            <li><CommandTrigger cmd="sitemap">sitemap</CommandTrigger></li>
+        </ul>
+    </p>
+    <p>
+        Documentation coming soon!.
+    </p>
+</section>
+}

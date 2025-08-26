@@ -1,0 +1,58 @@
+---
+import CommandTrigger from "@c/main-layout/CommandTrigger.astro"
+
+const { lang } = Astro.props
+
+export const prerender = true
+export const getStaticPaths = (() => {    
+    return [
+        {
+            props: {
+                lang: 'es'
+            }
+        },{
+            props: {
+                lang: 'en'
+            }
+        }
+    ]
+}) 
+---
+
+{lang === 'es' &&
+<section>
+    <h2>Ayuda: cat</h2>
+    <hr>
+    <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> cat.
+    </p>
+    <p class="no-bottom-margin"><span class="simple-preface">Modo de uso: </span> cat
+    </p>
+    <p><span>Ejemplos: </span>
+        <ul>
+            <li><CommandTrigger cmd="cat">cat</CommandTrigger></li>
+        </ul>
+    </p>
+    <p>
+        La documentación estará lista dentro de poco!.
+    </p>
+</section>
+}
+
+{lang === 'en' &&
+<section>
+    <h2>Help: cat</h2>
+    <hr>
+    <p class="no-bottom-margin"><span class="simple-preface">Alias: </span>  cat.
+    </p>
+    <p class="no-bottom-margin"><span class="simple-preface">Usage: </span> cat
+    </p>
+    <p><span>Examples: </span>
+        <ul>
+            <li><CommandTrigger cmd="cat">cat</CommandTrigger></li>
+        </ul>
+    </p>
+    <p>
+        Documentation coming soon!.
+    </p>
+</section>
+}

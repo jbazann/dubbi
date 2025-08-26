@@ -1,0 +1,60 @@
+---
+import CommandTrigger from "@c/main-layout/CommandTrigger.astro"
+
+const { lang } = Astro.props
+
+export const prerender = true
+export const getStaticPaths = (() => {    
+    return [
+        {
+            props: {
+                lang: 'es'
+            }
+        },{
+            props: {
+                lang: 'en'
+            }
+        }
+    ]
+}) 
+---
+
+{lang === 'es' &&
+<section>
+    <h2>Ayuda: cls</h2>
+    <hr>
+    <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> cls.
+    </p>
+    <p class="no-bottom-margin"><span class="simple-preface">Modo de uso: </span> cls
+    </p>
+    <p><span>Ejemplos: </span>
+        <ul>
+            <li><CommandTrigger cmd="cls">cls</CommandTrigger></li>
+        </ul>
+    </p>
+    <p>
+        El comando <span class="em-command">cls</span> limpia la pantalla,
+        removiendo todo el contenido visible.
+    </p>
+</section>
+}
+
+{lang === 'en' &&
+<section>
+    <h2>Help: cls</h2>
+    <hr>
+    <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> cls.
+    </p>
+    <p class="no-bottom-margin"><span class="simple-preface">Usage: </span> cls
+    </p>
+    <p><span>Examples: </span>
+        <ul>
+            <li><CommandTrigger cmd="cls">cls</CommandTrigger></li>
+        </ul>
+    </p>
+    <p>
+        The <span class="em-command">cls</span> command clears the 
+        screen, removing all visible content.
+    </p>
+</section>
+}
