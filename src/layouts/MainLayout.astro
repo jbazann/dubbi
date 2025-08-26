@@ -10,6 +10,7 @@ import NavigationButton from "@c/main-layout/NavigationButton.astro";
 import SimpleLinePrinter from "@c/main-layout/SimpleLinePrinter.astro";
 import MainHead from "@c/head/MainHead.astro";
 import { layoutId, pageId } from "@lib/globals";
+import LoadingIndicator from "@c/main-layout/LoadingIndicator.astro"
 
 // TODO static paths
 export const prerender = true
@@ -49,6 +50,7 @@ const {theme, langlib} = Astro.props
 			</div>
 		</div>
 		<SimpleLinePrinter />
+		<LoadingIndicator />
 	</body>
 </html>
 
@@ -107,7 +109,7 @@ const {theme, langlib} = Astro.props
 <script src="@c/main-layout/CommandTrigger.ts"></script>
 
 <script>
-	import { dispatch, newRewireEvent, newHistoryPushEvent, newScrollToBottomEvent, newScrollToPageEvent, newTtyFocusEvent } from "@lib/events"
+	import { dispatch, newRewireEvent, newHistoryPushEvent, newScrollToBottomEvent, newScrollToPageEvent, newTtyFocusEvent, newStartLoadEvent, newEndLoadEvent } from "@lib/events"
 	import { eventHandler } from "@lib/_events"
 	import { log } from "@lib/log"
 	import { pageId } from "@lib/globals"
@@ -149,8 +151,10 @@ const {theme, langlib} = Astro.props
 	}
 
 	eventHandler('astro:before-swap', (event) => {
+		dispatch(newEndLoadEvent())
 		const nd = (event as any).newDocument as HTMLDocument 
 		(event as any).swap = () => {
+			log("SWAPPING PAGE")
 			const firstChild = pageContainer.firstElementChild as HTMLElement
 			const newPageContainer = nd.body.querySelector('div[data-layout-page]') as HTMLElement
 			swapFunctions.deselectScripts(nd)
@@ -164,8 +168,13 @@ const {theme, langlib} = Astro.props
 		}
 	})
 
+	const prepareSwap = () => {
+		pushHistory()
+		dispatch(newStartLoadEvent())
+	}
+
 	eventHandler('astro:before-preparation', (_event) => {
-		requestAnimationFrame(pushHistory)
+		requestAnimationFrame(prepareSwap)
 	})
 
 	eventHandler('tty:history:push', (_event) => {
@@ -217,12 +226,16 @@ const {theme, langlib} = Astro.props
 	}
 	eventHandler('tty:partial', (event) => {
 		dispatch(newHistoryPushEvent())
+		dispatch(newStartLoadEvent())
 		insertPartial(event).then(() => {
+			dispatch(newEndLoadEvent())
 			dispatch(newScrollToPageEvent())
 		})
 	})
 	eventHandler('tty:partial:nopush', (event) => {
+		dispatch(newStartLoadEvent())
 		insertPartial(event).then(() => {
+			dispatch(newEndLoadEvent())
 			dispatch(newScrollToBottomEvent())
 		})
 	})
