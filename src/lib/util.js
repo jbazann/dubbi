@@ -10,7 +10,8 @@ export {
     getLocalStorage,
     getSessionStorage,
     setLocalStorage,
-    setSessionStorage
+    setSessionStorage,
+    currentLanguage
 }
 
 function parseDOMData(id,attribute) {
@@ -86,4 +87,8 @@ function getSessionStorage(key) {
     const r = sessionStorage.getItem(key)
     log({key, r}, "SESSION STORAGE GET")
     return r
+}
+
+function currentLanguage() {
+    return document.documentElement.getAttribute('lang')
 }

@@ -1,0 +1,56 @@
+---
+import General from "@c/pages/help/general.astro"
+import Navigation from "@c/pages/help/navigation.astro"
+import HelpHelp from "@c/pages/help/help.astro"
+import Tutorial from "@c/pages/help/tutorial.astro"
+import Cd from "@c/pages/help/cd.astro"
+import Ls from "@c/pages/help/ls.astro"
+import Echo from "@c/pages/help/echo.astro"
+import Cls from "@c/pages/help/cls.astro"
+import Cat from "@c/pages/help/cat.astro"
+import Sitemap from "@c/pages/help/sitemap.astro"
+import Settings from "@c/pages/help/settings.astro"
+import Nav from "@c/pages/help/nav.astro"
+import Whoami from "@c/pages/help/whoami.astro"
+import RemoteEcho from "@c/pages/help/remote-echo.astro"
+
+export const partial = true
+export const prerender = false
+
+const { lang = 'en', section = 'base' } = Astro.params
+
+---
+
+{(() => {
+        switch (section) {
+        case 'base':
+            return <General lang={lang}></General>
+        case 'tutorial':
+            return <Tutorial lang={lang}></Tutorial>
+        case 'navigation':
+            return <Navigation lang={lang}></Navigation>
+        case 'help':
+            return <HelpHelp lang={lang}></HelpHelp>
+        case 'nav':
+            return <Nav lang={lang}></Nav>
+        case 'cd':
+            return <Cd lang={lang}></Cd>
+        case 'ls':
+            return <Ls lang={lang}></Ls>
+        case 'cat':
+            return <Cat lang={lang}></Cat>
+        case 'sitemap':
+            return <Sitemap lang={lang}></Sitemap>
+        case 'whoami':
+            return <Whoami lang={lang}></Whoami>
+        case 'echo':
+            return <Echo lang={lang}></Echo>
+        case 'remote-echo':
+            return <RemoteEcho lang={lang}></RemoteEcho>
+        case 'settings':
+            return <Settings lang={lang}></Settings>
+        case 'cls':
+            return <Cls lang={lang}></Cls>
+    }
+})()
+}

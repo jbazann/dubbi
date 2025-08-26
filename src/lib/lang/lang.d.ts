@@ -29,6 +29,7 @@ type LocalizedStrings = {
             msg: {
                 soon: string
                 unknown: string // !{cmd}
+                inv_opt: string // !{opt}
             }
         }
         settings: {

@@ -2,7 +2,7 @@ import { navigate } from "astro:transitions/client"
 import { dispatch, newCatImgEvent, newClsEvent, newErrorMessageEvent, newFetchPartialEvent, newLocationEvent, newPrepareCatImgEvent, newPrintCodeEvent, newPrintEvent, newPrintLsEvent, newPrintPrefacedEvent, newSetAttributeEvent } from "./events"
 import { err, log, loggedEvent } from "./log"
 import { get, post } from "./net"
-import { clearCookie, localizePath, setCookie } from "./util"
+import { clearCookie, currentLanguage, localizePath, setCookie } from "./util"
 import COOKIES from "./cookies.json"
 import { t, t_obj } from "./t"
 import { getCurrentSettings, loadSettings, setForceLanguage, setLanguage, setLogging, setTheme } from "./settings"
@@ -151,33 +151,40 @@ function recho(args) {
 function help(args) {
     // plain cmd
     if (args.length <= 1) {
-        dispatch(newFetchPartialEvent({url: '/api/partials/help'}))
+        dispatch(newFetchPartialEvent({url: `/api/partials/${currentLanguage()}/help/base`}))
         return
     }
 
     // plain cmd with flags
     if (args[1].startsWith('-')) {
-        let flags = {}
+        let section = null
         for (const arg of args.slice(1)) {
             switch(arg.toLowerCase()) {
                 case '-n':
                 case '--navegacion':
-                case '--navigation': flags.navigation = true; break;
+                case '--navigation': section = 'navigation'
+                    break
                 case '-t':
-                case '--tutorial': flags.tutorial = true; break;
+                case '--tutorial': section = 'tutorial'
+                    break
             }
         }
-       dispatch(newFetchPartialEvent({
-            url: '/api/partials/help',
-            params: flags
-        }))   
+        if (section === null) {
+            dispatch(newErrorMessageEvent(t('cmd.help.msg.inv_opt',  {opt: args[1]})))
+        } else {
+            dispatch(newFetchPartialEvent({
+                url: `/api/partials/${currentLanguage()}/help/${section}`
+            }))   
+        }
         return
     }
     
     const command = getCommandHelpSection(args[1])
 
     if (command) {
-        dispatch(newPrintEvent(t('cmd.help.msg.soon')))
+        dispatch(newFetchPartialEvent({
+            url: `/api/partials/${currentLanguage()}/help/${command}`
+        }))   
     } else {
         dispatch(newPrintEvent(t('cmd.help.msg.unknown', {cmd: args[1]})))
     }
@@ -193,6 +200,7 @@ function getCommandHelpSection(arg) {
         case 'cat':
         case 'sitemap':
         case 'whoami':
+        case 'echo':
         case 'remote-echo':
         case 'recho':
         case 'settings':
