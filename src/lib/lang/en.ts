@@ -29,6 +29,7 @@ const en: LocalizedStrings = {
             msg: {
                 soon: "Help sections by command will be available in a few days. Good luck in the meantime!",
                 unknown: "Unknown help section: \"!{cmd}\".", // !{cmd}
+                inv_opt: "Invalid option: \"!{opt}\".", // !{opt}
             },
         },
         settings: {
