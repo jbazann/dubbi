@@ -112,6 +112,14 @@ export function newEndLoadEvent() {
     return new CustomEvent('tty:loading:end')
 }
 
+export function newHideInputEvent() {
+    return new CustomEvent('tty:input:hide')
+}
+
+export function newShowInputEvent() {
+    return new CustomEvent('tty:input:show')
+}
+
 function _log(event) {
     log({
         type: event.type,

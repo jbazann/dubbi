@@ -1,5 +1,5 @@
 import { navigate } from "astro:transitions/client"
-import { dispatch, newCatImgEvent, newClsEvent, newErrorMessageEvent, newFetchPartialEvent, newLocationEvent, newPrepareCatImgEvent, newPrintCodeEvent, newPrintEvent, newPrintLsEvent, newPrintPrefacedEvent, newSetAttributeEvent, newStartLoadEvent, newEndLoadEvent } from "./events"
+import { dispatch, newCatImgEvent, newClsEvent, newErrorMessageEvent, newFetchPartialEvent, newLocationEvent, newPrepareCatImgEvent, newPrintCodeEvent, newPrintEvent, newPrintLsEvent, newPrintPrefacedEvent, newSetAttributeEvent, newStartLoadEvent, newEndLoadEvent, newHideInputEvent, newShowInputEvent } from "./events"
 import { err, log, loggedEvent } from "./log"
 import { get, post } from "./net"
 import { clearCookie, currentLanguage, localizePath, setCookie } from "./util"
@@ -497,6 +497,7 @@ async function fetchCats() {
     return post(window.location.origin+'/api/commands/cat', {amount: 12})
         .catch(e => {
             dispatch(newEndLoadEvent())
+			dispatch(newShowInputEvent())
             dispatch(newErrorMessageEvent(t('cmd.cat.msg.err')))
             return {cats: []}
         })
@@ -512,6 +513,7 @@ async function catImg() {
     }
     if (kitties.length > 0) {
         dispatch(newEndLoadEvent())
+			dispatch(newShowInputEvent())
         dispatch(newCatImgEvent(kitties.pop()))
     } else {
         let onDemand = false
@@ -523,6 +525,7 @@ async function catImg() {
                 return r
             })
         } 
+        dispatch(newHideInputEvent())
         dispatch(newStartLoadEvent())
         kitties = (await moreKitties).cats
         moreKitties = null
