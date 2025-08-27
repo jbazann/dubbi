@@ -21,18 +21,21 @@
         !pageContainer && err(`Page container ${pageContainer} not found.`)
     })
     
-    const symbols = ['—', '\\', '|', '/', '—', '\\', '|', '/']
+    const symbols = ['—', '—', '\\', '|', '/', '—', '—', '\\', '|', '/']
     const next = (i: number) => (i + 1) % symbols.length
     let index = 0
     const spin = () => {
         span.textContent = symbols.at(index)!
         index = next(index)
     }
+    const rafSpin = () => {
+        requestAnimationFrame(spin)
+    }
     
     const run = () => {
         log("Starting.", "LOADING INDICATOR")
         if (interval) clearInterval(interval)
-        interval = setInterval(spin, 1_000 / (symbols.length * 2))
+        interval = setInterval(rafSpin, 1_000 / (symbols.length * 2))
     }
 
     const stop = () => {
