@@ -91,6 +91,17 @@ import "@s/fonts.css"
         document.activeElement !== input && input.focus()
     })
 
+    let wasFocused = false
+    eventHandler('tty:input:show', (_event) => {
+        input.disabled = false
+        wasFocused && dispatch(newTtyFocusEvent())
+    })
+
+    eventHandler('tty:input:hide', (_event) => {
+        wasFocused = document.activeElement === input
+        input.disabled = true
+    }) 
+
     // Visuals and input element sync
 
     /**
@@ -322,6 +333,10 @@ import "@s/fonts.css"
         cursor: text;
         color: var(--color-highlight);
     }   
+
+    .ttyin:has(.input:disabled) {
+        display: none
+    }
 
     .text {
         position: relative;

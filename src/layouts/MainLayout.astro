@@ -109,7 +109,7 @@ const {theme, langlib} = Astro.props
 <script src="@c/main-layout/CommandTrigger.ts"></script>
 
 <script>
-	import { dispatch, newRewireEvent, newHistoryPushEvent, newScrollToBottomEvent, newScrollToPageEvent, newTtyFocusEvent, newStartLoadEvent, newEndLoadEvent } from "@lib/events"
+	import { dispatch, newRewireEvent, newHistoryPushEvent, newScrollToBottomEvent, newScrollToPageEvent, newTtyFocusEvent, newStartLoadEvent, newEndLoadEvent, newHideInputEvent, newShowInputEvent } from "@lib/events"
 	import { eventHandler } from "@lib/_events"
 	import { log } from "@lib/log"
 	import { pageId } from "@lib/globals"
@@ -151,6 +151,7 @@ const {theme, langlib} = Astro.props
 	}
 
 	eventHandler('astro:before-swap', (event) => {
+		dispatch(newShowInputEvent())
 		dispatch(newEndLoadEvent())
 		const nd = (event as any).newDocument as HTMLDocument 
 		(event as any).swap = () => {
@@ -170,6 +171,7 @@ const {theme, langlib} = Astro.props
 
 	const prepareSwap = () => {
 		pushHistory()
+		dispatch(newHideInputEvent())
 		dispatch(newStartLoadEvent())
 	}
 
@@ -228,6 +230,7 @@ const {theme, langlib} = Astro.props
 		dispatch(newHistoryPushEvent())
 		dispatch(newStartLoadEvent())
 		insertPartial(event).then(() => {
+			dispatch(newShowInputEvent())
 			dispatch(newEndLoadEvent())
 			dispatch(newScrollToPageEvent())
 		})
@@ -235,6 +238,7 @@ const {theme, langlib} = Astro.props
 	eventHandler('tty:partial:nopush', (event) => {
 		dispatch(newStartLoadEvent())
 		insertPartial(event).then(() => {
+			dispatch(newShowInputEvent())
 			dispatch(newEndLoadEvent())
 			dispatch(newScrollToBottomEvent())
 		})
