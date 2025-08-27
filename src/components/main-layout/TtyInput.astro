@@ -266,7 +266,7 @@ import "@s/fonts.css"
             case 'NumpadEnter': {
                 const value = input.value
                 const userTxt = user.textContent, locationTxt = location.textContent
-                value !== '' && inputHistory.push(value)
+                value !== '' && value !== inputHistory.at(-1) && inputHistory.push(value)
                 dispatch(newInputEvent(value, `${userTxt}${locationTxt}${value}`))
                 input.value = inputHistory[inputHistoryIndex = 0] = ''
                 break
