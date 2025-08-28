@@ -29,7 +29,7 @@ const {theme, langlib} = Astro.props
 		</header>
 		<div id={layoutId} class="content-area">
 			<div id="layout-scroll" class="scrollable-container" data-layout-scrollContainer transition:animate="none">
-				<div class="page-area">		
+				<div id="layout-page-area" class="page-area">		
 					<main class="contents">
 						<TtyInput ids={{scrollContainer: 'layout-scroll'}} transition:persist/>
 						<div id={pageId} class="current-page-container" data-layout-page>
@@ -116,6 +116,7 @@ const {theme, langlib} = Astro.props
 	import { swapFunctions } from "astro:transitions/client"
 
 	let pageContainer = document.getElementById(pageId) as HTMLDivElement	
+	let pageArea = document.getElementById('layout-page-area') as HTMLDivElement	
 	let scrollContainer = document.getElementById('layout-scroll') as HTMLDivElement
 	let ttyInContainer = document.getElementById('tty-in-container') as HTMLDivElement
 	let bottomUnderlay = document.getElementById('bottom-underlay') as HTMLDivElement
@@ -185,14 +186,21 @@ const {theme, langlib} = Astro.props
 
 	let pendingScroll = false
 	const scrollToPage = () => {
+		const style = getComputedStyle(pageArea)
+		const marginBottom = parseInt(style.marginBottom)
+		const scrollHeight = scrollContainer.scrollHeight 
+			- pageContainer.clientHeight 
+			- ttyInContainer.clientHeight 
+			- marginBottom
 		log({
 			top: scrollContainer.scrollTop, 
 			sch: scrollContainer.scrollHeight, 
 			pc_ch: pageContainer.clientHeight, 
 			tic_ch: ttyInContainer.clientHeight,
-			calc: scrollContainer.scrollHeight - pageContainer.clientHeight - ttyInContainer.clientHeight,
+			scrollHeight,
+			marginBottom
 		}, 'PAGE SCROLL')
-		scrollContainer.scrollTop = scrollContainer.scrollHeight - pageContainer.clientHeight - ttyInContainer.clientHeight
+		scrollContainer.scrollTop = scrollHeight 
 		pendingScroll = false
 	}
 	const scrollToBottom = () => {
