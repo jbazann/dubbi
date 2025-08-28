@@ -5,7 +5,7 @@ const DEFAULT_DISPATCH_OPTIONS = {
     target: document
 }
 export function dispatch(event, opt = DEFAULT_DISPATCH_OPTIONS) {
-    opt.target.dispatchEvent(_log(event))
+    (opt.target ?? DEFAULT_DISPATCH_OPTIONS.target).dispatchEvent(_log(event, opt.context))
 }
 
 export function newInputEvent(input, line) {
@@ -120,10 +120,11 @@ export function newShowInputEvent() {
     return new CustomEvent('tty:input:show')
 }
 
-function _log(event) {
+function _log(event, context) {
     log({
         type: event.type,
-        detail: event.detail
+        detail: event.detail,
+        context
     }, 'EVENT')
     return event
 } 
