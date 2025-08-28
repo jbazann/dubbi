@@ -67,7 +67,7 @@
         newline.firstElementChild!.textContent = (event as CustomEvent).detail.line
         requestAnimationFrame(() => {
             pageContainer.appendChild(newline)
-            dispatch(newScrollToBottomEvent())
+            dispatch(newScrollToBottomEvent(), { context: "SLP: Print." } as any )
         })
     })
 
@@ -81,7 +81,7 @@
         }).forEach(newline.firstElementChild!.appendChild.bind(newline.firstElementChild))
         requestAnimationFrame(() => {
             pageContainer.appendChild(newline)
-            dispatch(newScrollToBottomEvent())
+            dispatch(newScrollToBottomEvent(), { context: "SLP: ls." } as any )
         })
     })
 
@@ -91,14 +91,14 @@
         newline.firstElementChild!.textContent = (event as CustomEvent).detail.line
         requestAnimationFrame(() => {
             pageContainer.appendChild(newline)
-            dispatch(newScrollToBottomEvent())
+            dispatch(newScrollToBottomEvent(), { context: "SLP: Code." } as any )
         })
     })
 
     eventHandler('tty:print:hr', (_event) => {
         requestAnimationFrame(() => {
             pageContainer.appendChild(document.createElement('hr'))
-            dispatch(newScrollToBottomEvent())
+            dispatch(newScrollToBottomEvent(), { context: "SLP: hr." } as any )
         })
     })
 
@@ -125,9 +125,9 @@
                 // Subsequent immages follow the bottom of the container if the scrollbar is already there 
                 // (at least in Chromium-based browsers), 
                 // since sending a command already scrolls down, that behavior is "guaranteed".
-                setTimeout(() => dispatch(newScrollToBottomEvent()), 222)
+                setTimeout(() => dispatch(newScrollToBottomEvent(), { context: "SLP: CAT - dalayed." } as any ), 222)
             } else {
-                dispatch(newScrollToBottomEvent())
+                dispatch(newScrollToBottomEvent(), { context: "SLP: CAT - Immediate." } as any )
             }
         })
     })
@@ -138,7 +138,7 @@
         newline.firstElementChild!.lastElementChild!.textContent = (event as CustomEvent).detail.line
         requestAnimationFrame(() => {
             pageContainer.appendChild(newline)
-            dispatch(newScrollToBottomEvent())
+            dispatch(newScrollToBottomEvent(), { context: "SLP: Preface." } as any )
         })
     })
 
@@ -148,7 +148,7 @@
         newline.lastElementChild!.lastElementChild!.textContent = (event as CustomEvent).detail.line
         requestAnimationFrame(() => {
             pageContainer.appendChild(newline)
-            dispatch(newScrollToBottomEvent())
+                dispatch(newScrollToBottomEvent(), { context: "SLP: Notice." } as any )
         })
     })
 
@@ -158,7 +158,7 @@
         newline.firstElementChild!.lastElementChild!.textContent = (event as CustomEvent).detail.line
         requestAnimationFrame(() => {
             pageContainer.appendChild(newline)
-            dispatch(newScrollToBottomEvent())
+            dispatch(newScrollToBottomEvent(), { context: "SLP: Error." } as any )
         })
     })
 </script>

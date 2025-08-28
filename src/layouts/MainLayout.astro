@@ -173,7 +173,7 @@ const {theme, langlib} = Astro.props
 	const prepareSwap = () => {
 		pushHistory()
 		dispatch(newHideInputEvent())
-		dispatch(newStartLoadEvent())
+		dispatch(newStartLoadEvent(), { context: "Prepare page swap." } as any )
 	}
 
 	eventHandler('astro:before-preparation', (_event) => {
@@ -240,7 +240,7 @@ const {theme, langlib} = Astro.props
 		insertPartial(event).then(() => {
 			dispatch(newShowInputEvent())
 			dispatch(newEndLoadEvent())
-			dispatch(newScrollToPageEvent())
+			dispatch(newScrollToPageEvent(), { context: "Insert partial." } as any )
 		})
 	})
 	eventHandler('tty:partial:nopush', (event) => {
@@ -248,7 +248,7 @@ const {theme, langlib} = Astro.props
 		insertPartial(event).then(() => {
 			dispatch(newShowInputEvent())
 			dispatch(newEndLoadEvent())
-			dispatch(newScrollToBottomEvent())
+			dispatch(newScrollToBottomEvent(), { context: "Insert partial." } as any )
 		})
 	})
 

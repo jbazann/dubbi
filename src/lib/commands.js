@@ -526,7 +526,7 @@ async function catImg() {
             })
         } 
         dispatch(newHideInputEvent())
-        dispatch(newStartLoadEvent())
+        dispatch(newStartLoadEvent(), { context: "Awaiting cat images." })
         kitties = (await moreKitties).cats
         moreKitties = null
         if (kitties.length > 0) {
