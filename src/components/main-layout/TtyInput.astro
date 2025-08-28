@@ -87,8 +87,8 @@ import "@s/fonts.css"
         scrollContainer = document.getElementById(ids.scrollContainer) as HTMLDivElement
     })
 
-    eventHandler('tty:focus', (_event) => {
-        document.activeElement !== input && input.focus()
+    eventHandler('tty:focus', (event) => {
+        document.activeElement !== input && input.focus({ preventScroll: (event as CustomEvent)?.detail?.preventScroll ?? true })
     })
 
     let wasFocused = false
