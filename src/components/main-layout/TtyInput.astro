@@ -208,7 +208,7 @@ import "@s/fonts.css"
     }
     const cursorAmid = () => preCaretText.setAttribute('data-cursor', 'amid')
     const cursorEnd = () => preCaretText.setAttribute('data-cursor', 'end')
-    const updateDisplayedText = (_event: Event) => {
+    const updateDisplayedText = (event: Event) => {
         splitText()
         requestAnimationFrame(setText)
         if (split.postCaret && cursor === 'end') {
@@ -218,10 +218,11 @@ import "@s/fonts.css"
             cursor = 'end'
             requestAnimationFrame(cursorEnd)
         }
-        // this check is redundant (the listener does it too) but it 
+        if ((event as CustomEvent)?.detail?.preventScroll) return
+        // this check is redundant (the scroll listener does it too) but it 
         // prevents unnecessarily firing an event per character typed
         if (scrollContainer.scrollTop !== scrollContainer.scrollHeight - scrollContainer.clientHeight) {
-            dispatch(newScrollToBottomEvent())
+            dispatch(newScrollToBottomEvent(), { context: `TtyInpuit - updateDisplayedText() - TRIGGER: ${event?.type ?? 'unknown'}` } as any)
         }
     }
     
@@ -229,7 +230,7 @@ import "@s/fonts.css"
     const resizeHandler = () => {
         throttledResize = null
         updateLineLength()
-        updateDisplayedText(null as any)
+        updateDisplayedText({type: 'artificial:resizeHandler', detail: {preventScroll: true}} as any)
     }
     const observer = new ResizeObserver((_entries, _observer) => {
         if (throttledResize) return
