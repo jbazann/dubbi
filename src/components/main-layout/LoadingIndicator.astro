@@ -7,6 +7,7 @@
 
 <script>
     import { eventHandler } from "@lib/_events"
+import { dispatch, newScrollToBottomEvent } from "@lib/events"
     import { pageId } from "@lib/globals"
     import { err, log } from "@lib/log"
 
@@ -46,14 +47,14 @@
     let span = (template.content.cloneNode(true) as Element).firstElementChild!
     let node: Node | null = null
     let interval: any
-    const _show = () => {
+    const show = (event?: Event) => {
+        requestAnimationFrame(() => {
         log("Showing.", "LOADING INDICATOR")
         node = pageContainer.appendChild(span)
+        !(event as CustomEvent)?.detail?.preventScroll && dispatch(newScrollToBottomEvent())
         index = 0
         run()
-    }
-    const show = (_event: Event) => {
-        requestAnimationFrame(_show)
+    })
     }
     
     const _hide = () => {
