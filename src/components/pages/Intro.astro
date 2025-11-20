@@ -1,6 +1,5 @@
 ---
 import CommandTrigger from "@c/main-layout/CommandTrigger.astro";
-import NavigationButton from "@c/main-layout/NavigationButton.astro";
 
 const {lang} = Astro.props
 ---
@@ -24,8 +23,7 @@ const {lang} = Astro.props
     <p>
         If you prefer not to use the keyboard, you can click underlined words 
         <span class="no-inline-whitespace"><CommandTrigger cmd="_silly">like these</CommandTrigger>.</span>
-        Clicking the <NavigationButton /> icon at the bottom left corner 
-        will display all you need for mouse navigation.
+        The other panel on the screen has everything you'll need for mouse navigation.
     </p>
 }
 
@@ -38,7 +36,7 @@ const {lang} = Astro.props
     <p>
         Si nunca usaste una interfaz de linea de comandos, escribí
         <CommandTrigger cmd="help --tutorial">help --tutorial</CommandTrigger> 
-        al final del texto y presioná Enter o Enviar.
+        debajo de este texto y presioná Enter o Enviar.
     </p>
     <p>
         De lo contrario, probá
@@ -48,7 +46,6 @@ const {lang} = Astro.props
     <p>
         Si preferís no usar el teclado, podés hacer click en palabras subrayadas
         <span class="no-inline-whitespace"><CommandTrigger cmd="_silly">como estas</CommandTrigger>.</span>
-        Haciendo click en el ícono <NavigationButton /> en la esquina de abajo a la izquierda
-        podés ver más comandos útiles.
+        El otro panel en la pantalla tiene todo lo que vas a necesitar para navegar con el mouse.
     </p>
 }

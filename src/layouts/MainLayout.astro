@@ -4,13 +4,14 @@ import "@s/colors.css"
 import "@s/features.css"
 import "@s/fonts.css"
 import "@c/main-layout/CommandTrigger.module.css"
-import TtyInput from '@c/main-layout/TtyInput.astro';
-import background from '@a/vignette-bg.svg';
-import NavigationButton from "@c/main-layout/NavigationButton.astro";
 import SimpleLinePrinter from "@c/main-layout/SimpleLinePrinter.astro";
 import MainHead from "@c/head/MainHead.astro";
-import { layoutId, pageId } from "@lib/globals";
+import { contentAreaId, ttyScrollContainerId } from "@lib/ids";
 import LoadingIndicator from "@c/main-layout/LoadingIndicator.astro"
+import Dropdown from "@c/utils/Dropdown.astro"
+import Tty from "@c/core/Tty.astro"
+import Tools from "@c/core/Tools.astro"
+import CommandTrigger from "@c/main-layout/CommandTrigger.astro"
 
 // TODO static paths
 export const prerender = true
@@ -18,41 +19,497 @@ export const prerender = true
 const {theme, langlib} = Astro.props
 ---
 <!doctype html>
-<html lang={Astro.currentLocale || 'en'} data-theme={theme || 'default'} >
+<html lang={Astro.currentLocale || 'en'} data-theme={theme || 'default'} tools-enabled >
 	<MainHead>
-	    <link rel="preload" as="image" href={background.src} fetchpriority="high" />
+		<link rel="preload" as="image" href="/ar-r.svg">
+		<link rel="preload" as="image" href="/ar-r-bw.svg">
+		<link rel="preload" as="image" href="/uk-r.svg">
+		<link rel="preload" as="image" href="/uk-r-bw.svg">
+		<link rel="preload" as="image" href="/back.svg">
 	</MainHead>
 	<body>
-		<div class="background" style={`background-image: url('${background.src}');`}></div>
 		<header class="header">
-			<h1 class="site">jbazann.dev</h1>
+			<div class="header-left">
+				<button class="menu-button language-button-left" popovertarget="header-language-popover">
+					<div class="label-flag-es">
+						<div class="label-flag-es-off"></div>
+						<div class="label-flag-es-on"></div>
+					</div>
+					<div class="label-flag-en">
+						<div class="label-flag-en-off"></div>
+						<div class="label-flag-en-on"></div>
+					</div>
+				</button>
+			</div>
+			<h1 class="header-center">jbazann.dev</h1>
+			<div class="header-right">
+				<button class="menu-button language-button-right" popovertarget="header-language-popover">
+					<div class="label-flag-es">
+						<div class="label-flag-es-off"></div>
+						<div class="label-flag-es-on"></div>
+					</div>
+					<div class="label-flag-en">
+						<div class="label-flag-en-off"></div>
+						<div class="label-flag-en-on"></div>
+					</div>
+				</button>
+				<button class="menu-button" popovertarget="header-menu-popover">
+					<svg class="menu-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M5 17H13M5 12H19M11 7H19" />
+					</svg>
+				</button>
+			</div>
 		</header>
-		<div id={layoutId} class="content-area">
-			<div id="layout-scroll" class="scrollable-container" data-layout-scrollContainer transition:animate="none">
-				<div id="layout-page-area" class="page-area">		
-					<main class="contents">
-						<TtyInput ids={{scrollContainer: 'layout-scroll'}} transition:persist/>
-						<div id={pageId} class="current-page-container" data-layout-page>
-							<slot />
-						</div>
-					</main>
-					<section id="layout-history" class="current-page-container history-container" transition:persist>
-						<template id="layout-history-template" >
-							<div class="history-entry">
-							</div>
-						</template>
-					</section>
-				</div>	
+		<div id={contentAreaId} class="content-area">
+			<div class="tty-size-container">
+				<div id={ttyScrollContainerId} class="scroll-container" data-layout-scrollContainer transition:animate="none">
+					<Tty>
+						<slot />
+					</Tty>
+				</div>
 			</div>
-			<div id="bottom-underlay" class="bottomUnderlay"></div>
-			<div class="bottomOverlay">
-				<NavigationButton />
+			<div class="tool-size-container">
+				<div class="scroll-container">
+					<Tools lang={Astro.currentLocale || 'en'} />
+				</div>
 			</div>
+		</div>
+		<div class="language-popover" id="header-language-popover" popover>
+			<div class="language-option">
+				<img src="/ar-r.svg" alt={langlib?.menu?.language?.alt?.es}>
+				<CommandTrigger cmd="s language es">Español</CommandTrigger>
+			</div>
+			<div class="language-option">
+				<img src=/uk-r.svg alt={langlib?.menu?.language?.alt?.en}>
+				<CommandTrigger cmd="s lenguaje en">English</CommandTrigger>
+			</div>
+		</div>
+		<div class="menu-popover" id="header-menu-popover" popover>
+			<Dropdown>
+
+			</Dropdown>
+			<Dropdown>
+
+			</Dropdown>
+			<Dropdown>
+
+			</Dropdown>
+			<Dropdown>
+				<p slot="label">{langlib?.menu?.secret?.label}</p>
+				<p slot="children">{langlib?.menu?.secret?.children}</p>
+			</Dropdown>
 		</div>
 		<SimpleLinePrinter />
 		<LoadingIndicator />
 	</body>
 </html>
+
+<style>
+	.label-flag-en-on, .label-flag-en-off, .label-flag-es-on, .label-flag-es-off {
+		position: absolute;
+		user-select: none;
+		inset: 0;
+		transition: all .32s ease-in-out;
+	}
+
+	.label-flag-en-on, .label-flag-es-on {
+		opacity: 0;
+		background-size: cover;
+	}
+
+	.label-flag-en-off, .label-flag-es-off {
+		opacity: 1;		
+		mask-size: cover;
+		background-color: var(--color-border);
+	}
+
+	.label-flag-en-on {
+		content: "\200b" / "Language selector";
+		background-image: url("/uk-r.svg");
+	}
+
+	.label-flag-en-off {
+		content: "\200b" / "Language selector";
+		mask-image: url("/uk-r-bw.svg");
+	}
+
+	.label-flag-es-on {
+		content: "\200b" / "Selector de idioma";
+		background-image: url("/ar-r.svg");
+	}
+
+	.label-flag-es-off {
+		content: "\200b" / "Selector de idioma";
+		mask-image: url("/ar-r-bw.svg");
+	}
+
+	.label-flag-es, .label-flag-en {
+		display: none;
+		position: relative;
+		height: inherit;
+		aspect-ratio: 1;
+		width: auto;
+	}
+	
+	:root[lang=es] .label-flag-es, :root[lang=en] .label-flag-en {
+		display: block;
+		height: auto;
+		width: auto;
+		aspect-ratio: 1;
+		margin: 20%;
+		border-radius: 100%;
+		border: var(--border-width) solid var(--color-border);
+		&:hover() {
+			border: var(--border-width) solid var(--color-highlight);
+			.label-flag-es-off, .label-flag-en-off {
+				opacity: 0;
+			}
+			.label-flag-es-on , .label-flag-en-on {
+				opacity: 1;
+			}
+		}
+	}
+
+	:root:has(.language-popover:popover-open) {
+		&[lang=es] .label-flag-es, &[lang=en] .label-flag-en {
+			border: var(--border-width) solid var(--color-highlight);
+			.label-flag-es-off, .label-flag-en-off {
+				opacity: 0;
+			}
+			.label-flag-es-on , .label-flag-en-on {
+				opacity: 1;
+			}
+		}
+	}
+
+</style>
+
+<style>
+
+	@keyframes shadow-pulse {
+		0% {
+			box-shadow: 0 0 0.7rem 0.1rem color-mix(in oklab, var(--color-foreground) 8%, transparent 92%);
+		}¿
+		45% {
+			box-shadow: 0 0 1.58rem 0.6rem color-mix(in oklab, var(--color-foreground) 66%, transparent 34%);
+		}
+		60% {
+			box-shadow: 0 0 0.1rem 0rem color-mix(in oklab, var(--color-foreground) 5%, transparent 95%);
+		}¿
+		100% {
+			box-shadow: 0 0 1.85rem 0.59rem color-mix(in oklab, var(--color-foreground) 46%, transparent 54%);
+		}
+	}
+	
+	:root[tools-enabled] .tool-size-container, .tty-size-container, .header {
+		background-color: var(--color-background);
+		&::after {
+			content: "";
+			position: absolute;
+			z-index: -2;
+			inset: 0;
+			background-color: var(--color-background);
+			box-shadow: 0 0 12rem 2rem var(--color-shadow);
+			filter: blur(0.72rem);
+		}
+	}
+	:root[tools-enabled] .tool-size-container, .tty-size-container {
+		&::before {
+			content: "";
+			position: absolute;
+			z-index: -1;
+			inset: 0;
+			background-color: var(--color-background);
+			box-shadow: .22rem .22rem .72rem .12rem color-mix(in oklab, var(--color-highlight) 52%, transparent 48%);
+			filter: blur(.52rem);		
+		}
+	}
+
+</style>
+
+<style>
+	
+	.header {
+		position: relative;
+		display: grid;
+		grid-template-areas:
+			"left center right"
+		;
+		grid-template-rows: 1fr;
+		grid-template-columns: repeat(3, 1fr);
+		place-items: safe center;
+		width: 100%;
+		box-sizing: content-box;
+		height: var(--topbar-height);
+		border-bottom: solid calc(2 * var(--border-width)) var(--color-border);
+		/* margin-bottom: var(--topbar-bottom-margin); */
+		
+		a {
+			text-decoration: none;
+			&::after {
+				content: '';
+				display: none;
+			}
+		}
+
+		.header-left, .header-center, .header-right {
+			height: inherit;
+			width: auto;
+		}
+
+		.header-left {
+			display: flex;
+			flex-direction: row;
+			justify-content: start;
+			align-items: center;
+		}
+
+		.header-center {
+			display: flex;
+			align-items: center;
+			grid-area: center;
+			justify-self: center;
+			font-size: min(2rem, 1rem + 5vh);
+		}	
+		
+		.header-right {
+			grid-area: right;
+			display: flex;
+			flex-direction: row;
+			justify-content: end;
+			align-items: center;
+			justify-self: end;
+			margin-right: var(--content-area-right-margin);			
+		}
+
+		.language-button-left, .language-button-right {
+			filter: brightness(.72);
+			transition: filter .12s linear;
+
+			&:hover, :root:has(.language-popover:popover-open) & {
+				filter: brightness(1);
+			}
+
+			::after {
+				position: absolute;
+				inset: 0;
+				z-index: 1;
+				scale: 1.22;
+			}
+		}
+
+		.language-button-left {
+			display: block;
+
+			@media (min-width: 768px) and (orientation: landscape) {
+				display: none;
+			}
+		}
+		.language-button-right {
+			display: none;
+
+			@media (min-width: 768px) and (orientation: landscape) {
+				display: block;
+			}
+		}
+
+		
+
+	}
+
+	.content-area {
+		display: grid;
+		position: relative;
+		grid-template-columns: 100%;
+		grid-template-rows: 100%;
+		row-gap: var(--content-area-bottom-margin);
+		justify-items: start;
+		align-items: start;
+		padding: var(--topbar-bottom-margin)
+			var(--content-area-right-margin)
+			var(--content-area-bottom-margin)
+			var(--content-area-left-margin);
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		contain: strict;
+
+		.tty-size-container, .tool-size-container {
+			position: relative;
+			height: fit-content;
+			max-height: 100%;
+			width: 100%;
+		}
+		
+		.tty-size-container {
+			display: flex;
+		}
+	
+		.tool-size-container {
+			display: none;
+		}
+
+		.scroll-container {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			justify-content: start;
+			width: 100%;
+			flex: 1 1 auto;
+			max-height: 100%;
+			padding-left: var(--content-area-left-margin);
+			padding-right: var(--content-area-right-margin);
+			border-top: var(--border-width) solid var(--color-border);
+			border-bottom: var(--border-width) solid var(--color-border);
+			overflow: hidden auto;
+			scrollbar-width: thin;
+			scrollbar-gutter: stable;
+		}
+
+		@media (min-width: 768px) and (orientation: landscape) {
+			.content-area {
+				flex-direction: row;
+				justify-content: start;
+			}
+		}
+
+	}
+
+	:root[tools-enabled] {
+
+		.content-area {
+			--tools-height:  clamp(4rem, 10.4375rem, 32%);
+			grid-template-rows: calc(100% - var(--tools-height) - var(--content-area-bottom-margin)) var(--tools-height);	
+		}
+		
+		.tool-size-container {
+			position: relative;
+			display: flex;
+
+			.scroll-container {
+				justify-content: safe center;
+				flex-direction: row;
+				width: unset;
+				max-width: 100%;
+				overflow: auto hidden;
+			}
+		}
+
+		@media (min-width: 768px) and (orientation: landscape) {
+			.content-area {
+				grid-template-rows: 100%;
+				grid-template-columns: clamp(50ch, 60%, 142ch) clamp(min(32vw, 25ch), 30%, 62ch);
+
+				column-gap: 2rem;
+				@media (max-width: 902px) {
+					column-gap: 1rem;
+				}
+			}
+
+			.tool-size-container {
+				display: flex;
+				position: relative;
+				margin-bottom: var(--content-area-y-padding);
+				overflow: visible;
+
+				.scroll-container {
+					overflow: hidden auto;
+				}
+				
+			}
+		}
+	}
+
+	.menu-button {
+		display: none;
+		user-select: none;
+		height: inherit;
+		aspect-ratio: 1;
+		transition: scale .12s ease-in-out;
+		
+		&:hover {
+			scale: 112%;
+		}
+		.menu-icon {
+			height: 100%;
+			padding: 12%;
+			aspect-ratio: 1;
+			stroke: var(--color-text); 
+			stroke-width: 0.1rem;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+		}
+
+	}
+
+	:root:has(.menu-popover:popover-open) {
+		.menu-icon {
+			stroke: var(--color-highlight);
+		}
+	}
+	
+	:root:has(.menu-popover:popover-open), :root:has(.language-popover:popover-open) {
+		.language-popover:popover-open {
+			display: flex;
+		}
+		.content-area {
+			filter: blur(.04rem);
+			&::after {
+				content: "";
+				position: absolute;
+				inset: 0;
+				background: var(--color-background);
+				opacity: 42%;
+			}
+		}
+	}
+
+	.language-popover {
+		position: absolute;
+		top: 4rem;
+		left: var(--default-indent);
+		right: auto;
+		width: fit-content;
+		padding: var(--topbar-bottom-margin) var(--default-indent);
+		border: var(--color-border) solid calc(2 * var(--border-width));
+        background-color: var(--color-background);
+		overflow: hidden;
+		flex-direction: column;
+		gap: 1rem;
+
+		@media (min-width: 768px) and (orientation: landscape) {
+			right: var(--default-indent);
+			left: auto;
+		}
+
+		.language-option {
+			display: flex;
+			flex-direction: row;
+			justify-content: start;
+			align-items: center;
+			gap: 1ch;
+			height: 2rem;
+			width: 100%;
+
+			img {
+				height: 100%;
+			}
+		}
+	}
+
+	.menu-popover {
+		position: absolute;
+		top: 4rem;
+		right: var(--default-indent);
+		left: auto;
+		width: min(42ch, 90%);
+		padding: var(--topbar-bottom-margin) var(--default-indent);
+		border: var(--color-border) solid var(--border-width);
+        background-color: var(--color-background);
+		overflow: hidden;
+	}
+
+</style>
 
 <script define:vars={{langlib}} is:inline>
 	window._jbazann = {}
@@ -60,8 +517,7 @@ const {theme, langlib} = Astro.props
 </script>
 
 <script>
-	// Processed init script, only for foundational document listeners and other DOM independent function calls
-	import { dispatch, newCheckRedirectEvent, newErrorMessageEvent, newHrEvent, newNoticeEvent, newRewireEvent, newScrollToPageEvent } from "@lib/events";
+	import { defer, dispatch, newCheckRedirectEvent, newErrorMessageEvent, newHrEvent, newMountEvent, newNoticeEvent, newScrollToPageEvent, newUnmountEvent } from "@lib/events";
 	import { log } from "@lib/log";
 	import { loadSettings } from "@lib/settings";
 	import { clearCookie, getLooselyParsedCookies } from "@lib/util";
@@ -78,8 +534,12 @@ const {theme, langlib} = Astro.props
 	})
 
 	eventHandler('astro:page-load', (_event: Event) => {
-		dispatch(newRewireEvent())
+		dispatch(newMountEvent())
 		dispatch(newCheckRedirectEvent())
+	})
+
+	eventHandler('astro:after-preparation', (_event: Event) => {
+		dispatch(newUnmountEvent())
 	})
 
 	eventHandler('set:attribute', (event: Event) => {
@@ -87,6 +547,16 @@ const {theme, langlib} = Astro.props
 		typeof target?.setAttribute === 'function'
 			? target.setAttribute(attribute, value)
 			: dispatch(newErrorMessageEvent("internal: no 'setAttribute' property."))
+	})
+
+	eventHandler('sys:defer', (_event: Event) => {
+		const event: CustomEvent = _event as CustomEvent
+		if (event.detail.deferOrder <= 1) {
+			dispatch(event.detail.event, event.detail.opt)
+		} else {
+			event.detail.opt.deferOrder--
+			defer(event, event.detail.opt)
+		}
 	})
 
 	eventHandler('tty:check-redirect', (_event: Event) => {
@@ -100,302 +570,10 @@ const {theme, langlib} = Astro.props
 			dispatch(newNoticeEvent(t('notice.forced-redirect', {from,to})))
 			dispatch(newNoticeEvent(t('notice.ignore')))
 			dispatch(newHrEvent())
-			setTimeout(() => dispatch(newScrollToPageEvent())) // TODO fix
+			defer(newScrollToPageEvent())
 		}
 	})
 
 </script>
 
 <script src="@c/main-layout/CommandTrigger.ts"></script>
-
-<script>
-	import { dispatch, newRewireEvent, newHistoryPushEvent, newScrollToBottomEvent, newScrollToPageEvent, newTtyFocusEvent, newStartLoadEvent, newEndLoadEvent, newHideInputEvent, newShowInputEvent } from "@lib/events"
-	import { eventHandler } from "@lib/_events"
-	import { log } from "@lib/log"
-	import { pageId } from "@lib/globals"
-	import { swapFunctions } from "astro:transitions/client"
-
-	let pageContainer = document.getElementById(pageId) as HTMLDivElement	
-	let pageArea = document.getElementById('layout-page-area') as HTMLDivElement	
-	let scrollContainer = document.getElementById('layout-scroll') as HTMLDivElement
-	let ttyInContainer = document.getElementById('tty-in-container') as HTMLDivElement
-	let bottomUnderlay = document.getElementById('bottom-underlay') as HTMLDivElement
-
-	eventHandler('astro:after-swap', (_event) => {
-		scrollContainer = document.getElementById('layout-scroll') as HTMLDivElement
-		pageContainer = document.getElementById(pageId) as HTMLDivElement
-		ttyInContainer = document.getElementById('tty-in-container') as HTMLDivElement
-		bottomUnderlay = document.getElementById('bottom-underlay') as HTMLDivElement
-		pageArea = document.getElementById('layout-page-area') as HTMLDivElement	
-		dispatch(newScrollToPageEvent())
-	})
-
-	const historyContainer = document.getElementById('layout-history') as HTMLDivElement
-	const historyEntryTemplate = document.getElementById('layout-history-template') as HTMLTemplateElement
-
-	eventHandler('tty:cls', (_event) => {
-		requestAnimationFrame(() => {
-			pageContainer.replaceChildren()
-			historyContainer.replaceChildren()
-		})
-	})
-
-	const pushHistory = () => {
-		const elems = Array.from(pageContainer.children)
-		const last = elems.at(-1)
-		const historyEntry = historyEntryTemplate.content.cloneNode(true) as HTMLTemplateElement
-		const historyEntryDiv = historyEntry.firstElementChild as HTMLDivElement
-		last && pageContainer.replaceChildren(last)	
-		// @ts-ignore some types for Cloudflare's HTMLRewriter, generated by Wrangler, overlap with browser APIs.
-		historyEntryDiv.prepend(...elems.slice(0, -1))
-		// @ts-ignore some types for Cloudflare's HTMLRewriter, generated by Wrangler, overlap with browser APIs.
-		historyContainer.prepend(historyEntry)
-	}
-
-	eventHandler('astro:before-swap', (event) => {
-		dispatch(newShowInputEvent())
-		dispatch(newEndLoadEvent())
-		const nd = (event as any).newDocument as HTMLDocument 
-		(event as any).swap = () => {
-			log("SWAPPING PAGE")
-			const firstChild = pageContainer.firstElementChild as HTMLElement
-			const newPageContainer = nd.body.querySelector('div[data-layout-page]') as HTMLElement
-			swapFunctions.deselectScripts(nd)
-			swapFunctions.swapRootAttributes(nd)
-			swapFunctions.swapHeadElements(nd)
-			const restoreFocusFunction = swapFunctions.saveFocus()
-			swapFunctions.swapBodyElement(nd.body, document.body)
-			// @ts-ignore some types for Cloudflare's HTMLRewriter, generated by Wrangler, overlap with browser APIs.
-			newPageContainer.prepend(firstChild)
-			restoreFocusFunction()
-		}
-	})
-
-	const prepareSwap = () => {
-		pushHistory()
-		dispatch(newHideInputEvent())
-		dispatch(newStartLoadEvent(), { context: "Prepare page swap." } as any )
-	}
-
-	eventHandler('astro:before-preparation', (_event) => {
-		requestAnimationFrame(prepareSwap)
-	})
-
-	eventHandler('tty:history:push', (_event) => {
-		requestAnimationFrame(pushHistory)
-	})
-
-	let pendingScroll = false
-	const scrollToPage = () => {
-		const style = getComputedStyle(pageArea)
-		const marginBottom = parseInt(style.marginBottom)
-		const scrollHeight = scrollContainer.scrollHeight 
-			- pageContainer.clientHeight 
-			- ttyInContainer.clientHeight 
-			- marginBottom
-		log({
-			top: scrollContainer.scrollTop, 
-			sch: scrollContainer.scrollHeight, 
-			pc_ch: pageContainer.clientHeight, 
-			tic_ch: ttyInContainer.clientHeight,
-			scrollHeight,
-			marginBottom
-		}, 'PAGE SCROLL')
-		scrollContainer.scrollTop = scrollHeight 
-		pendingScroll = false
-	}
-	const scrollToBottom = () => {
-		scrollContainer.scrollTop = scrollContainer.scrollHeight - scrollContainer.clientHeight
-		pendingScroll = false
-	}
-	eventHandler('tty:scroll:page', (_event) => {
-		if (!pendingScroll && (scrollContainer.scrollTop !==  scrollContainer.scrollHeight - pageContainer.clientHeight - ttyInContainer.clientHeight)) {
-			pendingScroll = true
-			requestAnimationFrame(scrollToPage)
-		}
-	})
-	eventHandler('tty:scroll:bottom', (_event) => {
-		if (!pendingScroll && (scrollContainer.scrollTop !== scrollContainer.scrollHeight - scrollContainer.clientHeight)) {
-			pendingScroll = true
-			requestAnimationFrame(scrollToBottom)
-		}
-	})
-
-	const insertPartial = (event: Event) => {
-		return window.htmx.ajax(
-			(event as CustomEvent).detail.method || 'post',
-			(event as CustomEvent).detail.url,
-			{
-				event,
-				target: '[data-layout-page]',
-				swap: 'beforeend',
-				values: (event as CustomEvent).detail.params
-			}
-		).then(() => {
-			dispatch(newRewireEvent())
-		}) 
-	}
-	eventHandler('tty:partial', (event) => {
-		dispatch(newHistoryPushEvent())
-		dispatch(newStartLoadEvent())
-		insertPartial(event).then(() => {
-			dispatch(newShowInputEvent())
-			dispatch(newEndLoadEvent())
-			dispatch(newScrollToPageEvent(), { context: "Insert partial." } as any )
-		})
-	})
-	eventHandler('tty:partial:nopush', (event) => {
-		dispatch(newStartLoadEvent())
-		insertPartial(event).then(() => {
-			dispatch(newShowInputEvent())
-			dispatch(newEndLoadEvent())
-			dispatch(newScrollToBottomEvent(), { context: "Insert partial." } as any )
-		})
-	})
-
-	const ttyFocus = (event: Event) => {
-		event.target === event.currentTarget && dispatch(newTtyFocusEvent())
-	}
-	
-	const rewire = (_event: Event) => {
-		eventHandler('pointerup', ttyFocus, scrollContainer)
-		eventHandler('pointerup', ttyFocus, bottomUnderlay)
-	}
-
-	rewire(null as any)
-	eventHandler('tty:rewire:page', rewire)
-
-</script>
-
-<style>
-
-	.bottomUnderlay {
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		width: 100%;
-		height: 32%;
-		z-index: -2222;
-	}
-
-	.history-container {
-		display: flex;
-		flex-direction: column-reverse;
-	}
-
-	.history-entry {
-		display: block;
-		opacity: 72%;
-
-		&:hover {
-			opacity: 1;
-		}
-	}
-
-	.bottomOverlay {
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		inline-size: fit-content;
-		max-inline-size: 70%;
-		height: 1em;
-
-		display: flex;
-		flex-direction: row;
-		justify-content: start;
-		align-items: end;
-		margin: 0.32em;
-
-		z-index: 1;
-	}
-
-	.header {
-		display: grid;
-		grid-template-areas:
-			"left center right"
-		;
-		grid-template-rows: 1fr;
-		grid-template-columns: repeat(3, 1fr);
-		place-items: safe center;
-		padding: 0.22rem .5rem;
-		width: var(--content-area-width);
-		border: solid var(--border-width) var(--color-border);
-		border-start-start-radius: var(--border-radius);
-	}
-
-	.site {
-		font-size: 1rem;
-		grid-area: center;
-	}
-
-	.close {
-		grid-area: right;
-		justify-self: end;
-	}
-
-	.nav {
-		grid-area: right;
-		justify-self: end;
-	}
-
-	.page-area {
-		display: flex;
-		flex-direction: column-reverse;
-		position: relative;
-		width: 100%;
-		min-height: fit-content;
-		margin-bottom: 1rem;
-		contain: layout;
-	}
-
-	.scrollable-container {
-		position: relative;
-		display: flex;
-		flex-direction: column;
-		justify-content: start;
-		width: 100%;
-		height: 100%;
-		padding: 0 calc(var(--content-area-y-padding) - var(--content-area-x-padding) - 0.72rem);
-		box-sizing: border-box;
-		overflow: hidden auto;
-		scrollbar-width: thin;
-		scrollbar-gutter: stable both-edges;
-	}
-
-	.content-area {
-		position: relative;
-		padding: var(--content-area-y-padding) var(--content-area-x-padding);
-		width: var(--content-area-width);
-		height: var(--content-area-height);
-		border: solid var(--border-width) var(--color-border);
-		border-end-end-radius: var(--border-radius);
-		overflow: hidden;
-		contain: strict;
-	}
-
-	.background {
-		position: absolute;
-		opacity: 42%;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		z-index: -1;
-		filter: blur(12rem);
-		will-change: filter;
-		background-size: contain;
-	}
-
-	.glass {
-		position: absolute;
-		opacity: 22%;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		z-index: -1;
-		background: var(--color-foreground);
-		backdrop-filter: blur(2rem) saturate(150%);
-	}
-
-</style>

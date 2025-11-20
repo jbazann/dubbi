@@ -8,8 +8,8 @@
 
 <script>
     import { eventHandler, removeHandler } from "@lib/_events"
-import { newInputEvent, dispatch } from "@lib/events"
-    import { layoutId } from "@lib/globals"
+    import { newInputEvent, dispatch } from "@lib/events"
+    import { contentAreaId } from "@lib/ids"
     import { err } from "@lib/log"
 
     const clickHandler = (_event: Event) => {
@@ -20,8 +20,8 @@ import { newInputEvent, dispatch } from "@lib/events"
     }
 
     const rewireHandler = (_event?: Event) => {
-        const layout = document.getElementById(layoutId)
-        !layout && err(`Layout ${layoutId} not found.`)
+        const layout = document.getElementById(contentAreaId)
+        !layout && err(`Layout ${contentAreaId} not found.`)
         const buttons = layout?.querySelectorAll('button[data-component-navigation-button]') || []
         buttons.forEach(b => {
             removeHandler('click', clickHandler, b, 'NAVB-REWIRE')

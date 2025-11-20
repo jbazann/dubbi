@@ -2,10 +2,28 @@ import { log } from "./log"
 import { t } from "./t"
 
 const DEFAULT_DISPATCH_OPTIONS = {
-    target: document
+    target: document,
+    deferOrder: 1
 }
+
+function deferredEvent(event, deferOrder, opt) {
+    return new CustomEvent('sys:defer', {detail: {event, deferOrder, opt}})
+}
+
+export function newMountEvent() {
+    return new CustomEvent('sys:mount')
+}
+
+export function newUnmountEvent() {
+    return new CustomEvent('sys:unmount')
+}
+
 export function dispatch(event, opt = DEFAULT_DISPATCH_OPTIONS) {
     (opt.target ?? DEFAULT_DISPATCH_OPTIONS.target).dispatchEvent(_log(event, opt.context))
+}
+
+export function defer(event, opt = DEFAULT_DISPATCH_OPTIONS) {
+    dispatch(deferredEvent(event, opt?.deferOrder ?? 1, opt), opt)
 }
 
 export function newInputEvent(input, line) {

@@ -1,4 +1,16 @@
 const en: LocalizedStrings = {
+    menu: {
+        secret: {
+            label: "Secret options",
+            children: "There is nothing else to do here, but maybe in the future I will add more to this menu."
+        },
+        language: {
+            alt: {
+                es: "Flag of the Spanish language.",
+                en: "Flag of the English language."
+            }
+        }
+    },
     notice: {
         "forced-redirect": "\"force-language\" is currently set to \"true\", so you were redirected from \"!{from}\" to \"!{to}\". \nIf you were trying to browse a different language, use \"set language\" to change your language, or \"set force-language false\" to disable this behavior.",  // !{from} !{to}
         "notice-preface": "NOTICE: ",

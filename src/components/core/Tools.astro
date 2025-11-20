@@ -1,0 +1,445 @@
+---
+import CommandTrigger from "@c/main-layout/CommandTrigger.astro";
+import Drawer from "@c/utils/Drawer.astro";
+
+---
+
+{Astro.props.lang === 'en' &&
+<div class="tool-container" transition:persist>
+    <div class="tool-panel drawer-external-exclusive-scope">
+        <Drawer>
+			<Fragment slot="label">
+				<span class="tool-label">nav</span>
+			</Fragment>
+			<Fragment slot="content">
+				<div class="drawer-external-sibling-container tool-wrapper">
+					<CommandTrigger cmd="nav .." >nav ..</CommandTrigger>
+					<CommandTrigger cmd="nav /" >nav /</CommandTrigger>
+					<CommandTrigger cmd="nav /about" >nav /about</CommandTrigger>
+					<CommandTrigger cmd="nav /projects" >nav /projects</CommandTrigger>
+					<CommandTrigger cmd="nav /gallery" >nav /gallery</CommandTrigger>
+				</div>
+				<Drawer>
+					<Fragment slot="label">
+						<span class="tool-label">projects</span>
+					</Fragment>
+					<Fragment slot="content">
+						<div class="drawer-external-sibling-container tool-wrapper">
+							<CommandTrigger cmd="nav /projects" >nav /projects</CommandTrigger>
+							<CommandTrigger cmd="nav ./sbupi" >nav ./sbupi</CommandTrigger>
+							<CommandTrigger cmd="nav ./dubbi" >nav ./dubbi</CommandTrigger>
+							<CommandTrigger cmd="nav ./skwidl" >nav ./skwidl</CommandTrigger>
+							<CommandTrigger cmd="nav .." >nav ..</CommandTrigger>
+						</div>
+						<Drawer>
+							<Fragment slot="label">
+								<span class="tool-label">sbupi</span>
+							</Fragment>
+							<Fragment slot="content">
+								<div class="tool-wrapper">
+									<CommandTrigger cmd="nav /projects/sbupi" >nav /projects/sbupi</CommandTrigger>
+									<CommandTrigger cmd="nav ./display" >nav ./display</CommandTrigger>
+									<CommandTrigger cmd="nav ./hydration" >nav ./hydration</CommandTrigger>
+									<CommandTrigger cmd="nav ./lessons" >nav ./lessons</CommandTrigger>
+									<CommandTrigger cmd="nav ./routing" >nav ./routing</CommandTrigger>
+									<CommandTrigger cmd="nav .." >nav ..</CommandTrigger>
+								</div>
+							</Fragment>
+						</Drawer>
+						<Drawer>
+							<Fragment slot="label">
+								<span class="tool-label">dubbi</span>
+							</Fragment>
+							<Fragment slot="content">
+								<div class="tool-wrapper">
+									<CommandTrigger cmd="nav /projects/dubbi" >nav /projects/dubbi</CommandTrigger>
+									<CommandTrigger cmd="nav ./architecture" >nav ./architecture</CommandTrigger>
+									<CommandTrigger cmd="nav ./roadmap" >nav ./roadmap</CommandTrigger>
+									<CommandTrigger cmd="nav ./structure" >nav ./structure</CommandTrigger>
+									<CommandTrigger cmd="nav .." >nav ..</CommandTrigger>
+								</div>
+							</Fragment>
+						</Drawer>
+					</Fragment>
+				</Drawer>
+				<Drawer>
+					<Fragment slot="label">
+						<span class="tool-label">gallery</span>
+					</Fragment>
+					<Fragment slot="content">
+						<div class="drawer-external-sibling-container tool-wrapper">
+							<CommandTrigger cmd="nav /gallery" >nav /gallery</CommandTrigger>
+							<CommandTrigger cmd="nav ./early-drafts" >nav ./early-drafts</CommandTrigger>
+							<CommandTrigger cmd="nav .." >nav ..</CommandTrigger>
+						</div>
+						<Drawer>
+							<Fragment slot="label">
+								<span class="tool-label">early-drafts</span>
+							</Fragment>
+							<Fragment slot="content">
+								<div class="tool-wrapper">
+									<CommandTrigger cmd="nav /gallery/early-drafts" >nav /gallery/early-drafts</CommandTrigger>
+									<CommandTrigger cmd="nav ./muse" >nav ./muse</CommandTrigger>
+									<CommandTrigger cmd="nav ./pretty-little-lady" >./pretty-little-lady </CommandTrigger>
+									<CommandTrigger cmd="nav ./reality" >nav ./reality</CommandTrigger>
+									<CommandTrigger cmd="nav ./the-end-of-i" >nav ./the-end-of-i</CommandTrigger>
+									<CommandTrigger cmd="nav ./the-old-man-and-death" >nav ./the-old-man-and-death</CommandTrigger>
+									<CommandTrigger cmd="nav .." >nav ..</CommandTrigger>
+								</div>
+							</Fragment>
+						</Drawer>
+					</Fragment>
+				</Drawer>
+
+			</Fragment>
+		</Drawer>
+		<Drawer>
+			<Fragment slot="label">
+				<span class="tool-label">help</span>
+			</Fragment>
+			<Fragment slot="content">
+				<div class="tool-wrapper">
+					<CommandTrigger cmd="help" >help</CommandTrigger>
+					<CommandTrigger cmd="help --tutorial" >help --tutorial</CommandTrigger>
+					<CommandTrigger cmd="help help" >help help</CommandTrigger>
+					<CommandTrigger cmd="help nav" >help nav</CommandTrigger>
+					<CommandTrigger cmd="help sitemap" >help sitemap</CommandTrigger>
+					<CommandTrigger cmd="help ls" >help ls</CommandTrigger>
+					<CommandTrigger cmd="help cd" >help cd</CommandTrigger>
+					<CommandTrigger cmd="help cat" >help cat</CommandTrigger>
+					<CommandTrigger cmd="help echo" >help echo</CommandTrigger>
+					<CommandTrigger cmd="help remote-echo" >help remote-echo</CommandTrigger>
+					<CommandTrigger cmd="help cls" >help cls</CommandTrigger>
+					<CommandTrigger cmd="help settings" >help settings</CommandTrigger>
+					<CommandTrigger cmd="help whoami" >help whoami</CommandTrigger>
+				</div>
+			</Fragment>
+		</Drawer>
+		<Drawer>
+			<Fragment slot="label">
+				<span class="tool-label">settings</span>
+			</Fragment>
+			<Fragment slot="content">
+				<div class="drawer-external-sibling-container tool-wrapper">
+					<CommandTrigger cmd="settings" >settings</CommandTrigger>
+				</div>
+				<Drawer>
+					<Fragment slot="label">
+						<span class="tool-label">logging</span>
+					</Fragment>
+					<Fragment slot="content">
+						<div class="tool-wrapper">
+							<CommandTrigger cmd="set logging" >set logging</CommandTrigger>
+							<CommandTrigger cmd="set logging off" >set logging off</CommandTrigger>
+							<CommandTrigger cmd="set logging console" >set logging console</CommandTrigger>
+						</div>
+					</Fragment>
+				</Drawer>
+				<Drawer>
+					<Fragment slot="label">
+						<span class="tool-label">theme</span>
+					</Fragment>
+					<Fragment slot="content">
+						<div class="tool-wrapper">
+							<CommandTrigger cmd="set theme" >set theme</CommandTrigger>
+							<CommandTrigger cmd="set theme default" >set theme default</CommandTrigger>
+							<CommandTrigger cmd="set theme default-light" >set theme default-light</CommandTrigger>
+							<CommandTrigger cmd="set theme default-dark" >set theme default-dark</CommandTrigger>
+							<CommandTrigger cmd="set theme autumn-dawn" >set theme autumn-dawn</CommandTrigger>
+							<CommandTrigger cmd="set theme autumn-dusk" >set theme autumn-dusk</CommandTrigger>
+							<CommandTrigger cmd="set theme neo-cyan" >set theme neo-cyan</CommandTrigger>
+							<CommandTrigger cmd="set theme retro-cyan" >set theme retro-cyan</CommandTrigger>
+							<CommandTrigger cmd="set theme cloudy-salmon" >set theme cloudy-salmon</CommandTrigger>
+							<CommandTrigger cmd="set theme psycho-stark" >set theme psycho-stark</CommandTrigger>
+							<CommandTrigger cmd="set theme psycho-dark" >set theme psycho-dark</CommandTrigger>
+							<CommandTrigger cmd="set theme dawnly-lavender" >set theme dawnly-lavender</CommandTrigger>
+							<CommandTrigger cmd="set theme nightly-lavender" >set theme nightly-lavender</CommandTrigger>
+							<CommandTrigger cmd="set theme dainty-elegance" >set theme dainty-elegance</CommandTrigger>
+						</div>
+					</Fragment>
+				</Drawer>
+
+			</Fragment>
+		</Drawer>
+		<Drawer>
+			<Fragment slot="label">
+				<span class="tool-label">misc</span>
+			</Fragment>
+			<Fragment slot="content">
+				<div class="tool-wrapper">
+					<CommandTrigger cmd="cat" >cat</CommandTrigger>
+					<CommandTrigger cmd="ls" >ls</CommandTrigger>
+					<CommandTrigger cmd="sitemap" >sitemap</CommandTrigger>
+					<CommandTrigger cmd="cls" >cls</CommandTrigger>
+				</div>
+			</Fragment>
+		</Drawer>
+	</div>
+</div>
+}
+{Astro.props.lang === 'es' &&
+<div class="tool-container" transition:persist>
+    <div class="tool-panel drawer-external-exclusive-scope">
+        <Drawer>
+			<Fragment slot="label">
+				<span class="tool-label">nav</span>
+			</Fragment>
+			<Fragment slot="content">
+				<div class="drawer-external-sibling-container tool-wrapper">
+					<CommandTrigger cmd="nav .." >nav ..</CommandTrigger>
+					<CommandTrigger cmd="nav /es/" >nav /es/</CommandTrigger>
+					<CommandTrigger cmd="nav /es/acerca" >nav /es/acerca</CommandTrigger>
+					<CommandTrigger cmd="nav /es/proyectos" >nav /es/proyectos</CommandTrigger>
+					<CommandTrigger cmd="nav /es/galeria" >nav /es/galeria</CommandTrigger>
+				</div>
+				<Drawer>
+					<Fragment slot="label">
+						<span class="tool-label">proyectos</span>
+					</Fragment>
+					<Fragment slot="content">
+						<div class="drawer-external-sibling-container tool-wrapper">
+							<CommandTrigger cmd="nav /es/proyectos" >nav /es/proyectos</CommandTrigger>
+							<CommandTrigger cmd="nav ./sbupi" >nav ./sbupi</CommandTrigger>
+							<CommandTrigger cmd="nav ./dubbi" >nav ./dubbi</CommandTrigger>
+							<CommandTrigger cmd="nav ./skwidl" >nav ./skwidl</CommandTrigger>
+							<CommandTrigger cmd="nav .." >nav ..</CommandTrigger>
+						</div>
+						<Drawer>
+							<Fragment slot="label">
+								<span class="tool-label">sbupi</span>
+							</Fragment>
+							<Fragment slot="content">
+								<div class="tool-wrapper">
+									<CommandTrigger cmd="nav /es/proyectos/sbupi" >nav /es/proyectos/sbupi</CommandTrigger>
+									<CommandTrigger cmd="nav ./display" >nav ./display</CommandTrigger>
+									<CommandTrigger cmd="nav ./hydration" >nav ./hidratacion</CommandTrigger>
+									<CommandTrigger cmd="nav ./lecciones" >nav ./lecciones</CommandTrigger>
+									<CommandTrigger cmd="nav ./enrutamiento" >nav ./enrutamiento</CommandTrigger>
+									<CommandTrigger cmd="nav .." >nav ..</CommandTrigger>
+								</div>
+							</Fragment>
+						</Drawer>
+						<Drawer>
+							<Fragment slot="label">
+								<span class="tool-label">dubbi</span>
+							</Fragment>
+							<Fragment slot="content">
+								<div class="tool-wrapper">
+									<CommandTrigger cmd="nav /es/proyectos/dubbi" >nav /es/proyectos/dubbi</CommandTrigger>
+									<CommandTrigger cmd="nav ./arquitectura" >nav ./arquitectura</CommandTrigger>
+									<CommandTrigger cmd="nav ./roadmap" >nav ./roadmap</CommandTrigger>
+									<CommandTrigger cmd="nav ./estructura" >nav ./estructura</CommandTrigger>
+									<CommandTrigger cmd="nav .." >nav ..</CommandTrigger>
+								</div>
+							</Fragment>
+						</Drawer>
+					</Fragment>
+				</Drawer>
+				<Drawer>
+					<Fragment slot="label">
+						<span class="tool-label">galeria</span>
+					</Fragment>
+					<Fragment slot="content">
+						<div class="drawer-external-sibling-container tool-wrapper">
+							<CommandTrigger cmd="nav /es/galeria" >nav /es/galeria</CommandTrigger>
+							<CommandTrigger cmd="nav ./early-drafts" >nav ./early-drafts</CommandTrigger>
+							<CommandTrigger cmd="nav .." >nav ..</CommandTrigger>
+						</div>
+						<Drawer>
+							<Fragment slot="label">
+								<span class="tool-label">early-drafts</span>
+							</Fragment>
+							<Fragment slot="content">
+								<div class="tool-wrapper">
+									<CommandTrigger cmd="nav /gallery/early-drafts" >nav /es/gallery/early-drafts</CommandTrigger>
+									<CommandTrigger cmd="nav ./muse" >nav ./muse</CommandTrigger>
+									<CommandTrigger cmd="nav ./pretty-little-lady" >./pretty-little-lady </CommandTrigger>
+									<CommandTrigger cmd="nav ./reality" >nav ./reality</CommandTrigger>
+									<CommandTrigger cmd="nav ./the-end-of-i" >nav ./the-end-of-i</CommandTrigger>
+									<CommandTrigger cmd="nav ./the-old-man-and-death" >nav ./the-old-man-and-death</CommandTrigger>
+									<CommandTrigger cmd="nav .." >nav ..</CommandTrigger>
+								</div>
+							</Fragment>
+						</Drawer>
+					</Fragment>
+				</Drawer>
+			</Fragment>
+		</Drawer>
+		<Drawer>
+			<Fragment slot="label">
+				<span class="tool-label">help/ayuda</span>
+			</Fragment>
+			<Fragment slot="content">
+				<div class="tool-wrapper">
+					<CommandTrigger cmd="help" >help</CommandTrigger>
+					<CommandTrigger cmd="help --tutorial" >help --tutorial</CommandTrigger>
+					<CommandTrigger cmd="help help" >help help</CommandTrigger>
+					<CommandTrigger cmd="help nav" >help nav</CommandTrigger>
+					<CommandTrigger cmd="help sitemap" >help sitemap</CommandTrigger>
+					<CommandTrigger cmd="help ls" >help ls</CommandTrigger>
+					<CommandTrigger cmd="help cd" >help cd</CommandTrigger>
+					<CommandTrigger cmd="help cat" >help cat</CommandTrigger>
+					<CommandTrigger cmd="help echo" >help echo</CommandTrigger>
+					<CommandTrigger cmd="help remote-echo" >help remote-echo</CommandTrigger>
+					<CommandTrigger cmd="help cls" >help cls</CommandTrigger>
+					<CommandTrigger cmd="help settings" >help settings</CommandTrigger>
+					<CommandTrigger cmd="help whoami" >help whoami</CommandTrigger>
+				</div>
+			</Fragment>
+		</Drawer>
+		<Drawer>
+			<Fragment slot="label">
+				<span class="tool-label">settings</span>
+			</Fragment>
+			<Fragment slot="content">
+				<div class="drawer-external-sibling-container tool-wrapper">
+					<CommandTrigger cmd="settings" >settings</CommandTrigger>
+				</div>
+				<Drawer>
+					<Fragment slot="label">
+						<span class="tool-label">logging</span>
+					</Fragment>
+					<Fragment slot="content">
+						<div class="tool-wrapper">
+							<CommandTrigger cmd="set logging" >set logging</CommandTrigger>
+							<CommandTrigger cmd="set logging off" >set logging off</CommandTrigger>
+							<CommandTrigger cmd="set logging console" >set logging console</CommandTrigger>
+						</div>
+					</Fragment>
+				</Drawer>
+				<Drawer>
+					<Fragment slot="label">
+						<span class="tool-label">tema</span>
+					</Fragment>
+					<Fragment slot="content">
+						<div class="tool-wrapper">
+							<CommandTrigger cmd="set tema" >set tema</CommandTrigger>
+							<CommandTrigger cmd="set tema default" >set tema default</CommandTrigger>
+							<CommandTrigger cmd="set tema default-light" >set tema default-light</CommandTrigger>
+							<CommandTrigger cmd="set tema default-dark" >set tema default-dark</CommandTrigger>
+							<CommandTrigger cmd="set tema autumn-dawn" >set tema autumn-dawn</CommandTrigger>
+							<CommandTrigger cmd="set tema autumn-dusk" >set tema autumn-dusk</CommandTrigger>
+							<CommandTrigger cmd="set tema neo-cyan" >set tema neo-cyan</CommandTrigger>
+							<CommandTrigger cmd="set tema retro-cyan" >set tema retro-cyan</CommandTrigger>
+							<CommandTrigger cmd="set tema cloudy-salmon" >set tema cloudy-salmon</CommandTrigger>
+							<CommandTrigger cmd="set tema psycho-stark" >set tema psycho-stark</CommandTrigger>
+							<CommandTrigger cmd="set tema psycho-dark" >set tema psycho-dark</CommandTrigger>
+							<CommandTrigger cmd="set tema dawnly-lavender" >set tema dawnly-lavender</CommandTrigger>
+							<CommandTrigger cmd="set tema nightly-lavender" >set tema nightly-lavender</CommandTrigger>
+							<CommandTrigger cmd="set tema dainty-elegance" >set tema dainty-elegance</CommandTrigger>
+						</div>
+					</Fragment>
+				</Drawer>
+
+			</Fragment>
+		</Drawer>
+		<Drawer>
+			<Fragment slot="label">
+				<span class="tool-label">misc</span>
+			</Fragment>
+			<Fragment slot="content">
+				<div class="tool-wrapper">
+					<CommandTrigger cmd="cat" >cat</CommandTrigger>
+					<CommandTrigger cmd="ls" >ls</CommandTrigger>
+					<CommandTrigger cmd="sitemap" >sitemap</CommandTrigger>
+					<CommandTrigger cmd="cls" >cls</CommandTrigger>
+				</div>
+			</Fragment>
+		</Drawer>
+	</div>
+</div>
+}
+
+<style>
+
+	.tool-label {
+		text-wrap-mode: wrap;
+		text-wrap-style: pretty;
+		word-break: break-all;
+		text-align: center;
+		font-size: 1.2rem;
+		padding-inline: 2ch;
+	}
+
+	.tool-wrapper {
+		display: contents;
+		> * {
+			margin-inline: 2ch;
+		}
+
+		& > *:hover {
+			position: relative;
+
+			&::after {
+				content: "";
+				position: absolute;
+				inset: 0;
+				z-index: 1;
+				scale: 1.12;
+				border-radius: var(--border-radius);
+				border: var(--color-border) dashed var(--border-width);
+			}
+		}
+	}
+
+	.tool-label:hover {
+		position: relative;
+
+		&::after {
+			content: "";
+			position: absolute;
+			inset: 0;
+			z-index: 1;
+			scale: 1.12;
+			border-radius: var(--border-radius);
+			border: var(--color-border) dashed var(--border-width);
+		}
+
+	}
+
+	.tool-container {
+		display: none;
+		
+		p {
+			margin-bottom: 0;
+		}
+	}
+
+	:root[tools-enabled] .tool-container {
+		display: flex;
+		flex-direction: column;
+		flex-wrap: wrap;
+		justify-content: start;
+		width: fit-content;
+		height: 100%;
+	}
+
+	.tool-panel {
+		display: flex;
+		flex-direction: column;
+		flex-wrap: wrap;
+		justify-content: start;
+		align-content: safe center;
+		padding: 1rem 0;
+		width: max-content;
+		height: 100%;
+		gap: 1rem;
+	}
+
+	@media (min-width: 768px) and (orientation: landscape) {
+
+		:root[tools-enabled] .tool-container {
+			height: fit-content;
+			width: 100%;
+		}
+
+		.tool-panel {
+			flex-direction: row;
+			justify-content: center;
+			height: fit-content;
+			width: 100%;
+		}
+
+    }
+
+</style>

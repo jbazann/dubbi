@@ -1,4 +1,16 @@
 type LocalizedStrings = {
+    menu: {
+        secret: {
+            label: string
+            children: string
+        }
+        language: {
+            alt: {
+                es: string
+                en: string
+            }
+        }
+    }
     notice: {
         "forced-redirect": string // !{from} !{to}
         "notice-preface": string

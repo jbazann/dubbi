@@ -14,4 +14,7 @@
     text-decoration: underline;
     text-underline-offset: 0.12em;
     font-style: italic;
+    font-weight: bold;
+    word-break: break-all;
+    text-wrap-mode: wrap;
 }

@@ -1,52 +1,54 @@
 ---
 ---
 
-<template id="tty-slp-template">
-    <p class="no-bottom-margin whitespace-pre-line"></p>
-</template>
+<div id="tty-slp-templates">
+    <template id="tty-slp-template">
+        <p class="no-bottom-margin whitespace-pre-line"></p>
+    </template>
 
-<template id="tty-slp-code-template">
-    <code class="no-bottom-margin whitespace-pre-line"></code>
-</template>
+    <template id="tty-slp-code-template">
+        <code class="no-bottom-margin whitespace-pre-line"></code>
+    </template>
 
-<template id="tty-slp-ls-template">
-    <div class="ls-container">
-    </div>
-</template>
+    <template id="tty-slp-ls-template">
+        <div class="ls-container">
+        </div>
+    </template>
 
-<template id="tty-slp-preface-template">
-    <p class="no-bottom-margin whitespace-pre-line">
-        <span class="simple-preface"></span><span></span>
-    </p>
-</template>
+    <template id="tty-slp-preface-template">
+        <p class="no-bottom-margin whitespace-pre-line">
+            <span class="simple-preface"></span><span></span>
+        </p>
+    </template>
 
-<template id="tty-slp-notice-template">
-    <hr>
-    <p class="no-bottom-margin whitespace-pre-line">
-        <span class="notice-preface"></span><span></span>
-    </p>
-</template>
+    <template id="tty-slp-notice-template">
+        <hr>
+        <p class="no-bottom-margin whitespace-pre-line">
+            <span class="notice-preface"></span><span></span>
+        </p>
+    </template>
 
-<template id="tty-slp-error-template">
-    <p class="no-bottom-margin whitespace-pre-line">
-        <span class="error-preface"></span><span></span>
-    </p>
-</template>
+    <template id="tty-slp-error-template">
+        <p class="no-bottom-margin whitespace-pre-line">
+            <span class="error-preface"></span><span></span>
+        </p>
+    </template>
 
-<template id="tty-slp-cat-img">
-    <div class="cat-image-container">
-        <img class="cat-image" src="" alt="">
-    </div>
-</template>
+    <template id="tty-slp-cat-img">
+        <div class="cat-image-container">
+            <img class="cat-image" src="" alt="">
+        </div>
+    </template>
+</div>
 
 <script>
     import { eventHandler } from "@lib/_events"
     import { newScrollToBottomEvent, dispatch } from "@lib/events"
-    import { pageId } from "@lib/globals"
+    import { ttyCurrentPageId } from "@lib/ids"
     import { err } from "@lib/log"
     import { t } from "@lib/t"
 
-    let pageContainer = document.getElementById(pageId) as HTMLDivElement
+    let pageContainer = document.getElementById(ttyCurrentPageId) as HTMLDivElement
     !pageContainer && err(`Page container ${pageContainer} not found.`)
 
     const line = document.getElementById('tty-slp-template') as HTMLTemplateElement
@@ -58,7 +60,7 @@
     const cat = document.getElementById('tty-slp-cat-img') as HTMLTemplateElement
     
     eventHandler('astro:after-swap', (_event) => {
-        pageContainer = document.getElementById(pageId) as HTMLDivElement
+        pageContainer = document.getElementById(ttyCurrentPageId) as HTMLDivElement
         !pageContainer && err(`Page container ${pageContainer} not found.`)
     })
 
@@ -161,4 +163,6 @@
             dispatch(newScrollToBottomEvent(), { context: "SLP: Error." } as any )
         })
     })
+
+
 </script>

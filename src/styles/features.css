@@ -1,21 +1,23 @@
 :root {
     --border-width: 2px;
-    --border-radius: 1.2rem;
+    --border-radius: 1.12rem;
 
-    --content-area-height: 82%;
-    --content-area-width: 92%;
+    --topbar-height: min(4rem, 15vh);
+    --topbar-bottom-margin: min(1.12rem, 3vh);
 
-    @media (min-width: 768px) {
-        --content-area-height: 72%;
-        --content-area-width: 92%;
-    }
+    --content-area-height:100%;
+    --content-area-width: 100%;
 
-    @media (min-width: 1024px) {
-        --content-area-width: 72%;
-        --content-area-height: 72%;
-    }
+    --content-area-y-padding: .42rem;
+    --content-area-x-padding: 2rem;
+    --content-area-x-padding-l: 2rem;
+    --content-area-x-padding-r: 1rem;
+    --content-area-bottom-margin: min(1.12rem, 3vh);
+    --content-area-left-margin: 1.12rem;
+    --content-area-right-margin: 1rem;
 
+    --tty-top-margin: var(--content-area-bottom-margin);
 
-    --content-area-y-padding: 1.8rem;
-    --content-area-x-padding: .2rem;
+    --default-indent: 1rem;
+    --menu-item-margin: 1rem;
 }

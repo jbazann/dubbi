@@ -1,20 +1,27 @@
+import { eventHandler, removeHandler } from "@lib/_events"
 import { newInputEvent, dispatch } from "@lib/events"
-import { pageId } from "@lib/globals"
-import { err } from "@lib/log"
+// import { ttyCurrentPageId } from "@lib/ids"
+// import { err } from "@lib/log"
 
-const attachListeners = (event: Event) => {
-    const page = document.getElementById(pageId)
-    !page && err(`Page container ${pageId} not found.`)
-    const buttons = page?.querySelectorAll('button[data-component-command-trigger]') || []
+const attachListeners = (_event: Event) => {
+    // const page = document.getElementById(ttyCurrentPageId)
+    // !page && err(`Page container ${ttyCurrentPageId} not found.`)
+    // const buttons = page?.querySelectorAll('button[data-component-command-trigger]') || []
+    const buttons = document.querySelectorAll('button[data-component-command-trigger]') || []
     const location = window.location.pathname
     buttons.forEach(b => {
         const cmd = b.getAttribute('data-component-command-trigger') || ''
-        b.addEventListener('click', (_event: Event) => {
+        const handler = (_event: Event) => {
             dispatch(newInputEvent(
                 cmd, `guest :${location} > ${cmd}`
             )) 
-        })
+        }
+        const logTag = `CommandTrigger - ${cmd}`
+        eventHandler('click', handler, b, logTag)
+        eventHandler('sys:unmount', (_event: Event) => {
+            removeHandler('click', handler, b, logTag)
+        }, document, logTag)
     })
 }
 
-document.addEventListener('tty:rewire:page', attachListeners)
+eventHandler('sys:mount', attachListeners)

@@ -7,18 +7,18 @@
 
 <script>
     import { eventHandler } from "@lib/_events"
-import { dispatch, newScrollToBottomEvent } from "@lib/events"
-    import { pageId } from "@lib/globals"
+    import { dispatch, newScrollToBottomEvent } from "@lib/events"
+    import { ttyCurrentPageId } from "@lib/ids"
     import { err, log } from "@lib/log"
 
 
-    let pageContainer = document.getElementById(pageId) as HTMLDivElement
+    let pageContainer = document.getElementById(ttyCurrentPageId) as HTMLDivElement
     !pageContainer && err(`Page container ${pageContainer} not found.`)
 
     const template = document.getElementById('tty-loading-indicator-template') as HTMLTemplateElement
 
     eventHandler('astro:after-swap', (_event) => {
-        pageContainer = document.getElementById(pageId) as HTMLDivElement
+        pageContainer = document.getElementById(ttyCurrentPageId) as HTMLDivElement
         !pageContainer && err(`Page container ${pageContainer} not found.`)
     })
     

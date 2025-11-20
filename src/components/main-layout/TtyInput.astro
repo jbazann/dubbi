@@ -1,14 +1,15 @@
 ---
+import { ttyInputContainerId } from "@lib/ids"
 import "@s/fonts.css"
 ---
-<div class="ttyin" id="tty-in-container" data-tty-in-ids={JSON.stringify(Astro.props.ids)} transition:persist>
+<div class="ttyin" id={ttyInputContainerId} transition:persist>
     <span id="tty-in-linemarker" class="linemarker">
         <span id="tty-in-user">guest</span><span id="tty-in-location" class="whitespace-pre">&nbsp;:{Astro.url.pathname}&nbsp;&gt;&nbsp;</span>
     </span>
     <span id="tty-in-txt-container" class="text">
         <input id="tty-in-txt-input" class="input" tabindex=0
             type="text" name="currentCommand" autocomplete="off" autocapitalize="off" 
-            placeholder="...">
+            placeholder={Astro.props.placeholder ?? '...'}>
         <span id="tty-in-txt-preline" class="preLineText"></span>
         <span id="tty-in-txt-precaret" class="preCaretText" data-cursor="end"></span>
         <span id="tty-in-txt-prehighlight" class="preHLText"></span>
@@ -23,7 +24,7 @@ import "@s/fonts.css"
     import { eventHandler } from "@lib/_events"
     import { dispatch, newCommandEvent, newInputEvent, newLocationEvent, newPrintEvent, newScrollToBottomEvent, newTtyFocusEvent } from "@lib/events"
     import { runCommand } from "@lib/commands"
-    import { parseDOMData } from "@lib/util"
+    import { ttyScrollContainerId } from "@lib/ids"
 
 
     const inputHandler = (event: Event) => {
@@ -67,8 +68,6 @@ import "@s/fonts.css"
 
     //
     
-    const ids = parseDOMData("tty-in-container",'data-tty-in-ids')
-    
     const preLineText = document.getElementById("tty-in-txt-preline") as HTMLSpanElement
     const preCaretText = document.getElementById("tty-in-txt-precaret") as HTMLSpanElement
     const preHLText = document.getElementById("tty-in-txt-prehighlight") as HTMLSpanElement
@@ -81,10 +80,10 @@ import "@s/fonts.css"
     const user = document.getElementById("tty-in-user") as HTMLSpanElement
     const location = document.getElementById("tty-in-location") as HTMLSpanElement
     const ttyin = document.getElementById("tty-in-container") as HTMLDivElement
-    let scrollContainer = document.getElementById(ids.scrollContainer) as HTMLDivElement
+    let scrollContainer = document.getElementById(ttyScrollContainerId) as HTMLDivElement
     
     eventHandler('astro:after-swap', (_event) => {
-        scrollContainer = document.getElementById(ids.scrollContainer) as HTMLDivElement
+        scrollContainer = document.getElementById(ttyScrollContainerId) as HTMLDivElement
     })
 
     eventHandler('tty:focus', (event) => {
@@ -391,7 +390,7 @@ import "@s/fonts.css"
         z-index: 22222;
         outline: solid var(--color-highlight) var(--border-width);
         border-radius: var(--border-radius);
-        outline-offset: 0.32em;
+        outline-offset: 0.12em;
     }
 
     .input:focus ~ .preCaretText {

@@ -1,4 +1,16 @@
 const es: LocalizedStrings = {
+    menu: {
+        secret: {
+            label: "Opciones secretas",
+            children: "No hay nada más para hacer acá, pero capaz en el futuro agregue más opciones."
+        },
+        language: {
+            alt: {
+                es: "Bandera del idioma español.",
+                en: "Bandera del idioma inglés."
+            }
+        }
+    },
     notice: {
         "forced-redirect": "\"forzar-lenguaje\" está  activado, por lo que fuiste redirigido/a de \"!{from}\" a \"!{to}\". Si tu intención era ver un lenguaje diferente, usá \"set lenguaje\" para cambiar tu idioma, o \"set forzar-lenguaje false\" para desactivar esta funcionalidad.",
         "notice-preface": "AVISO: ",
@@ -94,14 +106,23 @@ const es: LocalizedStrings = {
                     set: "Tema actual: !{v}.", // !{v}
                 },
                 names: {
-                    "autumn-dawn": "otoño-dia",
-                    "autumn-dusk": "otoño-noche",
+                    "autumn-dawn": "autumn-dawn",
+                    "autumn-dusk": "autumn-dusk",
                     "psycho-stark": "psycho-stark",
-                    "neo-cyan": "neo-celeste",
-                    "cloudy-salmon": "salmon-nube",
-                    "nightly-lavender": "lavanda-nocturna",
-                    "dainty-elegance": "delicada-elegancia",
+                    "neo-cyan": "neo-cyan",
+                    "cloudy-salmon": "cloudy-salmon",
+                    "nightly-lavender": "nightly-lavender",
+                    "dainty-elegance": "dainty-elegance",
                 }
+                // names: {
+                //     "autumn-dawn": "otoño-dia",
+                //     "autumn-dusk": "otoño-noche",
+                //     "psycho-stark": "psycho-stark",
+                //     "neo-cyan": "neo-celeste",
+                //     "cloudy-salmon": "salmon-nube",
+                //     "nightly-lavender": "lavanda-nocturna",
+                //     "dainty-elegance": "delicada-elegancia",
+                // }
             }
         },
         _silly: {

@@ -12,6 +12,7 @@ export {
     setForceLanguage,
     setTheme,
     setLogging,
+    setNavTools,
 }
 
 // SS: sessionStorage
@@ -21,6 +22,7 @@ const SSKeys = {
 
 const current = {
     "force-language": true,
+    navtools: '',
     language: '',
     theme: '',
     cookies: "allow",
@@ -100,6 +102,19 @@ function setTheme(theme) {
         default:
             return false
         
+    }
+}
+
+function setNavTools(val) {
+        switch (val) {
+        case 'true':
+        case 'false':
+            current["navtools"] = val
+            setCookie(QK["navtools"], val)
+            dispatch(newSettingsChangeEvent())
+            return true
+        default:
+            return false
     }
 }
 

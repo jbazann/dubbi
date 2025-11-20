@@ -1,0 +1,60 @@
+<div id={Astro.props.id} class="dropdown-container" tabindex="-1">
+    <label class="dropdown-label">
+        <slot name="label">
+            Some string or element
+        </slot>
+        <div class="dropdown-label-cheat" tabindex="-1"></div>
+    </label>
+    <div class="dropdown-content">
+        <slot name="children">
+            <div>child #1</div>
+            <div>child #2</div>
+            <div>child #3</div>
+        </slot>
+    </div>
+</div>
+
+<style>
+    .dropdown-label {
+        user-select: none;
+        position: relative;
+
+        .dropdown-label-cheat {
+            display: none;
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+    }
+
+    .dropdown-container {
+        scrollbar-gutter: stable;
+        scrollbar-width: thin;
+        background-color: var(--color-background);
+    }
+
+
+    .dropdown-content {
+        position: absolute;
+        overflow: hidden;
+        opacity: 0;
+        margin-left: var(--default-indent);
+        height: fit-content;
+        max-height: 0;
+        transition: max-height .42s ease-in;
+        transition-behavior: allow-discrete;
+    }
+
+    .dropdown-container:focus-within:not(:has(.dropdown-label-cheat:focus)) {
+        .dropdown-label-cheat {
+            display: block;
+        }
+
+        .dropdown-content {
+            position: relative;
+            opacity: 1;
+            max-height: 122rem;
+        }
+    }
+
+</style>

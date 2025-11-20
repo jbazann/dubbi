@@ -5,7 +5,7 @@ import { get, post } from "./net"
 import { clearCookie, currentLanguage, localizePath, setCookie } from "./util"
 import COOKIES from "./cookies.json"
 import { t, t_obj } from "./t"
-import { getCurrentSettings, loadSettings, setForceLanguage, setLanguage, setLogging, setTheme } from "./settings"
+import { getCurrentSettings, loadSettings, setForceLanguage, setLanguage, setLogging, setTheme, setNavTools } from "./settings"
 import { eventHandler } from "./_events"
 
 export {
@@ -312,6 +312,22 @@ const getLoggingSettingHandler = () => {
     return handler
 }
 
+const getNavigationToolsSettingHandler = () => {
+    const handler = (val) => {
+        if (typeof val === 'undefined') {
+            dispatch(newPrintEvent(t('cmd.settings.navtools.msg.available', {opt: JSON.stringify(handler.opt)}))) 
+            return
+        }
+        if (setNavTools(val)) {
+            dispatch(newPrintEvent(t('cmd.settings.navtools.msg.set', {val})))
+        } else {
+            dispatch(newErrorMessageEvent(t('cmd.settings.navtools.msg.invalid', {val})))
+        }
+    }
+    handler.opt = [true, false]
+    return handler
+}
+
 const getForceLanguageSettingHandler = () => {
     const handler = (val) => {
         if (typeof val === 'undefined') {
@@ -390,6 +406,7 @@ const settingsLanguageSwitchHandler = (_event) => {
     SETTINGS = t_obj('cmd.settings.names', {
         "theme": getThemeSettingHandler(),
         "language": getLanguageSettingHandler(),
+        "nav-tools": getNavigationToolsSettingHandler(),
         "force-language": getForceLanguageSettingHandler(),
         "cookies": getCookiesSettingHandler(),
         "logging": getLoggingSettingHandler(),

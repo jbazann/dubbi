@@ -1,0 +1,189 @@
+---
+---
+
+<div class="drawer-container">
+    <label class="drawer-label">
+        <input type="checkbox" class="drawer-state">
+        <div class="drawer-label-closed">
+            <slot name="label">
+                Some Label
+            </slot>
+        </div>
+        <div class="drawer-label-open">
+        </div>
+    </label>
+    <div class="drawer-content">
+        <slot name="content">
+            Some Content
+        </slot>
+    </div>
+</div>
+
+<style is:global>
+    
+    .drawer-external-sibling-container {
+        display: contents;
+    }
+
+    .drawer-external-exclusive-scope, .drawer-content {
+        display: contents;
+
+        &:has(> div.drawer-container > label.drawer-label > input.drawer-state:checked) {
+            & > .drawer-external-sibling-container {
+                display: none;
+            }
+            & > div.drawer-container:has(> label.drawer-label > input.drawer-state:not(:checked)) {
+                display: none;
+            }
+            & > div.drawer-container:has(> label.drawer-label > input.drawer-state:checked) {
+                &:has(> div.drawer-content input.drawer-state:checked) {
+                    display: contents;
+                    & > label.drawer-label {
+                        display: none;
+                    }
+                    & > div.drawer-content {
+                        padding: 0;
+                        display: contents;
+                    }
+                    & > div.drawer-content > .drawer-external-sibling-container {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+
+</style>
+
+<style>
+
+    :root[lang=en] {
+        .drawer-label-open {
+            content: "\200b" / "Back";
+        }
+    }
+    :root[lang=es] {
+        .drawer-label-open {
+            content: "\200b" / "Volver";
+        }
+    }
+
+
+    .drawer-container {
+        height: fit-content;
+        width: fit-content;
+        max-height: 100%;
+        
+        .drawer-label {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            user-select: none;
+            width: fit-content;
+            
+            .drawer-label-open {
+                display: none;
+            }
+            
+        }
+
+        .drawer-state {
+            display: none;
+        }
+    
+        .drawer-content {
+            display: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) and (orientation: landscape) {
+            max-height: unset;
+            max-width: 100%;
+                
+            .drawer-label {
+                height: fit-content;
+                width: 100%;
+            }
+        }
+
+        &:has(> .drawer-label > .drawer-state:checked) {
+            display: flex;
+            height: 100%;
+            border-left: var(--border-width) solid var(--color-border);
+            border-right: var(--border-width) solid var(--color-border);
+        
+            > .drawer-label { 
+                /* writing-mode: sideways-lr; */
+                align-items: center;
+                padding-left: 1rem;
+                padding-right: 1rem;
+                margin: 1rem 0;
+                
+                .drawer-label-closed {
+                    display: none;
+                }
+
+                .drawer-label-open {
+                    position: relative;
+                    display: block;
+                    width: 2rem;
+                    aspect-ratio: 1;
+                    background-color: var(--color-border);
+                    mask-image: url('/back.svg');
+                    mask-size: cover;
+                    transition: scale .12s linear;
+
+                    &:hover {
+                        background-color: var(--color-highlight);
+                        scale: 1.12;
+                        cursor: pointer;
+                    }
+
+                }
+
+            }
+
+            > .drawer-content {
+                display: flex;
+                flex-direction: column;
+                flex-wrap: wrap;
+                justify-content: safe center;
+                width: unset;
+                height: auto;
+                max-height: 100%;
+                gap: 1ch;
+                padding: 0 1ch;
+            }
+
+            @media (min-width: 768px) and (orientation: landscape) {
+                flex-direction: column;
+                width: 100%;
+                border-left: unset;
+                border-right: unset;                
+                border-top: var(--border-width) solid var(--color-border);
+                border-bottom: var(--border-width) solid var(--color-border);
+
+                > .drawer-label {
+                    writing-mode: horizontal-tb;
+                    width: auto;
+                    margin: 0 1rem;
+                    padding-top: 1rem;
+                    padding-bottom: 1rem;
+                
+                    & ~ .drawer-content {
+                        flex-direction: row;
+                    }
+                }
+                
+                > .drawer-content {
+                    flex-direction: row;
+                    width: 100%;
+                    height: fit-content;
+                    max-height: unset;
+                    padding: 1ch 0;
+                }
+            }
+        }
+    }
+
+</style>
