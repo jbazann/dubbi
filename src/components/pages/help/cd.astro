@@ -22,24 +22,10 @@ export const getStaticPaths = (() => {
 {lang === 'es' &&
 <section>
     <h2>Ayuda: cd</h2>
-    <hr>
-    <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> c, cd, goto.
-    </p>
-    <p class="no-bottom-margin"><span class="simple-preface">Modo de uso: </span> cd &lt;camino&gt;
-    </p>
-    <p><span>Ejemplos: </span>
-        <ul>
-            <li><CommandTrigger cmd="cd">cd</CommandTrigger></li> 
-            <li><CommandTrigger cmd="cd /es/">cd /es/</CommandTrigger></li> 
-            <li><CommandTrigger cmd="cd /es/projectos">cd /es/projectos</CommandTrigger></li> 
-            <li><CommandTrigger cmd="cd ./camino/relativo">cd ./camino/relativo</CommandTrigger></li> 
-            <li><CommandTrigger cmd="cd ..">cd ..</CommandTrigger></li>
-        </ul>
-    </p>
     <p>
-        El comando <span class="em-command">cd</span> cambia el directorio actual
-        sin navegar al mismo. Esto es útil en combinación con <span class="em-command">ls</span>, 
-        para explorar el sitio de manera rápida sin cargar el 
+        Cambia el directorio actual sin navegar al mismo. 
+        Esto es útil en combinación con <span class="em-command">ls</span>, 
+        para explorar el sitio sin cargar el 
         contenido de cada página intermedia.
     </p>
     <p>
@@ -52,6 +38,20 @@ export const getStaticPaths = (() => {
         (a partir del directorio actual <em>./</em>camino/...), 
         así como el símbolo "directorio padre" (<em>..</em>).
     </p>
+    <hr>
+    <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> c, cd, goto.
+    </p>
+    <p class="no-bottom-margin"><span class="simple-preface">Modo de uso: </span> cd &lt;camino&gt;
+    </p>
+    <h3>Ejemplos:</h3>
+    <ul>
+        <li><CommandTrigger cmd="cd">cd</CommandTrigger></li> 
+        <li><CommandTrigger cmd="cd /es/">cd /es/</CommandTrigger></li> 
+        <li><CommandTrigger cmd="cd /es/projectos">cd /es/projectos</CommandTrigger></li> 
+        <li><CommandTrigger cmd="cd ./camino/relativo">cd ./camino/relativo</CommandTrigger></li> 
+        <li><CommandTrigger cmd="cd ..">cd ..</CommandTrigger></li>
+    </ul>
+    <h3>Nota:</h3>
     <p>
         La versión actual del comando no verifica la validez del camino solicitado, ni
         que el mismo corresponda al idioma actual.
@@ -62,23 +62,9 @@ export const getStaticPaths = (() => {
 {lang === 'en' &&
 <section>
     <h2>Help: cd</h2>
-    <hr>
-    <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> c, cd, goto.
-    </p>
-    <p class="no-bottom-margin"><span class="simple-preface">Usage: </span> cd &lt;path&gt;
-    </p>
-    <p><span>Examples: </span>
-        <ul>
-            <li><CommandTrigger cmd="cd">cd</CommandTrigger></li> 
-            <li><CommandTrigger cmd="cd /">cd /</CommandTrigger></li> 
-            <li><CommandTrigger cmd="cd /projects">cd /projects</CommandTrigger></li> 
-            <li><CommandTrigger cmd="cd ./relative/path">cd ./relative/path</CommandTrigger></li> 
-            <li><CommandTrigger cmd="cd ..">cd ..</CommandTrigger></li>
-        </ul>
-    </p>
     <p>
-        The <span class="em-command">cd</span> command changes the current directory
-        without navigating to it. This is useful in combination with <span class="em-command">ls</span>,
+        Changes the current directory without navigating to it. 
+        This is useful in combination with <span class="em-command">ls</span>,
         to quickly explore the site without loading the content of each intermediate page.
     </p>
     <p>
@@ -91,6 +77,20 @@ export const getStaticPaths = (() => {
         and relative paths (from the current directory <em>./</em>path/...), 
         as well as the "parent dirctory" symbol (<em>..</em>).
     </p>
+    <hr>
+    <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> c, cd, goto.
+    </p>
+    <p class="no-bottom-margin"><span class="simple-preface">Usage: </span> cd &lt;path&gt;
+    </p>
+    <h3>Examples: </h3>
+    <ul>
+        <li><CommandTrigger cmd="cd">cd</CommandTrigger></li> 
+        <li><CommandTrigger cmd="cd /">cd /</CommandTrigger></li> 
+        <li><CommandTrigger cmd="cd /projects">cd /projects</CommandTrigger></li> 
+        <li><CommandTrigger cmd="cd ./relative/path">cd ./relative/path</CommandTrigger></li> 
+        <li><CommandTrigger cmd="cd ..">cd ..</CommandTrigger></li>
+    </ul>
+    <h3>Note:</h3>
     <p>
         The current version does not verify the validity of the requested path, nor 
         that it corresponds to the current language.

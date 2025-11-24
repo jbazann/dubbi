@@ -22,29 +22,22 @@ export const getStaticPaths = (() => {
 {lang === 'es' &&
 <section>
     <h2>Ayuda: help</h2>
+    <p>
+        Muestra documentación útil para operar esta consola. 
+    </p>
     <hr>
     <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> ?, h, help, ayuda.
     </p>
     <p class="no-bottom-margin"><span class="simple-preface">Modo de uso: </span> help &lt;--opción&gt; &lt;comando&gt;
     </p>
-    <p><span>Ejemplos: </span>
-        <ul>
-            <li><CommandTrigger cmd="help">help</CommandTrigger></li> 
-            <li><CommandTrigger cmd="help help">help help</CommandTrigger></li> 
-            <li><CommandTrigger cmd="help -n">help -n</CommandTrigger></li> 
-            <li><CommandTrigger cmd="help --navigation">help --navigation</CommandTrigger></li> 
-            <li><CommandTrigger cmd="help cls">help cls</CommandTrigger></li>
-        </ul>
-    </p>
     <p>
-        El comando <span class="em-command">help</span> muestra documentación
-        útil para operar esta consola. En general, los comandos pueden
+        En general, los comandos pueden
         recibir <em>argumentos</em> y/u <em>opciones</em>.
     </p>
     <p>
         Un argumento es cualquier valor que se escriba después del comando. El
-        órden de los mismos suele importar, aunque existen excepciones. En general,
-        si la documentación no menciona que el orden no importa, <em>probablemente</em>
+        órden de los mismos importa en la versión actual, aunque existen excepciones. 
+        En general, si la documentación no menciona que el orden no importa, <em>probablemente</em>
         sea obligatorio escribirlos en el orden que sugiere <em>"modo de uso"</em>. 
     </p>
     <p>
@@ -65,6 +58,14 @@ export const getStaticPaths = (() => {
         es válida la forma utilizada por el comando <CommandTrigger cmd="help">help</CommandTrigger>, 
         en la sección <em>"comandos"</em>.
     </p>
+    <h3>Ejemplos: </h3>
+    <ul>
+        <li><CommandTrigger cmd="help">help</CommandTrigger></li> 
+        <li><CommandTrigger cmd="help help">help help</CommandTrigger></li> 
+        <li><CommandTrigger cmd="help -n">help -n</CommandTrigger></li> 
+        <li><CommandTrigger cmd="help --navigation">help --navigation</CommandTrigger></li> 
+        <li><CommandTrigger cmd="help cls">help cls</CommandTrigger></li>
+    </ul>
 </section>
 }
 
@@ -75,15 +76,6 @@ export const getStaticPaths = (() => {
     <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> ?, h, help, ayuda.
     </p>
     <p class="no-bottom-margin"><span class="simple-preface">Usage: </span> help &lt;--option&gt; &lt;command&gt;
-    </p>
-    <p><span>Examples: </span>
-        <ul>
-            <li><CommandTrigger cmd="help">help</CommandTrigger></li> 
-            <li><CommandTrigger cmd="help help">help help</CommandTrigger></li> 
-            <li><CommandTrigger cmd="help -n">help -n</CommandTrigger></li> 
-            <li><CommandTrigger cmd="help --navigation">help --navigation</CommandTrigger></li> 
-            <li><CommandTrigger cmd="help cls">help cls</CommandTrigger></li>
-        </ul>
     </p>
     <p>
         The <span class="em-command">help</span> command shows documentation
@@ -112,5 +104,13 @@ export const getStaticPaths = (() => {
         form is the one used by the <CommandTrigger cmd="help">help</CommandTrigger> command, 
         under its <em>"commands"</em> section.
     </p>
+    <h3>Examples: </h3>
+    <ul>
+        <li><CommandTrigger cmd="help">help</CommandTrigger></li> 
+        <li><CommandTrigger cmd="help help">help help</CommandTrigger></li> 
+        <li><CommandTrigger cmd="help -n">help -n</CommandTrigger></li> 
+        <li><CommandTrigger cmd="help --navigation">help --navigation</CommandTrigger></li> 
+        <li><CommandTrigger cmd="help cls">help cls</CommandTrigger></li>
+    </ul>
 </section>
 }

@@ -22,39 +22,36 @@ export const getStaticPaths = (() => {
 {lang === 'es' &&
 <section>
     <h2>Ayuda: cls</h2>
+    <p>
+        Limpia la consola, removiendo todo el contenido cargado.
+    </p>
     <hr>
     <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> cls.
     </p>
     <p class="no-bottom-margin"><span class="simple-preface">Modo de uso: </span> cls
     </p>
-    <p><span>Ejemplos: </span>
-        <ul>
-            <li><CommandTrigger cmd="cls">cls</CommandTrigger></li>
-        </ul>
-    </p>
-    <p>
-        El comando <span class="em-command">cls</span> limpia la pantalla,
-        removiendo todo el contenido visible.
-    </p>
+    <h3>Ejemplos: </h3>
+    <ul>
+        <li><CommandTrigger cmd="cls">cls</CommandTrigger></li>
+    </ul>
+    
 </section>
 }
 
 {lang === 'en' &&
 <section>
     <h2>Help: cls</h2>
+    <p>
+        Clears the console, removing all loaded content.
+    </p>
     <hr>
     <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> cls.
     </p>
     <p class="no-bottom-margin"><span class="simple-preface">Usage: </span> cls
     </p>
-    <p><span>Examples: </span>
-        <ul>
-            <li><CommandTrigger cmd="cls">cls</CommandTrigger></li>
-        </ul>
-    </p>
-    <p>
-        The <span class="em-command">cls</span> command clears the 
-        screen, removing all visible content.
-    </p>
+    <h3>Examples: </h3>
+    <ul>
+        <li><CommandTrigger cmd="cls">cls</CommandTrigger></li>
+    </ul>
 </section>
 }

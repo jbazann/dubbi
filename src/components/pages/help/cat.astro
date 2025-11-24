@@ -22,18 +22,22 @@ export const getStaticPaths = (() => {
 {lang === 'es' &&
 <section>
     <h2>Ayuda: cat</h2>
+    <p>
+        Muestra imágenes aleatorias de gatos.
+    </p>
     <hr>
     <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> cat.
     </p>
     <p class="no-bottom-margin"><span class="simple-preface">Modo de uso: </span> cat
     </p>
-    <p><span>Ejemplos: </span>
-        <ul>
-            <li><CommandTrigger cmd="cat">cat</CommandTrigger></li>
-        </ul>
-    </p>
+    <h3>Ejemplos: </h3>
+    <ul>
+        <li><CommandTrigger cmd="cat">cat</CommandTrigger></li>
+    </ul>
+    <h3>Nota:</h3>
     <p>
-        La documentación estará lista dentro de poco!.
+        En una versión futura, este comando va a ser actualizado con funcionalidad
+        similar a la de una CLI tradicional.
     </p>
 </section>
 }
@@ -41,18 +45,22 @@ export const getStaticPaths = (() => {
 {lang === 'en' &&
 <section>
     <h2>Help: cat</h2>
+    <p>
+        Shows random cat images.
+    </p>
     <hr>
     <p class="no-bottom-margin"><span class="simple-preface">Alias: </span>  cat.
     </p>
     <p class="no-bottom-margin"><span class="simple-preface">Usage: </span> cat
     </p>
-    <p><span>Examples: </span>
-        <ul>
-            <li><CommandTrigger cmd="cat">cat</CommandTrigger></li>
-        </ul>
-    </p>
+    <h3>Examples: </h3>
+    <ul>
+        <li><CommandTrigger cmd="cat">cat</CommandTrigger></li>
+    </ul>
+    <h3>Note:</h3>
     <p>
-        Documentation coming soon!.
+        In a future version, this command will be updated with functionality similar
+        to that of a traditional CLI.
     </p>
 </section>
 }

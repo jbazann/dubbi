@@ -22,35 +22,6 @@ export const getStaticPaths = (() => {
 {lang === 'es' &&
 <section>
     <h2>Ayuda</h2>
-    <hr>
-    <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> ?, h, help, ayuda.
-    </p>
-    <p class="no-bottom-margin"><span class="simple-preface">Modo de uso: </span> help &lt;--opción&gt; &lt;comando&gt;
-    </p>
-    <p><span>Ejemplos: </span>
-        <ul>
-            <li><CommandTrigger cmd="help">help</CommandTrigger></li> 
-            <li><CommandTrigger cmd="help help">help help</CommandTrigger></li> 
-            <li><CommandTrigger cmd="help -n">help -n</CommandTrigger></li> 
-            <li><CommandTrigger cmd="help --navigation">help --navigation</CommandTrigger></li> 
-            <li><CommandTrigger cmd="help cls">help cls</CommandTrigger></li>
-        </ul>
-    </p>
-    <p><span>Consejo: </span> usá <CommandTrigger cmd="help help">help help</CommandTrigger> para ver una 
-        descripción más detallada sobre el uso de este comando.
-    </p>
-    <hr>
-    <h3>Opciones</h3>
-    <ul>
-        <li>-n, --navigation, --navegacion</li>
-        <p class="no-bottom-margin">
-            &emsp;&emsp;Muestra las herramientas de navegación.
-        </p>
-        <li>-t, --tutorial</li>
-        <p class="no-bottom-margin">
-            &emsp;&emsp;Muestra el tutorial.
-        </p>
-    </ul>
     <h3>Comandos</h3>
     <ul class="column-grid-fit20-fr">
         <li>help</li>
@@ -98,40 +69,39 @@ export const getStaticPaths = (() => {
             Limpia la pantalla.
         </p>
     </ul>
+    <hr>
+    <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> ?, h, help, ayuda.
+    </p>
+    <p class="no-bottom-margin"><span class="simple-preface">Modo de uso: </span> help &lt;--opción&gt; &lt;comando&gt;
+    </p>
+    <p><span class="tip-preface">TIP: </span> usá <CommandTrigger cmd="help help">help help</CommandTrigger> para ver una 
+        descripción más detallada sobre el uso de este comando.
+    </p>
+    <hr>
+    <h3>Opciones</h3>
+    <ul>
+        <li>-n, --navigation, --navegacion</li>
+        <p class="no-bottom-margin">
+            &emsp;&emsp;Muestra las herramientas de navegación.
+        </p>
+        <li>-t, --tutorial</li>
+        <p class="no-bottom-margin">
+            &emsp;&emsp;Muestra el tutorial.
+        </p>
+    </ul>
+    <h3>Ejemplos: </h3>
+    <ul>
+        <li><CommandTrigger cmd="help">help</CommandTrigger></li> 
+        <li><CommandTrigger cmd="help help">help help</CommandTrigger></li> 
+        <li><CommandTrigger cmd="help -n">help -n</CommandTrigger></li> 
+        <li><CommandTrigger cmd="help --navigation">help --navigation</CommandTrigger></li> 
+        <li><CommandTrigger cmd="help cls">help cls</CommandTrigger></li>
+    </ul>
 </section>
 }
 
 {lang === 'en' &&
     <h2>Help</h2>
-    <hr>
-    <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> ?, h, help, ayuda.
-    </p>
-    <p class="no-bottom-margin"><span class="simple-preface">Usage: </span> help &lt;--option&gt; &lt;command&gt;
-    </p>
-    <p><span>Examples: </span>
-        <ul>
-            <li><CommandTrigger cmd="help">help</CommandTrigger></li> 
-            <li><CommandTrigger cmd="help help">help help</CommandTrigger></li> 
-            <li><CommandTrigger cmd="help -n">help -n</CommandTrigger></li> 
-            <li><CommandTrigger cmd="help --navigation">help --navigation</CommandTrigger></li> 
-            <li><CommandTrigger cmd="help cls">help cls</CommandTrigger></li>
-        </ul>
-    </p>
-    <p><span>Tip: </span> use <CommandTrigger cmd="help help">help help</CommandTrigger> to see a 
-        more detailed description of how to use this command.
-    </p>
-    <hr>
-    <h3>Options</h3>
-    <ul>
-        <li>-n, --navigation, --navegacion</li>
-        <p class="no-bottom-margin">
-            &emsp;&emsp;Display navigation tools.
-        </p>
-        <li>-t, --tutorial</li>
-        <p class="no-bottom-margin">
-            &emsp;&emsp;Display tutorial.
-        </p>
-    </ul>
     <h3>Commands</h3>
     <ul class="column-grid-fit20-fr">
         <li>help</li>
@@ -178,6 +148,34 @@ export const getStaticPaths = (() => {
         <p class="no-bottom-margin">
             Clear the screen.
         </p>
+    </ul>
+    <hr>
+    <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> ?, h, help, ayuda.
+    </p>
+    <p class="no-bottom-margin"><span class="simple-preface">Usage: </span> help &lt;--option&gt; &lt;command&gt;
+    </p>
+    <p><span class="tip-preface">TIP: </span> use <CommandTrigger cmd="help help">help help</CommandTrigger> to see a 
+        more detailed description of how to use this command.
+    </p>
+    <hr>
+    <h3>Options</h3>
+    <ul>
+        <li>-n, --navigation, --navegacion</li>
+        <p class="no-bottom-margin">
+            &emsp;&emsp;Display navigation tools.
+        </p>
+        <li>-t, --tutorial</li>
+        <p class="no-bottom-margin">
+            &emsp;&emsp;Display tutorial.
+        </p>
+    </ul>
+    <h3>Examples: </h3>
+    <ul>
+        <li><CommandTrigger cmd="help">help</CommandTrigger></li> 
+        <li><CommandTrigger cmd="help help">help help</CommandTrigger></li> 
+        <li><CommandTrigger cmd="help -n">help -n</CommandTrigger></li> 
+        <li><CommandTrigger cmd="help --navigation">help --navigation</CommandTrigger></li> 
+        <li><CommandTrigger cmd="help cls">help cls</CommandTrigger></li>
     </ul>
 </section>
 }
