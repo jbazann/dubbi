@@ -22,41 +22,41 @@ export const getStaticPaths = (() => {
 {lang === 'es' &&
 <section>
     <h2>Ayuda: settings</h2>
+    <p>
+        La documentación estará lista dentro de poco!. Probá <CommandTrigger cmd="set">settings</CommandTrigger>
+        para ver las opciones de configuración disponibles.
+    </p>
     <hr>
     <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> s, set, setting, settings.
     </p>
     <p class="no-bottom-margin"><span class="simple-preface">Modo de uso: </span> settings &lt;configuración&gt &lt;valor&gt;
     </p>
-    <p><span>Ejemplos: </span>
-        <ul>
-            <li><CommandTrigger cmd="set">set</CommandTrigger></li>
-            <li><CommandTrigger cmd="set tema">set tema</CommandTrigger></li>
-            <li><CommandTrigger cmd="set tema psycho-dark">set tema psycho-dark</CommandTrigger></li>
-        </ul>
-    </p>
-    <p>
-        La documentación estará lista dentro de poco!.
-    </p>
+    <h3>Ejemplos: </h3>
+    <ul>
+        <li><CommandTrigger cmd="set">set</CommandTrigger></li>
+        <li><CommandTrigger cmd="set tema">set tema</CommandTrigger></li>
+        <li><CommandTrigger cmd="set tema psycho-dark">set tema psycho-dark</CommandTrigger></li>
+    </ul>
 </section>
 }
 
 {lang === 'en' &&
 <section>
     <h2>Help: settings</h2>
+    <p>
+        Documentation coming soon!. Try <CommandTrigger cmd="set">settings</CommandTrigger> to
+        see the available settings.
+    </p>
     <hr>
     <p class="no-bottom-margin"><span class="simple-preface">Alias: </span>  s, set, setting, settings.
     </p>
     <p class="no-bottom-margin"><span class="simple-preface">Usage: </span> settings &lt;setting&gt; &lt;value&gt;
     </p>
-    <p><span>Examples: </span>
-        <ul>
-            <li><CommandTrigger cmd="set">set</CommandTrigger></li>
-            <li><CommandTrigger cmd="set theme">set theme</CommandTrigger></li>
-            <li><CommandTrigger cmd="set theme psycho-dark">set theme psycho-dark</CommandTrigger></li>
-        </ul>
-    </p>
-    <p>
-        Documentation coming soon!.
-    </p>
+    <h3>Examples: </h3>
+    <ul>
+        <li><CommandTrigger cmd="set">set</CommandTrigger></li>
+        <li><CommandTrigger cmd="set theme">set theme</CommandTrigger></li>
+        <li><CommandTrigger cmd="set theme psycho-dark">set theme psycho-dark</CommandTrigger></li>
+    </ul>
 </section>
 }

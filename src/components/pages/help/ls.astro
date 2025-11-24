@@ -22,22 +22,22 @@ export const getStaticPaths = (() => {
 {lang === 'es' &&
 <section>
     <h2>Ayuda: ls</h2>
+    <p>
+        Muestra los directorios contenidos en el
+        directorio actual. Esto es útil en combinación con <span class="em-command">cd</span>, 
+        para explorar el sitio de manera rápida sin cargar el 
+        contenido de cada página intermedia.
+    </p>
     <hr>
     <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> l, ls.
     </p>
     <p class="no-bottom-margin"><span class="simple-preface">Modo de uso: </span> ls
     </p>
-    <p><span>Ejemplos: </span>
-        <ul>
-            <li><CommandTrigger cmd="ls">ls</CommandTrigger></li>
-        </ul>
-    </p>
-    <p>
-        El comando <span class="em-command">ls</span> muestra los directorios contenidos en el
-        directorio actual. Esto es útil en combinación con <span class="em-command">cd</span>, 
-        para explorar el sitio de manera rápida sin cargar el 
-        contenido de cada página intermedia.
-    </p>
+    <h3>Ejemplos: </h3>
+    <ul>
+        <li><CommandTrigger cmd="ls">ls</CommandTrigger></li>
+    </ul>
+    <h3>Nota:</h3>
     <p>
         La versión actual del comando utiliza los mismos datos que 
         <span class="em-command">sitemap</span>. La única diferencia
@@ -54,21 +54,21 @@ export const getStaticPaths = (() => {
 {lang === 'en' &&
 <section>
     <h2>Help: ls</h2>
+    <p>
+        Shows the directories contained by the current directory. 
+        This is useful in combination with <span class="em-command">cd</span>,
+        to quickly explore the site without loading the content of each intermediate page.
+    </p>
     <hr>
     <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> l, ls.
     </p>
     <p class="no-bottom-margin"><span class="simple-preface">Usage: </span> ls
     </p>
-    <p><span>Examples: </span>
-        <ul>
-            <li><CommandTrigger cmd="ls">ls</CommandTrigger></li>
-        </ul>
-    </p>
-    <p>
-        The <span class="em-command">ls</span> command shows the directories contained
-        by the current directory. This is useful in combination with <span class="em-command">cd</span>,
-        to quickly explore the site without loading the content of each intermediate page.
-    </p>
+    <h3>Examples: </h3>
+    <ul>
+        <li><CommandTrigger cmd="ls">ls</CommandTrigger></li>
+    </ul>
+    <h3>Note: </h3>
     <p>
         The current version of this command uses the same data as  
         <span class="em-command">sitemap</span>. 

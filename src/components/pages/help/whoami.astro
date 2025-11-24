@@ -22,43 +22,39 @@ export const getStaticPaths = (() => {
 {lang === 'es' &&
 <section>
     <h2>Ayuda: whoami</h2>
+    <p>
+        Imprime el usuario actual en la consola.
+    </p>
     <hr>
     <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> whoami.
     </p>
     <p class="no-bottom-margin"><span class="simple-preface">Modo de uso: </span> whoami
     </p>
-    <p><span>Ejemplos: </span>
-        <ul>
-            <li><CommandTrigger cmd="whoami">
-                whoami</CommandTrigger>
-            </li>
-        </ul>
-    </p>
-    <p>
-        El comando <span class="em-command">whoami</span> imprime 
-        el usuario actual en la pantalla.
-    </p>
+    <h3>Ejemplos: </h3>
+    <ul>
+        <li><CommandTrigger cmd="whoami">
+            whoami</CommandTrigger>
+        </li>
+    </ul>
 </section>
 }
 
 {lang === 'en' &&
 <section>
     <h2>Help: whoami</h2>
+    <p>
+        Prints the current user to the console.
+    </p>
     <hr>
     <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> whoami.
     </p>
     <p class="no-bottom-margin"><span class="simple-preface">Usage: </span> whoami
     </p>
-    <p><span>Examples: </span>
-        <ul>
-            <li><CommandTrigger cmd="whoami">
-                whoami</CommandTrigger>
-            </li>
-        </ul>
-    </p>
-    <p>
-        The <span class="em-command">whoami</span> command prints
-        the current user to the screen.
-    </p>
+    <h3>Examples: </h3>
+    <ul>
+        <li><CommandTrigger cmd="whoami">
+            whoami</CommandTrigger>
+        </li>
+    </ul>
 </section>
 }

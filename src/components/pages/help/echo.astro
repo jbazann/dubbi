@@ -22,61 +22,57 @@ export const getStaticPaths = (() => {
 {lang === 'es' &&
 <section>
     <h2>Ayuda: echo</h2>
+    <p>
+        Imprime un mensaje en la consola.
+    </p>
     <hr>
     <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> echo.
     </p>
     <p class="no-bottom-margin"><span class="simple-preface">Modo de uso: </span> echo &lt;mensaje&gt;
     </p>
-    <p><span>Ejemplos: </span>
-        <ul>
-            <li><CommandTrigger cmd="echo hola">
-                echo hola</CommandTrigger>
-            </li>
-            <li><CommandTrigger cmd='echo "hola pero con varias palabras"'>
-                echo "hola pero con varias palabras"</CommandTrigger>
-            </li>
-            <li><CommandTrigger cmd="echo 'hola pero con varias palabras y comillas simples'">
-                echo 'hola pero con varias palabras y comillas simples'</CommandTrigger>
-            </li>
-            <li><CommandTrigger cmd="echo hola igual también se puede sin comillas pero en una versión futura puede que no">
-                echo hola esto también es válido pero podría dejar de serlo en una versión futura</CommandTrigger>
-            </li>
-        </ul>
-    </p>
-    <p>
-        El comando <span class="em-command">echo</span> imprime en la pantalla 
-        el mensaje recibido como argumento.
-    </p>
+    <h3>Ejemplos: </h3>
+    <ul>
+        <li><CommandTrigger cmd="echo hola">
+            echo hola</CommandTrigger>
+        </li>
+        <li><CommandTrigger cmd='echo "hola pero con varias palabras"'>
+            echo "hola pero con varias palabras"</CommandTrigger>
+        </li>
+        <li><CommandTrigger cmd="echo 'hola pero con varias palabras y comillas simples'">
+            echo 'hola pero con varias palabras y comillas simples'</CommandTrigger>
+        </li>
+        <li><CommandTrigger cmd="echo hola igual también se puede sin comillas pero en una versión futura puede que no">
+            echo hola esto también es válido pero podría dejar de serlo en una versión futura</CommandTrigger>
+        </li>
+    </ul>
 </section>
 }
 
 {lang === 'en' &&
 <section>
     <h2>Help: echo</h2>
+    <p>
+        Prints a message in the console.
+    </p>
     <hr>
     <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> echo.
     </p>
     <p class="no-bottom-margin"><span class="simple-preface">Usage: </span> echo &lt;message&gt;
     </p>
-    <p><span>Examples</span>: </span>
-        <ul>
-            <li><CommandTrigger cmd="echo hi">
-                echo hi</CommandTrigger>
-            </li>
-            <li><CommandTrigger cmd='echo "hi but with several words"'>
-                echo "hi but with several words"</CommandTrigger>
-            </li>
-            <li><CommandTrigger cmd="echo 'hi but with several words and simple quotes'">
-                echo 'hi but with several words and simple quotes'</CommandTrigger>
-            </li>
-            <li><CommandTrigger cmd="echo hi this is also valid but it may no longer be in a future version">
-                echo hi this is also valid but it may no longer be in a future version</CommandTrigger>
-            </li>
-        </ul>
-    </p>
-    <p>
-        The <span class="em-command">echo</span> command prints the received 
-        message to the screen.
+    <h3>Examples:</h3>
+    <ul>
+        <li><CommandTrigger cmd="echo hi">
+            echo hi</CommandTrigger>
+        </li>
+        <li><CommandTrigger cmd='echo "hi but with several words"'>
+            echo "hi but with several words"</CommandTrigger>
+        </li>
+        <li><CommandTrigger cmd="echo 'hi but with several words and simple quotes'">
+            echo 'hi but with several words and simple quotes'</CommandTrigger>
+        </li>
+        <li><CommandTrigger cmd="echo hi this is also valid but it may no longer be in a future version">
+            echo hi this is also valid but it may no longer be in a future version</CommandTrigger>
+        </li>
     </p>
 </section>
 }

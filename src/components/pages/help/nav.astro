@@ -22,43 +22,64 @@ export const getStaticPaths = (() => {
 {lang === 'es' &&
 <section>
     <h2>Ayuda: nav</h2>
+    <p>
+        Cambia el directorio actual
+        y carga los contenidos de la nueva ubicación. Este es el mecanismo principal
+        para navegar por el sitio. 
+    </p>
+    <p>
+        <span class="tip-preface">TIP: </span> podés usar <CommandTrigger cmd="ls">ls</CommandTrigger>
+        para listar los destinos válidos en el directorio actual.
+    </p>
     <hr>
     <p class="no-bottom-margin"><span class="simple-preface">Alias: </span> n, nav, navigate, navegar.
     </p>
     <p class="no-bottom-margin"><span class="simple-preface">Modo de uso: </span> nav &lt;camino&gt;
     </p>
-    <p><span>Ejemplos: </span>
-        <ul>
-            <li><CommandTrigger cmd="nav /">nav /</CommandTrigger></li>
-            <li><CommandTrigger cmd="nav /es/proyectos">nav /es/proyectos</CommandTrigger></li>
-            <li><CommandTrigger cmd="nav ./camino/relativo">nav ./camino/relativo</CommandTrigger></li>
-            <li><CommandTrigger cmd="nav ..">nav ..</CommandTrigger></li>
-        </ul>
-    </p>
     <p>
-        La documentación estará lista dentro de poco!.
+        Admite caminos absolutos (a partir del directorio raíz <em>/</em>camino/...) y relativos 
+        (a partir del directorio actual <em>./</em>camino/...), 
+        así como el símbolo "directorio padre" (<em>..</em>).
     </p>
+    <h3>Ejemplos: </h3>
+    <ul>
+        <li><CommandTrigger cmd="nav /">nav /</CommandTrigger></li>
+        <li><CommandTrigger cmd="nav /es/proyectos">nav /es/proyectos</CommandTrigger></li>
+        <li><CommandTrigger cmd="nav ./camino/relativo">nav ./camino/relativo</CommandTrigger></li>
+        <li><CommandTrigger cmd="nav ..">nav ..</CommandTrigger></li>
+    </ul>
 </section>
 }
 
 {lang === 'en' &&
 <section>
     <h2>Help: nav</h2>
+    <p>
+        Changes the current directory
+        and loads the contents of the new path. This is the main method 
+        for browsing the site.
+    </p>
+    <p>
+        <span class="tip-preface">TIP: </span> you can use <CommandTrigger cmd="ls">ls</CommandTrigger>
+        to list the valid destinations in the current directory.
+    </p>
     <hr>
     <p class="no-bottom-margin"><span class="simple-preface">Alias: </span>  n, nav, navigate, navegar.
     </p>
     <p class="no-bottom-margin"><span class="simple-preface">Usage: </span> nav &lt;path&gt;
     </p>
-    <p><span>Examples: </span>
-        <ul>
-            <li><CommandTrigger cmd="nav /">nav /</CommandTrigger></li>
-            <li><CommandTrigger cmd="nav /projects">nav /projects</CommandTrigger></li>
-            <li><CommandTrigger cmd="nav ./relative/path">nav ./relative/path</CommandTrigger></li>
-            <li><CommandTrigger cmd="nav ..">nav ..</CommandTrigger></li>
-        </ul>
-    </p>
     <p>
-        Documentation coming soon!.
+        Accepts absolute paths (from the root directory <em>/</em>path/...) 
+        and relative paths (from the current directory <em>./</em>path/...), 
+        as well as the "parent dirctory" symbol (<em>..</em>).
     </p>
+    <h3>Examples: </h3>
+    <ul>
+        <li><CommandTrigger cmd="nav /">nav /</CommandTrigger></li>
+        <li><CommandTrigger cmd="nav /projects">nav /projects</CommandTrigger></li>
+        <li><CommandTrigger cmd="nav ./relative/path">nav ./relative/path</CommandTrigger></li>
+        <li><CommandTrigger cmd="nav ..">nav ..</CommandTrigger></li>
+    </ul>
+
 </section>
 }
