@@ -34,6 +34,10 @@ export function newPrintEvent(line) {
     return new CustomEvent('tty:print', {detail: {line}})
 }
 
+export function newPrintInputEvent(line) {
+    return new CustomEvent('tty:print:input', {detail: {line}})
+}
+
 export function newPrintCodeEvent(line) {
     return new CustomEvent('tty:print:code', {detail: {line}})
 }

@@ -22,7 +22,7 @@ import "@s/fonts.css"
 
 <script>
     import { eventHandler } from "@lib/_events"
-    import { dispatch, newCommandEvent, newInputEvent, newLocationEvent, newPrintEvent, newScrollToBottomEvent, newTtyFocusEvent } from "@lib/events"
+    import { dispatch, newCommandEvent, newInputEvent, newLocationEvent, newPrintInputEvent, newScrollToBottomEvent, newTtyFocusEvent } from "@lib/events"
     import { runCommand } from "@lib/commands"
     import { ttyScrollContainerId } from "@lib/ids"
 
@@ -33,7 +33,7 @@ import "@s/fonts.css"
         // in order is brittle, but sufficient for the current requirements.
         let {line, input} = (event as CustomEvent).detail
         if (!input.startsWith('_')) {
-            dispatch(newPrintEvent(line))
+            dispatch(newPrintInputEvent(line))
         }
 		dispatch(newCommandEvent(input))
 	}

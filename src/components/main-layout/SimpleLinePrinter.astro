@@ -6,6 +6,10 @@
         <p class="no-bottom-margin whitespace-pre-line"></p>
     </template>
 
+    <template id="tty-slp-input-template">
+        <p class="no-bottom-margin whitespace-pre-line color-hl"></p>
+    </template>
+
     <template id="tty-slp-code-template">
         <code class="no-bottom-margin whitespace-pre-line"></code>
     </template>
@@ -52,6 +56,7 @@
     !pageContainer && err(`Page container ${pageContainer} not found.`)
 
     const line = document.getElementById('tty-slp-template') as HTMLTemplateElement
+    const input = document.getElementById('tty-slp-input-template') as HTMLTemplateElement
     const ls = document.getElementById('tty-slp-ls-template') as HTMLTemplateElement
     const code = document.getElementById('tty-slp-code-template') as HTMLTemplateElement
     const error = document.getElementById('tty-slp-error-template') as HTMLTemplateElement
@@ -70,6 +75,15 @@
         requestAnimationFrame(() => {
             pageContainer.appendChild(newline)
             dispatch(newScrollToBottomEvent(), { context: "SLP: Print." } as any )
+        })
+    })
+
+    eventHandler('tty:print:input', (event) => {
+        const newline = input.content.cloneNode(true) as Element
+        newline.firstElementChild!.textContent = (event as CustomEvent).detail.line
+        requestAnimationFrame(() => {
+            pageContainer.appendChild(newline)
+            dispatch(newScrollToBottomEvent(), { context: "SLP: Input." } as any )
         })
     })
 

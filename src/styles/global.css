@@ -192,6 +192,10 @@ figure > figcaption {
     }
 }
 
+.color-hl {
+    color: var(--color-highlight);
+}
+
 .em-command {
     color: var(--color-highlight);
     font-style: italic;
