@@ -19,6 +19,6 @@
   },
   "devDependencies": {
     "@astrojs/ts-plugin": "^1.10.6",
-    "wrangler": "^4.30.0"
+    "wrangler": "^4.59.1"
   }
 }
